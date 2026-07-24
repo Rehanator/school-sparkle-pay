@@ -12,13 +12,10 @@ import {
   Sparkles,
 } from "lucide-react";
 import {
-  PieChart,
-  Pie,
-  Cell,
   ResponsiveContainer,
   Tooltip,
-  BarChart,
-  Bar,
+  AreaChart,
+  Area,
   XAxis,
   CartesianGrid,
 } from "recharts";
