@@ -331,14 +331,16 @@ function Dashboard() {
   );
 }
 
-function Bubble({ side, children }: { side: "in" | "out"; children: React.ReactNode }) {
+function Bubble({ side, children, flush }: { side: "in" | "out"; children: React.ReactNode; flush?: boolean }) {
   return (
     <div className={`flex ${side === "in" ? "justify-end" : "justify-start"}`}>
       <div
-        className={`max-w-[85%] rounded-2xl px-3 py-2 text-xs ${
-          side === "in"
-            ? "rounded-br-sm bg-[oklch(0.6_0.14_155_/_0.35)] text-foreground"
-            : "rounded-bl-sm bg-white/10 text-foreground"
+        className={`max-w-[85%] rounded-2xl text-xs ${flush ? "p-0 bg-transparent" : "px-3 py-2"} ${
+          flush
+            ? ""
+            : side === "in"
+              ? "rounded-br-sm bg-[oklch(0.6_0.14_155_/_0.35)] text-foreground"
+              : "rounded-bl-sm bg-white/10 text-foreground"
         }`}
       >
         {children}
