@@ -139,22 +139,24 @@ function FeeEngine() {
             <div>
               <div className="flex items-center justify-between">
                 <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Installments</label>
-                <span className="text-xs font-medium">{installments} months</span>
+                <button className="text-[11px] font-medium text-primary hover:underline">✨ AI Auto-Suggest</button>
               </div>
-              <div className="mt-2 flex gap-2">
-                {[2, 3, 4, 6].map((n) => (
-                  <button
-                    key={n}
-                    onClick={() => setInstallments(n)}
-                    className={`flex-1 rounded-lg border px-3 py-2 text-sm transition ${
-                      installments === n
-                        ? "border-[oklch(0.85_0.12_180)] bg-[oklch(0.85_0.12_180_/_0.15)] text-foreground"
-                        : "border-black/[0.07] bg-black/[0.04] text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {n}×
-                  </button>
-                ))}
+              <div className="mt-3">
+                <input
+                  type="range"
+                  min={2}
+                  max={12}
+                  step={1}
+                  value={installments}
+                  onChange={(e) => setInstallments(Number(e.target.value))}
+                  className="w-full accent-[oklch(0.62_0.14_200)]"
+                  style={{ accentColor: "oklch(0.62 0.14 200)" }}
+                />
+                <div className="mt-2 flex justify-between text-[11px] text-muted-foreground">
+                  <span>2 months</span>
+                  <span className="font-medium text-foreground">{installments} months</span>
+                  <span>12 months</span>
+                </div>
               </div>
             </div>
 
@@ -163,6 +165,12 @@ function FeeEngine() {
               className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:brightness-105"
             >
               <Split className="h-4 w-4" /> Generate Plan & Notify Parent →
+            </button>
+            <button
+              onClick={() => { setSplit(false); setInstallments(4); }}
+              className="w-full text-center text-xs text-muted-foreground hover:text-foreground"
+            >
+              Reset Split
             </button>
           </div>
 
