@@ -65,22 +65,31 @@ function FeeEngine() {
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {feeHeads.map((f) => {
             const Icon = f.icon;
+            const statusStyle =
+              f.status === "Active"
+                ? "border-[oklch(0.55_0.16_155_/_0.35)] bg-[oklch(0.55_0.16_155_/_0.10)] text-[oklch(0.45_0.15_155)]"
+                : f.status === "Draft"
+                ? "border-black/[0.08] bg-black/[0.05] text-muted-foreground"
+                : "border-[oklch(0.62_0.14_200_/_0.35)] bg-[oklch(0.62_0.14_200_/_0.10)] text-[oklch(0.5_0.13_200)]";
             return (
-              <div key={f.name} className="glass group rounded-2xl p-5 transition hover:-translate-y-0.5">
+              <div key={f.name} className="glass group flex flex-col rounded-2xl p-4 transition hover:-translate-y-0.5">
                 <div className="flex items-start justify-between">
-                  <div className={`grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${f.tint} text-[oklch(0.2_0.03_260)]`}>
+                  <div className={`grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br ${f.tint} text-[oklch(0.2_0.03_260)]`}>
                     <Icon className="h-5 w-5" strokeWidth={2.4} />
                   </div>
-                  <span className="rounded-full border border-black/[0.07] bg-black/[0.04] px-2 py-0.5 text-[10px] text-muted-foreground">
-                    {f.cycle}
+                  <span className={`rounded-full border px-2.5 py-1 text-[10px] font-medium ${statusStyle}`}>
+                    {f.status}
                   </span>
                 </div>
-                <div className="mt-4 text-sm text-muted-foreground">{f.name}</div>
+                <div className="mt-3">
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{f.category}</div>
+                  <div className="mt-0.5 text-sm font-medium text-foreground">{f.name}</div>
+                </div>
                 <div className="mt-1 text-2xl font-semibold">₹{f.amount.toLocaleString("en-IN")}</div>
-                <div className="mt-3 flex items-center justify-between text-[11px] text-muted-foreground">
-                  <span>{f.students} students enrolled</span>
-                  <button className="rounded-lg px-2 py-1 opacity-0 transition group-hover:opacity-100 hover:bg-black/[0.07]">
-                    Edit
+                <div className="mt-auto flex items-center justify-between pt-3 text-[11px] text-muted-foreground">
+                  <span>{f.students} students · {f.cycle}</span>
+                  <button className="rounded-lg px-2 py-1 text-xs font-medium text-primary transition hover:bg-primary/10">
+                    Manage →
                   </button>
                 </div>
               </div>
