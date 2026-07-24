@@ -13,6 +13,7 @@ import { Route as StaffRouteImport } from './routes/staff'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PaymentsRouteImport } from './routes/payments'
 import { Route as FeeEngineRouteImport } from './routes/fee-engine'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -36,6 +37,11 @@ const FeeEngineRoute = FeeEngineRouteImport.update({
   path: '/fee-engine',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuditRoute = AuditRouteImport.update({
   id: '/audit',
   path: '/audit',
@@ -50,6 +56,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
+  '/dashboard': typeof DashboardRoute
   '/fee-engine': typeof FeeEngineRoute
   '/payments': typeof PaymentsRoute
   '/settings': typeof SettingsRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
+  '/dashboard': typeof DashboardRoute
   '/fee-engine': typeof FeeEngineRoute
   '/payments': typeof PaymentsRoute
   '/settings': typeof SettingsRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
+  '/dashboard': typeof DashboardRoute
   '/fee-engine': typeof FeeEngineRoute
   '/payments': typeof PaymentsRoute
   '/settings': typeof SettingsRoute
@@ -77,16 +86,25 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/audit'
+    | '/dashboard'
     | '/fee-engine'
     | '/payments'
     | '/settings'
     | '/staff'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/audit' | '/fee-engine' | '/payments' | '/settings' | '/staff'
+  to:
+    | '/'
+    | '/audit'
+    | '/dashboard'
+    | '/fee-engine'
+    | '/payments'
+    | '/settings'
+    | '/staff'
   id:
     | '__root__'
     | '/'
     | '/audit'
+    | '/dashboard'
     | '/fee-engine'
     | '/payments'
     | '/settings'
@@ -96,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuditRoute: typeof AuditRoute
+  DashboardRoute: typeof DashboardRoute
   FeeEngineRoute: typeof FeeEngineRoute
   PaymentsRoute: typeof PaymentsRoute
   SettingsRoute: typeof SettingsRoute
@@ -132,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeeEngineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/audit': {
       id: '/audit'
       path: '/audit'
@@ -152,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditRoute: AuditRoute,
+  DashboardRoute: DashboardRoute,
   FeeEngineRoute: FeeEngineRoute,
   PaymentsRoute: PaymentsRoute,
   SettingsRoute: SettingsRoute,

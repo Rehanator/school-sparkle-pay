@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 const nav = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/fee-engine", label: "Fee Engine", icon: Wallet },
   { to: "/payments", label: "Payments", icon: CreditCard },
   { to: "/staff", label: "Staff Directory", icon: Users },
@@ -58,7 +58,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
           <nav className="flex-1 space-y-1 px-3">
             {nav.map((item) => {
-              const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+              const active = pathname === item.to || pathname.startsWith(item.to + "/");
               const Icon = item.icon;
               return (
                 <Link
