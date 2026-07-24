@@ -188,30 +188,28 @@ function FeeEngine() {
                 </span>
               )}
             </div>
-            <div className="mt-4 grid gap-2">
+            <div
+              className="mt-4 grid gap-3"
+              style={{
+                gridTemplateColumns: installments <= br 2 ? "repeat(2, minmax(0, 1fr))" : installments <= 4 ? "repeat(2, minmax(0, 1fr))" : "repeat(3, minmax(0, 1fr))",
+              }}
+            >
               {Array.from({ length: installments }).map((_, i) => {
                 const amount = Math.round(total / installments);
-                const months = ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"];
+                const months = ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"];
                 return (
                   <div
                     key={i}
-                    className="flex items-center justify-between rounded-xl border border-black/[0.07] bg-black/[0.04] px-4 py-3"
+                    className="glass flex flex-col items-center justify-center rounded-2xl p-4 text-center"
                     style={{
                       opacity: split ? 1 : 0.35,
                       transform: split ? "translateY(0)" : "translateY(4px)",
                       transition: `all 300ms ${i * 60}ms`,
                     }}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="grid h-8 w-8 place-items-center rounded-full border border-black/[0.07] bg-black/[0.04] text-xs font-semibold">
-                        {i + 1}
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium">Installment {i + 1}</div>
-                        <div className="text-[11px] text-muted-foreground">Due {months[i]} 5</div>
-                      </div>
-                    </div>
-                    <div className="text-sm font-semibold">₹{amount.toLocaleString("en-IN")}</div>
+                    <div className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">EMI {i + 1}</div>
+                    <div className="mt-1 text-lg font-semibold text-foreground">₹{amount.toLocaleString("en-IN")}</div>
+                    <div className="mt-1 text-[11px] text-muted-foreground">Due {months[i]} 5</div>
                   </div>
                 );
               })}
