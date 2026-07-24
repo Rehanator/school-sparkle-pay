@@ -11,6 +11,7 @@ import {
   Bell,
   Menu,
   GraduationCap,
+  MessageCircle,
 } from "lucide-react";
 
 const nav = [
