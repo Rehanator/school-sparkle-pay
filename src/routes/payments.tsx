@@ -57,10 +57,10 @@ function PaymentsPage() {
         description="Auto-approved UPI in real-time, and a clean workflow for offline reconciliation."
         actions={
           <>
-            <button className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm hover:bg-white/10">
+            <button className="inline-flex items-center gap-2 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2 text-sm hover:bg-black/[0.07]">
               <Filter className="h-4 w-4" /> Filter
             </button>
-            <button className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm hover:bg-white/10">
+            <button className="inline-flex items-center gap-2 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2 text-sm hover:bg-black/[0.07]">
               <Download className="h-4 w-4" /> Export
             </button>
           </>
@@ -84,10 +84,10 @@ function PaymentsPage() {
               <div className="text-sm font-semibold">Live UPI Feed</div>
               <div className="text-xs text-muted-foreground">Zero-fee, auto-reconciled</div>
             </div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-3 py-1 text-xs text-[oklch(0.85_0.15_155)]">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-3 py-1 text-xs text-[oklch(0.5_0.15_155)]">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.85_0.15_155)] opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.85_0.15_155)]" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.5_0.15_155)] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.5_0.15_155)]" />
               </span>
               Live
             </span>
@@ -96,7 +96,7 @@ function PaymentsPage() {
             {upiFeed.map((u, i) => (
               <div
                 key={i}
-                className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+                className="flex items-center gap-3 rounded-xl border border-black/[0.07] bg-black/[0.04] px-4 py-3"
               >
                 <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)]">
                   <Smartphone className="h-4 w-4" strokeWidth={2.4} />
@@ -109,7 +109,7 @@ function PaymentsPage() {
                   <div className="text-sm font-semibold">₹{u.amount.toLocaleString("en-IN")}</div>
                   <div className="text-[11px] text-muted-foreground">{u.at}</div>
                 </div>
-                <span className="hidden shrink-0 items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-2 py-0.5 text-[11px] text-[oklch(0.85_0.15_155)] sm:inline-flex">
+                <span className="hidden shrink-0 items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-2 py-0.5 text-[11px] text-[oklch(0.5_0.15_155)] sm:inline-flex">
                   <CheckCircle2 className="h-3 w-3" /> Auto-approved
                 </span>
               </div>
@@ -140,7 +140,7 @@ function PaymentsPage() {
                   <th className="pb-3 text-right font-medium">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-black/[0.04]">
                 {rows.map((r) => (
                   <tr key={r.id}>
                     <td className="py-3">
@@ -150,7 +150,7 @@ function PaymentsPage() {
                       </div>
                     </td>
                     <td>
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[11px]">
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-black/[0.07] bg-black/[0.04] px-2 py-0.5 text-[11px]">
                         <Banknote className="h-3 w-3" /> {r.method}
                       </span>
                     </td>
@@ -165,13 +165,13 @@ function PaymentsPage() {
                         <div className="inline-flex gap-2">
                           <button
                             onClick={() => decide(r.id, "approved")}
-                            className="inline-flex items-center gap-1 rounded-lg border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-2.5 py-1.5 text-xs text-[oklch(0.85_0.15_155)] hover:brightness-110"
+                            className="inline-flex items-center gap-1 rounded-lg border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-2.5 py-1.5 text-xs text-[oklch(0.5_0.15_155)] hover:brightness-110"
                           >
                             <CheckCircle2 className="h-3 w-3" /> Approve
                           </button>
                           <button
                             onClick={() => decide(r.id, "rejected")}
-                            className="inline-flex items-center gap-1 rounded-lg border border-[oklch(0.7_0.2_25_/_0.3)] bg-[oklch(0.7_0.2_25_/_0.1)] px-2.5 py-1.5 text-xs text-[oklch(0.85_0.2_25)] hover:brightness-110"
+                            className="inline-flex items-center gap-1 rounded-lg border border-[oklch(0.7_0.2_25_/_0.3)] bg-[oklch(0.7_0.2_25_/_0.1)] px-2.5 py-1.5 text-xs text-[oklch(0.55_0.22_25)] hover:brightness-110"
                           >
                             <XCircle className="h-3 w-3" /> Reject
                           </button>
@@ -207,7 +207,7 @@ function TabBtn({
       onClick={onClick}
       className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm transition ${
         active
-          ? "bg-white/10 text-foreground shadow-inner"
+          ? "bg-black/[0.07] text-foreground shadow-inner"
           : "text-muted-foreground hover:text-foreground"
       }`}
     >
@@ -219,9 +219,9 @@ function TabBtn({
 
 function StatusPill({ status }: { status: "pending" | "approved" | "rejected" }) {
   const map = {
-    pending: { c: "text-[oklch(0.9_0.16_70)]", b: "border-[oklch(0.82_0.16_70_/_0.3)]", bg: "bg-[oklch(0.82_0.16_70_/_0.1)]", l: "Pending" },
-    approved: { c: "text-[oklch(0.85_0.15_155)]", b: "border-[oklch(0.82_0.15_155_/_0.3)]", bg: "bg-[oklch(0.82_0.15_155_/_0.1)]", l: "Approved" },
-    rejected: { c: "text-[oklch(0.85_0.2_25)]", b: "border-[oklch(0.7_0.2_25_/_0.3)]", bg: "bg-[oklch(0.7_0.2_25_/_0.1)]", l: "Rejected" },
+    pending: { c: "text-[oklch(0.55_0.18_70)]", b: "border-[oklch(0.82_0.16_70_/_0.3)]", bg: "bg-[oklch(0.82_0.16_70_/_0.1)]", l: "Pending" },
+    approved: { c: "text-[oklch(0.5_0.15_155)]", b: "border-[oklch(0.82_0.15_155_/_0.3)]", bg: "bg-[oklch(0.82_0.15_155_/_0.1)]", l: "Approved" },
+    rejected: { c: "text-[oklch(0.55_0.22_25)]", b: "border-[oklch(0.7_0.2_25_/_0.3)]", bg: "bg-[oklch(0.7_0.2_25_/_0.1)]", l: "Rejected" },
   }[status];
   return (
     <span className={`inline-flex items-center gap-1 rounded-full border ${map.b} ${map.bg} px-2 py-0.5 text-[11px] ${map.c}`}>

@@ -55,7 +55,7 @@ function Staff() {
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-base font-semibold">{s.name}</div>
                   <div className="truncate text-xs text-muted-foreground">{s.role}</div>
-                  <div className="mt-1 inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] text-muted-foreground">
+                  <div className="mt-1 inline-flex items-center gap-1 rounded-full border border-black/[0.07] bg-black/[0.04] px-2 py-0.5 text-[10px] text-muted-foreground">
                     {s.dept}
                   </div>
                 </div>
@@ -76,7 +76,7 @@ function Staff() {
                 </div>
               </div>
 
-              <button className="mt-4 w-full rounded-xl border border-white/10 bg-white/5 py-2 text-xs font-medium transition hover:border-[oklch(0.85_0.12_180_/_0.4)] hover:bg-[oklch(0.85_0.12_180_/_0.08)]">
+              <button className="mt-4 w-full rounded-xl border border-black/[0.07] bg-black/[0.04] py-2 text-xs font-medium transition hover:border-[oklch(0.85_0.12_180_/_0.4)] hover:bg-[oklch(0.85_0.12_180_/_0.08)]">
                 View Profile
               </button>
             </div>

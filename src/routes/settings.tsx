@@ -44,7 +44,7 @@ function Settings() {
                   <div className="mt-1 text-xs text-muted-foreground">{s.desc}</div>
                 </div>
               </div>
-              <button className="mt-4 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-xs hover:bg-white/10">
+              <button className="mt-4 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-1.5 text-xs hover:bg-black/[0.07]">
                 Configure →
               </button>
             </div>

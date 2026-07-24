@@ -71,7 +71,7 @@ function FeeEngine() {
                   <div className={`grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${f.tint} text-[oklch(0.2_0.03_260)]`}>
                     <Icon className="h-5 w-5" strokeWidth={2.4} />
                   </div>
-                  <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] text-muted-foreground">
+                  <span className="rounded-full border border-black/[0.07] bg-black/[0.04] px-2 py-0.5 text-[10px] text-muted-foreground">
                     {f.cycle}
                   </span>
                 </div>
@@ -79,7 +79,7 @@ function FeeEngine() {
                 <div className="mt-1 text-2xl font-semibold">₹{f.amount.toLocaleString("en-IN")}</div>
                 <div className="mt-3 flex items-center justify-between text-[11px] text-muted-foreground">
                   <span>{f.students} students enrolled</span>
-                  <button className="rounded-lg px-2 py-1 opacity-0 transition group-hover:opacity-100 hover:bg-white/10">
+                  <button className="rounded-lg px-2 py-1 opacity-0 transition group-hover:opacity-100 hover:bg-black/[0.07]">
                     Edit
                   </button>
                 </div>
@@ -94,7 +94,7 @@ function FeeEngine() {
         <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[oklch(0.88_0.14_165)] opacity-15 blur-3xl" />
         <div className="relative grid gap-6 lg:grid-cols-[1fr_1.2fr]">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-muted-foreground">
+            <div className="inline-flex items-center gap-2 rounded-full border border-black/[0.07] bg-black/[0.04] px-3 py-1 text-[11px] text-muted-foreground">
               <Sparkles className="h-3 w-3" /> Innovation · Edu-EMI
             </div>
             <h2 className="mt-3 text-xl font-semibold">Smart Split — turn big fees into micro-EMIs</h2>
@@ -106,7 +106,7 @@ function FeeEngine() {
             <div className="mt-5 space-y-3">
               <div>
                 <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Student</label>
-                <div className="mt-1 flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
+                <div className="mt-1 flex items-center gap-3 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2.5">
                   <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-[oklch(0.82_0.12_300)] to-[oklch(0.82_0.13_220)] text-xs font-semibold text-[oklch(0.2_0.03_260)]">
                     AS
                   </div>
@@ -133,7 +133,7 @@ function FeeEngine() {
                       className={`flex-1 rounded-lg border px-3 py-2 text-sm transition ${
                         installments === n
                           ? "border-[oklch(0.85_0.12_180)] bg-[oklch(0.85_0.12_180_/_0.15)] text-foreground"
-                          : "border-white/10 bg-white/5 text-muted-foreground hover:text-foreground"
+                          : "border-black/[0.07] bg-black/[0.04] text-muted-foreground hover:text-foreground"
                       }`}
                     >
                       {n}×
@@ -152,11 +152,11 @@ function FeeEngine() {
           </div>
 
           {/* Result panel */}
-          <div className="rounded-2xl border border-white/10 bg-[oklch(0.15_0.02_260_/_0.5)] p-5">
+          <div className="rounded-2xl border border-black/[0.07] bg-[oklch(0.98_0.005_250_/_0.7)] p-5">
             <div className="flex items-center justify-between">
               <div className="text-sm font-semibold">Payment Plan Preview</div>
               {split && (
-                <span className="inline-flex items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.12)] px-2 py-0.5 text-[10px] text-[oklch(0.85_0.15_155)]">
+                <span className="inline-flex items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.12)] px-2 py-0.5 text-[10px] text-[oklch(0.5_0.15_155)]">
                   <Check className="h-3 w-3" /> Plan Generated
                 </span>
               )}
@@ -168,7 +168,7 @@ function FeeEngine() {
                 return (
                   <div
                     key={i}
-                    className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+                    className="flex items-center justify-between rounded-xl border border-black/[0.07] bg-black/[0.04] px-4 py-3"
                     style={{
                       opacity: split ? 1 : 0.35,
                       transform: split ? "translateY(0)" : "translateY(4px)",
@@ -176,7 +176,7 @@ function FeeEngine() {
                     }}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="grid h-8 w-8 place-items-center rounded-lg border border-white/10 bg-white/5 text-xs font-semibold">
+                      <div className="grid h-8 w-8 place-items-center rounded-lg border border-black/[0.07] bg-black/[0.04] text-xs font-semibold">
                         {i + 1}
                       </div>
                       <div>
@@ -242,7 +242,7 @@ function RuleToggle({ title, desc, defaultOn }: { title: string; desc: string; d
     <button
       onClick={() => setOn((v) => !v)}
       className={`flex items-start justify-between gap-4 rounded-xl border p-4 text-left transition ${
-        on ? "border-[oklch(0.85_0.12_180_/_0.4)] bg-[oklch(0.85_0.12_180_/_0.06)]" : "border-white/10 bg-white/5"
+        on ? "border-[oklch(0.85_0.12_180_/_0.4)] bg-[oklch(0.85_0.12_180_/_0.06)]" : "border-black/[0.07] bg-black/[0.04]"
       }`}
     >
       <div className="min-w-0 flex-1">
@@ -251,7 +251,7 @@ function RuleToggle({ title, desc, defaultOn }: { title: string; desc: string; d
       </div>
       <span
         className={`relative mt-1 inline-flex h-6 w-11 shrink-0 items-center rounded-full transition ${
-          on ? "bg-[oklch(0.85_0.12_180)]" : "bg-white/15"
+          on ? "bg-[oklch(0.85_0.12_180)]" : "bg-black/[0.09]"
         }`}
       >
         <span
@@ -271,7 +271,7 @@ function CreateFeeModal({ onClose }: { onClose: () => void }) {
             <div className="text-sm font-semibold">Create New Fee</div>
             <div className="text-xs text-muted-foreground">Define a new fee head for your school.</div>
           </div>
-          <button onClick={onClose} className="rounded-lg p-1 hover:bg-white/10">
+          <button onClick={onClose} className="rounded-lg p-1 hover:bg-black/[0.07]">
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -284,7 +284,7 @@ function CreateFeeModal({ onClose }: { onClose: () => void }) {
               {["Monthly", "Quarterly", "Annually"].map((c) => (
                 <button
                   key={c}
-                  className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm hover:border-[oklch(0.85_0.12_180_/_0.4)] hover:bg-[oklch(0.85_0.12_180_/_0.08)]"
+                  className="rounded-lg border border-black/[0.07] bg-black/[0.04] px-3 py-2 text-sm hover:border-[oklch(0.85_0.12_180_/_0.4)] hover:bg-[oklch(0.85_0.12_180_/_0.08)]"
                 >
                   {c}
                 </button>
@@ -293,7 +293,7 @@ function CreateFeeModal({ onClose }: { onClose: () => void }) {
           </div>
         </div>
         <div className="mt-6 flex justify-end gap-2">
-          <button onClick={onClose} className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm">
+          <button onClick={onClose} className="rounded-xl border border-black/[0.07] bg-black/[0.04] px-4 py-2 text-sm">
             Cancel
           </button>
           <button
@@ -314,7 +314,7 @@ function Field({ label, placeholder }: { label: string; placeholder: string }) {
       <label className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</label>
       <input
         placeholder={placeholder}
-        className="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm placeholder:text-muted-foreground focus:border-[oklch(0.85_0.12_180_/_0.5)] focus:outline-none"
+        className="mt-1 w-full rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2.5 text-sm placeholder:text-muted-foreground focus:border-[oklch(0.85_0.12_180_/_0.5)] focus:outline-none"
       />
     </div>
   );

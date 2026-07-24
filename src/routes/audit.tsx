@@ -28,15 +28,15 @@ const logs = [
 ];
 
 const typeColor: Record<string, string> = {
-  waive: "text-[oklch(0.9_0.16_70)] bg-[oklch(0.82_0.16_70_/_0.12)] border-[oklch(0.82_0.16_70_/_0.3)]",
-  approve: "text-[oklch(0.85_0.15_155)] bg-[oklch(0.82_0.15_155_/_0.12)] border-[oklch(0.82_0.15_155_/_0.3)]",
-  reject: "text-[oklch(0.85_0.2_25)] bg-[oklch(0.7_0.2_25_/_0.12)] border-[oklch(0.7_0.2_25_/_0.3)]",
-  delete: "text-[oklch(0.85_0.2_25)] bg-[oklch(0.7_0.2_25_/_0.12)] border-[oklch(0.7_0.2_25_/_0.3)]",
+  waive: "text-[oklch(0.55_0.18_70)] bg-[oklch(0.82_0.16_70_/_0.12)] border-[oklch(0.82_0.16_70_/_0.3)]",
+  approve: "text-[oklch(0.5_0.15_155)] bg-[oklch(0.82_0.15_155_/_0.12)] border-[oklch(0.82_0.15_155_/_0.3)]",
+  reject: "text-[oklch(0.55_0.22_25)] bg-[oklch(0.7_0.2_25_/_0.12)] border-[oklch(0.7_0.2_25_/_0.3)]",
+  delete: "text-[oklch(0.55_0.22_25)] bg-[oklch(0.7_0.2_25_/_0.12)] border-[oklch(0.7_0.2_25_/_0.3)]",
   rule: "text-[oklch(0.9_0.13_220)] bg-[oklch(0.82_0.13_220_/_0.12)] border-[oklch(0.82_0.13_220_/_0.3)]",
   split: "text-[oklch(0.9_0.13_220)] bg-[oklch(0.82_0.13_220_/_0.12)] border-[oklch(0.82_0.13_220_/_0.3)]",
   create: "text-[oklch(0.88_0.14_165)] bg-[oklch(0.85_0.12_180_/_0.12)] border-[oklch(0.85_0.12_180_/_0.3)]",
-  system: "text-muted-foreground bg-white/5 border-white/10",
-  export: "text-muted-foreground bg-white/5 border-white/10",
+  system: "text-muted-foreground bg-black/[0.04] border-black/[0.07]",
+  export: "text-muted-foreground bg-black/[0.04] border-black/[0.07]",
 };
 
 function Audit() {
@@ -57,8 +57,8 @@ function Audit() {
         <div className="mx-auto grid h-20 w-20 place-items-center rounded-3xl bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)] shadow-[0_0_60px_-10px_oklch(0.85_0.12_180)]">
           <Lock className="h-9 w-9" strokeWidth={2.4} />
         </div>
-        <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-muted-foreground">
-          <ShieldCheck className="h-3.5 w-3.5 text-[oklch(0.85_0.15_155)]" /> Tamper-proof · Hash-chained · Read-only
+        <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-black/[0.07] bg-black/[0.04] px-3 py-1 text-xs text-muted-foreground">
+          <ShieldCheck className="h-3.5 w-3.5 text-[oklch(0.5_0.15_155)]" /> Tamper-proof · Hash-chained · Read-only
         </div>
         <div className="mt-2 text-lg font-semibold">This ledger cannot be edited or deleted.</div>
         <div className="text-xs text-muted-foreground">
@@ -68,14 +68,14 @@ function Audit() {
 
       {/* Filters */}
       <div className="glass flex flex-wrap items-center gap-2 rounded-2xl p-3">
-        <div className="flex flex-1 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2">
+        <div className="flex flex-1 items-center gap-2 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input
             placeholder="Search by admin ID, action, IP…"
             className="w-full bg-transparent text-sm placeholder:text-muted-foreground focus:outline-none"
           />
         </div>
-        <button className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm">
+        <button className="inline-flex items-center gap-2 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2 text-sm">
           <Download className="h-4 w-4" /> Export CSV
         </button>
       </div>
@@ -84,7 +84,7 @@ function Audit() {
       <div className="glass overflow-hidden rounded-2xl">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[900px] text-left text-sm">
-            <thead className="bg-white/[0.03] text-[11px] uppercase tracking-wider text-muted-foreground">
+            <thead className="bg-black/[0.04] text-[11px] uppercase tracking-wider text-muted-foreground">
               <tr>
                 <th className="px-5 py-3 font-medium">Date & Timestamp</th>
                 <th className="px-5 py-3 font-medium">Admin User ID</th>
@@ -92,9 +92,9 @@ function Audit() {
                 <th className="px-5 py-3 font-medium">IP Address</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5 font-mono">
+            <tbody className="divide-y divide-black/[0.04] font-mono">
               {logs.map((l, i) => (
-                <tr key={i} className="hover:bg-white/[0.03]">
+                <tr key={i} className="hover:bg-black/[0.04]">
                   <td className="whitespace-nowrap px-5 py-3 text-xs text-muted-foreground">{l.ts}</td>
                   <td className="px-5 py-3 text-xs">{l.user}</td>
                   <td className="px-5 py-3">
