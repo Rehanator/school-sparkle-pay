@@ -115,11 +115,26 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isMarketing = pathname === "/";
   return (
     <QueryClientProvider client={queryClient}>
-      <AppShell>
-        <Outlet />
-      </AppShell>
+      {isMarketing ? (
+        <>
+          <MarketingBackdrop />
+          <MarketingNavWrapper />
+          <Outlet />
+        </>
+      ) : (
+        <AppShell>
+          <Outlet />
+        </AppShell>
+      )}
     </QueryClientProvider>
   );
+}
+
+function MarketingNavWrapper() {
+  const { MarketingNav } = require("../components/MarketingNav") as typeof import("../components/MarketingNav");
+  return <MarketingNav />;
 }
