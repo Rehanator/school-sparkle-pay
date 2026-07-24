@@ -101,7 +101,8 @@ function FeeEngine() {
       {/* Edu-EMI Smart Split */}
       <div className="glass relative overflow-hidden rounded-2xl p-6">
         <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[oklch(0.88_0.14_165)] opacity-15 blur-3xl" />
-        <div className="relative grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+        <div className="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-[oklch(0.82_0.12_300)] opacity-10 blur-3xl" />
+        <div className="relative flex items-start justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-black/[0.07] bg-black/[0.04] px-3 py-1 text-[11px] text-muted-foreground">
               <Sparkles className="h-3 w-3" /> Innovation · Edu-EMI
@@ -111,62 +112,71 @@ function FeeEngine() {
               Pick a student, choose the number of installments, and instantly break down heavy annual
               fees into interest-free monthly slices.
             </p>
+          </div>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.85_0.12_180_/_0.4)] bg-[oklch(0.85_0.12_180_/_0.12)] px-3 py-1 text-[11px] font-medium text-[oklch(0.45_0.12_180)]">
+            <Sparkles className="h-3 w-3" /> AI-Assisted / Innovation Feature
+          </span>
+        </div>
 
-            <div className="mt-5 space-y-3">
-              <div>
-                <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Student</label>
-                <div className="mt-1 flex items-center gap-3 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2.5">
-                  <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-[oklch(0.82_0.12_300)] to-[oklch(0.82_0.13_220)] text-xs font-semibold text-[oklch(0.2_0.03_260)]">
-                    AS
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="truncate text-sm font-medium">Aarav Sharma · 10-B</div>
-                    <div className="text-[11px] text-muted-foreground">Annual bundled fee</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-semibold">₹{total.toLocaleString("en-IN")}</div>
-                  </div>
+        <div className="relative mt-6 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+          <div className="space-y-3">
+            <div>
+              <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Student</label>
+              <div className="mt-1 flex items-center gap-3 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2.5">
+                <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-[oklch(0.82_0.12_300)] to-[oklch(0.82_0.13_220)] text-xs font-semibold text-[oklch(0.2_0.03_260)]">
+                  AS
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="truncate text-sm font-medium">Aarav Sharma · 10-B</div>
+                  <div className="text-[11px] text-muted-foreground">Annual bundled fee</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm font-semibold">₹{total.toLocaleString("en-IN")}</div>
                 </div>
               </div>
-
-              <div>
-                <div className="flex items-center justify-between">
-                  <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Installments</label>
-                  <span className="text-xs font-medium">{installments} months</span>
-                </div>
-                <div className="mt-2 flex gap-2">
-                  {[2, 3, 4, 6].map((n) => (
-                    <button
-                      key={n}
-                      onClick={() => setInstallments(n)}
-                      className={`flex-1 rounded-lg border px-3 py-2 text-sm transition ${
-                        installments === n
-                          ? "border-[oklch(0.85_0.12_180)] bg-[oklch(0.85_0.12_180_/_0.15)] text-foreground"
-                          : "border-black/[0.07] bg-black/[0.04] text-muted-foreground hover:text-foreground"
-                      }`}
-                    >
-                      {n}×
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <button
-                onClick={() => setSplit(true)}
-                className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:brightness-110"
-              >
-                <Split className="h-4 w-4" /> Split ₹{total.toLocaleString("en-IN")} into {installments} EMIs
-              </button>
             </div>
+
+            <div>
+              <div className="flex items-center justify-between">
+                <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Installments</label>
+                <span className="text-xs font-medium">{installments} months</span>
+              </div>
+              <div className="mt-2 flex gap-2">
+                {[2, 3, 4, 6].map((n) => (
+                  <button
+                    key={n}
+                    onClick={() => setInstallments(n)}
+                    className={`flex-1 rounded-lg border px-3 py-2 text-sm transition ${
+                      installments === n
+                        ? "border-[oklch(0.85_0.12_180)] bg-[oklch(0.85_0.12_180_/_0.15)] text-foreground"
+                        : "border-black/[0.07] bg-black/[0.04] text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {n}×
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button
+              onClick={() => setSplit(true)}
+              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:brightness-105"
+            >
+              <Split className="h-4 w-4" /> Generate Plan & Notify Parent →
+            </button>
           </div>
 
           {/* Result panel */}
           <div className="rounded-2xl border border-black/[0.07] bg-[oklch(0.98_0.005_250_/_0.7)] p-5">
             <div className="flex items-center justify-between">
               <div className="text-sm font-semibold">Payment Plan Preview</div>
-              {split && (
-                <span className="inline-flex items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.12)] px-2 py-0.5 text-[10px] text-[oklch(0.5_0.15_155)]">
-                  <Check className="h-3 w-3" /> Plan Generated
+              {split ? (
+                <span className="inline-flex items-center gap-1 rounded-full border border-[oklch(0.55_0.16_155_/_0.35)] bg-[oklch(0.55_0.16_155_/_0.12)] px-2 py-0.5 text-[10px] font-medium text-[oklch(0.45_0.15_155)]">
+                  <Check className="h-3 w-3" /> Ready to notify parent via WhatsApp
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 rounded-full border border-black/[0.08] bg-black/[0.04] px-2 py-0.5 text-[10px] text-muted-foreground">
+                  Awaiting generation
                 </span>
               )}
             </div>
@@ -185,11 +195,11 @@ function FeeEngine() {
                     }}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="grid h-8 w-8 place-items-center rounded-lg border border-black/[0.07] bg-black/[0.04] text-xs font-semibold">
+                      <div className="grid h-8 w-8 place-items-center rounded-full border border-black/[0.07] bg-black/[0.04] text-xs font-semibold">
                         {i + 1}
                       </div>
                       <div>
-                        <div className="text-sm font-medium">EMI #{i + 1}</div>
+                        <div className="text-sm font-medium">Installment {i + 1}</div>
                         <div className="text-[11px] text-muted-foreground">Due {months[i]} 5</div>
                       </div>
                     </div>
@@ -199,7 +209,7 @@ function FeeEngine() {
               })}
             </div>
             <div className="mt-4 flex items-center justify-between rounded-xl border border-[oklch(0.85_0.12_180_/_0.3)] bg-[oklch(0.85_0.12_180_/_0.08)] px-4 py-3 text-sm">
-              <span>Zero interest · Auto-reminded</span>
+              <span>0% Interest · Zero hidden charges</span>
               <span className="font-semibold">Total ₹{total.toLocaleString("en-IN")}</span>
             </div>
           </div>
