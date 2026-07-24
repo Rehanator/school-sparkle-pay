@@ -12,13 +12,10 @@ import {
   Sparkles,
 } from "lucide-react";
 import {
-  PieChart,
-  Pie,
-  Cell,
   ResponsiveContainer,
   Tooltip,
-  BarChart,
-  Bar,
+  AreaChart,
+  Area,
   XAxis,
   CartesianGrid,
 } from "recharts";
@@ -100,12 +97,21 @@ function Dashboard() {
     <div className="space-y-6">
       <PageHeader
         eyebrow="Overview"
-        title="Good morning, Anita"
+        title="Good morning, Anita 👋"
         description="Here's what's happening across fees, payments and communications today."
         actions={
-          <button className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-[oklch(0.85_0.12_180)_/_0.25] hover:brightness-110">
-            <Sparkles className="h-4 w-4" /> Generate Report
-          </button>
+          <>
+            <span className="hidden items-center gap-2 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-3 py-1.5 text-[11px] font-medium text-[oklch(0.88_0.15_155)] sm:inline-flex">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.85_0.18_155)] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.85_0.18_155)] shadow-[0_0_8px_oklch(0.85_0.18_155)]" />
+              </span>
+              Live sync active
+            </span>
+            <button className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-[oklch(0.85_0.12_180)_/_0.25] hover:brightness-110">
+              <Sparkles className="h-4 w-4" /> Generate Report
+            </button>
+          </>
         }
       />
 
@@ -147,65 +153,71 @@ function Dashboard() {
             </div>
             <div className="text-xs text-muted-foreground">Total ₹42.8L</div>
           </div>
-          <div className="grid gap-4 md:grid-cols-[220px_1fr]">
-            <div className="h-[220px]">
-              <ResponsiveContainer>
-                <PieChart>
-                  <Pie
-                    data={revenueSources}
-                    dataKey="value"
-                    innerRadius={55}
-                    outerRadius={85}
-                    paddingAngle={4}
-                    stroke="none"
-                  >
-                    {revenueSources.map((s) => (
-                      <Cell key={s.name} fill={s.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    contentStyle={{
-                      background: "oklch(0.22 0.035 260 / 0.95)",
-                      border: "1px solid oklch(1 0 0 / 0.15)",
-                      borderRadius: 12,
-                      color: "white",
+
+          {/* Area chart */}
+          <div className="relative h-[200px] rounded-2xl border border-white/10 bg-[oklch(0.15_0.02_260_/_0.4)] p-3">
+            <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.12)] px-2 py-0.5 text-[10px] font-medium text-[oklch(0.88_0.15_155)]">
+              <TrendingUp className="h-3 w-3" /> +18% YoY
+            </span>
+            <ResponsiveContainer>
+              <AreaChart data={trend} margin={{ top: 20, right: 8, left: 8, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="revWave" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="oklch(0.85 0.14 195)" stopOpacity={0.7} />
+                    <stop offset="60%" stopColor="oklch(0.82 0.13 220)" stopOpacity={0.25} />
+                    <stop offset="100%" stopColor="oklch(0.82 0.13 220)" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="oklch(1 0 0 / 0.06)" vertical={false} />
+                <XAxis dataKey="m" tick={{ fill: "oklch(0.72 0.02 255)", fontSize: 10 }} axisLine={false} tickLine={false} />
+                <Tooltip
+                  contentStyle={{
+                    background: "oklch(0.22 0.035 260 / 0.95)",
+                    border: "1px solid oklch(1 0 0 / 0.15)",
+                    borderRadius: 12,
+                    color: "white",
+                  }}
+                  formatter={(v: number) => [`₹${v}K`, "Revenue"]}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="v"
+                  stroke="oklch(0.88 0.15 195)"
+                  strokeWidth={2.5}
+                  fill="url(#revWave)"
+                  style={{ filter: "drop-shadow(0 0 12px oklch(0.85 0.15 195 / 0.5))" }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Horizontal progress bars */}
+          <div className="mt-5 space-y-3">
+            {[
+              { name: "Tuition", pct: 68, amount: "₹29.1L", color: "oklch(0.88 0.14 165)" },
+              { name: "Transport", pct: 18, amount: "₹7.7L", color: "oklch(0.82 0.13 220)" },
+              { name: "Late Fees", pct: 10, amount: "₹4.3L", color: "oklch(0.82 0.16 70)" },
+            ].map((s) => (
+              <div key={s.name}>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 rounded-full" style={{ background: s.color }} />
+                    {s.name} <span className="text-muted-foreground">({s.pct}%)</span>
+                  </span>
+                  <span className="font-medium">{s.amount}</span>
+                </div>
+                <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/5">
+                  <div
+                    className="h-full rounded-full"
+                    style={{
+                      width: `${s.pct}%`,
+                      background: `linear-gradient(90deg, ${s.color}, oklch(0.9 0.1 200))`,
+                      boxShadow: `0 0 10px ${s.color}`,
                     }}
-                    formatter={(v: number) => `₹${(v / 100000).toFixed(1)}L`}
                   />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="space-y-3">
-              {revenueSources.map((s) => {
-                const total = revenueSources.reduce((a, b) => a + b.value, 0);
-                const pct = ((s.value / total) * 100).toFixed(0);
-                return (
-                  <div key={s.name}>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="flex items-center gap-2">
-                        <span className="h-2.5 w-2.5 rounded-full" style={{ background: s.color }} />
-                        {s.name}
-                      </span>
-                      <span className="text-muted-foreground">
-                        ₹{(s.value / 100000).toFixed(1)}L · {pct}%
-                      </span>
-                    </div>
-                    <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/5">
-                      <div className="h-full rounded-full" style={{ width: `${pct}%`, background: s.color }} />
-                    </div>
-                  </div>
-                );
-              })}
-              <div className="mt-4 h-[90px]">
-                <ResponsiveContainer>
-                  <BarChart data={trend}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="oklch(1 0 0 / 0.06)" vertical={false} />
-                    <XAxis dataKey="m" tick={{ fill: "oklch(0.72 0.02 255)", fontSize: 10 }} axisLine={false} tickLine={false} />
-                    <Bar dataKey="v" radius={[6, 6, 0, 0]} fill="oklch(0.85 0.12 180)" />
-                  </BarChart>
-                </ResponsiveContainer>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
 
@@ -232,11 +244,16 @@ function Dashboard() {
               <Bubble side="out">
                 Hello Mr. Sharma 👋 — Aarav's pending fee is <b>₹48,500</b> (due 22 Sep). Tap to pay via UPI.
               </Bubble>
-              <Bubble side="out">
-                <span className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-2 py-1 text-xs">
-                  <IndianRupee className="h-3 w-3" /> Pay ₹48,500 via UPI
-                  <ArrowUpRight className="h-3 w-3" />
-                </span>
+              <Bubble side="out" flush>
+                <button className="mt-1 flex w-full items-center justify-between gap-2 rounded-xl border border-white/10 bg-[oklch(0.18_0.03_260)] px-3 py-2.5 text-[11px] font-semibold text-foreground shadow-inner transition hover:bg-[oklch(0.22_0.03_260)]">
+                  <span className="flex items-center gap-2">
+                    <IndianRupee className="h-3.5 w-3.5 text-[oklch(0.85_0.15_155)]" />
+                    <span className="text-[oklch(0.85_0.15_155)]">Secure UPI</span>
+                    <span className="text-white/30">|</span>
+                    <span>Pay ₹48,500</span>
+                  </span>
+                  <ArrowUpRight className="h-3.5 w-3.5 text-[oklch(0.85_0.15_155)]" />
+                </button>
               </Bubble>
               <Bubble side="in">
                 <span className="inline-flex items-center gap-1">
@@ -251,6 +268,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
+
 
       {/* Defaulters table */}
       <div className="glass rounded-2xl p-5">
@@ -313,14 +331,16 @@ function Dashboard() {
   );
 }
 
-function Bubble({ side, children }: { side: "in" | "out"; children: React.ReactNode }) {
+function Bubble({ side, children, flush }: { side: "in" | "out"; children: React.ReactNode; flush?: boolean }) {
   return (
     <div className={`flex ${side === "in" ? "justify-end" : "justify-start"}`}>
       <div
-        className={`max-w-[85%] rounded-2xl px-3 py-2 text-xs ${
-          side === "in"
-            ? "rounded-br-sm bg-[oklch(0.6_0.14_155_/_0.35)] text-foreground"
-            : "rounded-bl-sm bg-white/10 text-foreground"
+        className={`max-w-[85%] rounded-2xl text-xs ${flush ? "p-0 bg-transparent" : "px-3 py-2"} ${
+          flush
+            ? ""
+            : side === "in"
+              ? "rounded-br-sm bg-[oklch(0.6_0.14_155_/_0.35)] text-foreground"
+              : "rounded-bl-sm bg-white/10 text-foreground"
         }`}
       >
         {children}
