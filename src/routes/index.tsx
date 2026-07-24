@@ -173,14 +173,15 @@ function Dashboard() {
                     <stop offset="100%" stopColor="oklch(0.82 0.13 220)" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="oklch(1 0 0 / 0.06)" vertical={false} />
-                <XAxis dataKey="m" tick={{ fill: "oklch(0.72 0.02 255)", fontSize: 10 }} axisLine={false} tickLine={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="oklch(0 0 0 / 0.08)" vertical={false} />
+                <XAxis dataKey="m" tick={{ fill: "oklch(0.4 0.02 255)", fontSize: 10 }} axisLine={false} tickLine={false} />
                 <Tooltip
                   contentStyle={{
-                    background: "oklch(0.22 0.035 260 / 0.95)",
-                    border: "1px solid oklch(1 0 0 / 0.15)",
+                    background: "oklch(1 0 0 / 0.98)",
+                    border: "1px solid oklch(0 0 0 / 0.08)",
                     borderRadius: 12,
-                    color: "white",
+                    color: "oklch(0.2 0.03 260)",
+                    boxShadow: "0 10px 30px -10px oklch(0 0 0 / 0.15)",
                   }}
                   formatter={(v: number) => [`₹${v}K`, "Revenue"]}
                 />
