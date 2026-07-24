@@ -26,7 +26,7 @@ import {
 } from "recharts";
 import { PageHeader } from "@/components/PageHeader";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
       { title: "Dashboard · Smart School FinTech" },
