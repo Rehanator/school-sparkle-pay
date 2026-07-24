@@ -189,10 +189,9 @@ function FeeEngine() {
               )}
             </div>
             <div
-              className="mt-4 grid gap-3"
-              style={{
-                gridTemplateColumns: installments <= br 2 ? "repeat(2, minmax(0, 1fr))" : installments <= 4 ? "repeat(2, minmax(0, 1fr))" : "repeat(3, minmax(0, 1fr))",
-              }}
+              className={`mt-4 grid gap-3 ${
+                installments <= 4 ? "grid-cols-2" : "grid-cols-3"
+              }`}
             >
               {Array.from({ length: installments }).map((_, i) => {
                 const amount = Math.round(total / installments);
