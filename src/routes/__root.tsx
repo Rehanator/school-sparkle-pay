@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppShell } from "../components/AppShell";
 import { MarketingBackdrop } from "../components/MarketingBackdrop";
+import { MarketingNav } from "../components/MarketingNav";
 
 function NotFoundComponent() {
   return (
@@ -122,7 +123,7 @@ function RootComponent() {
       {isMarketing ? (
         <>
           <MarketingBackdrop />
-          <MarketingNavWrapper />
+          <MarketingNav />
           <Outlet />
         </>
       ) : (
@@ -132,9 +133,4 @@ function RootComponent() {
       )}
     </QueryClientProvider>
   );
-}
-
-function MarketingNavWrapper() {
-  const { MarketingNav } = require("../components/MarketingNav") as typeof import("../components/MarketingNav");
-  return <MarketingNav />;
 }
