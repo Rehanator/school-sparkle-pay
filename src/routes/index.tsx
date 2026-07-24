@@ -277,17 +277,23 @@ function Dashboard() {
 
       {/* Defaulters table */}
       <div className="glass rounded-2xl p-5">
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-4 flex items-center justify-between gap-3">
           <div>
-            <div className="text-sm font-semibold">Prioritized Defaulters</div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold">Prioritized Defaulters</span>
+              <span className="inline-flex items-center gap-1 rounded-full border border-[oklch(0.7_0.2_25_/_0.4)] bg-[oklch(0.7_0.2_25_/_0.15)] px-2 py-0.5 text-[10px] font-semibold text-[oklch(0.85_0.2_25)]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[oklch(0.85_0.2_25)] shadow-[0_0_6px_oklch(0.85_0.2_25)]" />
+                5 Critical
+              </span>
+            </div>
             <div className="text-xs text-muted-foreground">Highest overdue balances, first</div>
           </div>
-          <button className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs hover:bg-white/10">
-            View all
+          <button className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-[oklch(0.85_0.12_180)_/_0.25] hover:brightness-110">
+            <Send className="h-4 w-4" /> Send Bulk Reminder
           </button>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] text-left text-sm">
+          <table className="w-full min-w-[720px] text-left text-sm">
             <thead className="text-[11px] uppercase tracking-wider text-muted-foreground">
               <tr>
                 <th className="pb-3 font-medium">Student</th>
@@ -295,12 +301,12 @@ function Dashboard() {
                 <th className="pb-3 font-medium">Overdue</th>
                 <th className="pb-3 font-medium">Days late</th>
                 <th className="pb-3 font-medium">Urgency</th>
-                <th className="pb-3" />
+                <th className="pb-3 text-right font-medium">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
               {defaulters.map((d) => (
-                <tr key={d.id} className="group">
+                <tr key={d.id} className="group transition-colors hover:bg-white/[0.03]">
                   <td className="py-3">
                     <div className="flex items-center gap-3">
                       <div className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-[oklch(0.82_0.12_300)] to-[oklch(0.82_0.13_220)] text-xs font-semibold text-[oklch(0.2_0.03_260)]">
@@ -322,8 +328,9 @@ function Dashboard() {
                     <UrgencyBadge level={d.level} />
                   </td>
                   <td className="text-right">
-                    <button className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs opacity-0 transition group-hover:opacity-100 hover:bg-white/10">
-                      Remind
+                    <button className="glass inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition hover:bg-white/10">
+                      <Bell className="h-3.5 w-3.5 text-[oklch(0.85_0.15_155)]" />
+                      Notify
                     </button>
                   </td>
                 </tr>
@@ -331,6 +338,43 @@ function Dashboard() {
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Operational summary widgets */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        {[
+          {
+            icon: MessagesSquare,
+            label: "Reminders sent (7d)",
+            value: "1,284",
+            tint: "from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)]",
+          },
+          {
+            icon: CheckCircle2,
+            label: "Reconciled today",
+            value: "48",
+            tint: "from-[oklch(0.82_0.15_155)] to-[oklch(0.85_0.12_180)]",
+          },
+          {
+            icon: LineChart,
+            label: "Avg. collection time",
+            value: "2.4 days",
+            tint: "from-[oklch(0.82_0.12_300)] to-[oklch(0.82_0.13_220)]",
+          },
+        ].map((c) => {
+          const Icon = c.icon;
+          return (
+            <div key={c.label} className="glass flex items-center gap-4 rounded-2xl p-4">
+              <div className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br ${c.tint} text-[oklch(0.2_0.03_260)]`}>
+                <Icon className="h-5 w-5" strokeWidth={2.4} />
+              </div>
+              <div className="min-w-0">
+                <div className="text-xl font-semibold tracking-tight">{c.value}</div>
+                <div className="truncate text-[11px] text-muted-foreground">{c.label}</div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
