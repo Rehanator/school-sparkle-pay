@@ -13,6 +13,10 @@ import {
   Shield,
   X,
   Check,
+  Clock,
+  Star,
+  Users,
+  Zap,
 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 
