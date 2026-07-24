@@ -9,8 +9,38 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StaffRouteImport } from './routes/staff'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as PaymentsRouteImport } from './routes/payments'
+import { Route as FeeEngineRouteImport } from './routes/fee-engine'
+import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexRouteImport } from './routes/index'
 
+const StaffRoute = StaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentsRoute = PaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeeEngineRoute = FeeEngineRouteImport.update({
+  id: '/fee-engine',
+  path: '/fee-engine',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditRoute = AuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +49,96 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/audit': typeof AuditRoute
+  '/fee-engine': typeof FeeEngineRoute
+  '/payments': typeof PaymentsRoute
+  '/settings': typeof SettingsRoute
+  '/staff': typeof StaffRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/audit': typeof AuditRoute
+  '/fee-engine': typeof FeeEngineRoute
+  '/payments': typeof PaymentsRoute
+  '/settings': typeof SettingsRoute
+  '/staff': typeof StaffRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/audit': typeof AuditRoute
+  '/fee-engine': typeof FeeEngineRoute
+  '/payments': typeof PaymentsRoute
+  '/settings': typeof SettingsRoute
+  '/staff': typeof StaffRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/audit'
+    | '/fee-engine'
+    | '/payments'
+    | '/settings'
+    | '/staff'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/audit' | '/fee-engine' | '/payments' | '/settings' | '/staff'
+  id:
+    | '__root__'
+    | '/'
+    | '/audit'
+    | '/fee-engine'
+    | '/payments'
+    | '/settings'
+    | '/staff'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuditRoute: typeof AuditRoute
+  FeeEngineRoute: typeof FeeEngineRoute
+  PaymentsRoute: typeof PaymentsRoute
+  SettingsRoute: typeof SettingsRoute
+  StaffRoute: typeof StaffRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/staff': {
+      id: '/staff'
+      path: '/staff'
+      fullPath: '/staff'
+      preLoaderRoute: typeof StaffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payments': {
+      id: '/payments'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof PaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fee-engine': {
+      id: '/fee-engine'
+      path: '/fee-engine'
+      fullPath: '/fee-engine'
+      preLoaderRoute: typeof FeeEngineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audit': {
+      id: '/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +151,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuditRoute: AuditRoute,
+  FeeEngineRoute: FeeEngineRoute,
+  PaymentsRoute: PaymentsRoute,
+  SettingsRoute: SettingsRoute,
+  StaffRoute: StaffRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
