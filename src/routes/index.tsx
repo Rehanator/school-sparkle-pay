@@ -10,6 +10,11 @@ import {
   MessageCircle,
   CheckCheck,
   Sparkles,
+  Bell,
+  Send,
+  MessagesSquare,
+  CheckCircle2,
+  LineChart,
 } from "lucide-react";
 import {
   ResponsiveContainer,
