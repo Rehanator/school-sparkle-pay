@@ -389,8 +389,8 @@ function Bubble({ side, children, flush }: { side: "in" | "out"; children: React
           flush
             ? ""
             : side === "in"
-              ? "rounded-br-sm bg-[oklch(0.6_0.14_155_/_0.35)] text-foreground"
-              : "rounded-bl-sm bg-black/[0.07] text-foreground"
+              ? "rounded-br-sm bg-[oklch(0.9_0.12_155)] text-[oklch(0.2_0.05_155)]"
+              : "rounded-bl-sm bg-white text-foreground border border-black/[0.05] shadow-sm"
         }`}
       >
         {children}
