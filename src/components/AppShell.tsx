@@ -79,7 +79,23 @@ export function AppShell({ children }: { children: ReactNode }) {
             })}
           </nav>
 
-          <div className="p-3">
+          <div className="space-y-2 p-3">
+            {!collapsed && (
+              <div className="rounded-xl border border-white/10 bg-white/5 p-3 backdrop-blur-xl">
+                <div className="flex items-center gap-2">
+                  <div className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)]">
+                    <MessageCircle className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  </div>
+                  <div className="text-[11px] font-semibold">Need help?</div>
+                </div>
+                <div className="mt-2 text-[10.5px] leading-snug text-muted-foreground">
+                  Reach our support desk 24/7
+                </div>
+                <button className="mt-2 w-full rounded-lg border border-white/10 bg-white/5 px-2 py-1.5 text-[10.5px] font-medium text-foreground hover:bg-white/10">
+                  Contact support
+                </button>
+              </div>
+            )}
             <button
               onClick={() => setCollapsed((v) => !v)}
               className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-muted-foreground hover:text-foreground"
