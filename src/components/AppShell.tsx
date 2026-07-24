@@ -66,8 +66,8 @@ export function AppShell({ children }: { children: ReactNode }) {
                   to={item.to}
                   className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all ${
                     active
-                      ? "bg-white/10 text-foreground shadow-inner"
-                      : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
+                      ? "bg-black/[0.07] text-foreground shadow-inner"
+                      : "text-muted-foreground hover:bg-black/[0.04] hover:text-foreground"
                   }`}
                 >
                   {active && (
@@ -82,7 +82,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
           <div className="space-y-2 p-3">
             {!collapsed && (
-              <div className="rounded-xl border border-white/10 bg-white/5 p-3 backdrop-blur-xl">
+              <div className="rounded-xl border border-black/[0.07] bg-black/[0.04] p-3 backdrop-blur-xl">
                 <div className="flex items-center gap-2">
                   <div className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)]">
                     <MessageCircle className="h-3.5 w-3.5" strokeWidth={2.5} />
@@ -92,14 +92,14 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <div className="mt-2 text-[10.5px] leading-snug text-muted-foreground">
                   Reach our support desk 24/7
                 </div>
-                <button className="mt-2 w-full rounded-lg border border-white/10 bg-white/5 px-2 py-1.5 text-[10.5px] font-medium text-foreground hover:bg-white/10">
+                <button className="mt-2 w-full rounded-lg border border-black/[0.07] bg-black/[0.04] px-2 py-1.5 text-[10.5px] font-medium text-foreground hover:bg-black/[0.07]">
                   Contact support
                 </button>
               </div>
             )}
             <button
               onClick={() => setCollapsed((v) => !v)}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-muted-foreground hover:text-foreground"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2 text-xs text-muted-foreground hover:text-foreground"
             >
               <Menu className="h-4 w-4" />
               {!collapsed && "Collapse"}
@@ -111,21 +111,21 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="flex min-w-0 flex-1 flex-col">
           {/* Header */}
           <header className="glass sticky top-3 z-20 mx-3 mt-3 flex items-center gap-3 rounded-2xl px-4 py-2.5 sm:mx-6">
-            <div className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2">
+            <div className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2">
               <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
               <input
                 placeholder="Search students, staff, transactions…"
                 className="min-w-0 flex-1 bg-transparent text-sm placeholder:text-muted-foreground focus:outline-none"
               />
-              <kbd className="hidden rounded border border-white/15 bg-white/5 px-1.5 py-0.5 text-[10px] text-muted-foreground sm:inline">
+              <kbd className="hidden rounded border border-black/[0.09] bg-black/[0.04] px-1.5 py-0.5 text-[10px] text-muted-foreground sm:inline">
                 ⌘K
               </kbd>
             </div>
-            <button className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/5 hover:bg-white/10">
+            <button className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-black/[0.07] bg-black/[0.04] hover:bg-black/[0.07]">
               <Bell className="h-[18px] w-[18px]" />
               <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[oklch(0.82_0.16_70)] shadow-[0_0_8px_oklch(0.82_0.16_70)]" />
             </button>
-            <div className="flex shrink-0 items-center gap-3 rounded-xl border border-white/10 bg-white/5 py-1.5 pr-3 pl-1.5">
+            <div className="flex shrink-0 items-center gap-3 rounded-xl border border-black/[0.07] bg-black/[0.04] py-1.5 pr-3 pl-1.5">
               <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-[oklch(0.82_0.12_300)] to-[oklch(0.82_0.13_220)] text-xs font-semibold text-[oklch(0.2_0.03_260)]">
                 AK
               </div>

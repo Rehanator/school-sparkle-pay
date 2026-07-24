@@ -106,10 +106,10 @@ function Dashboard() {
         description="Here's what's happening across fees, payments and communications today."
         actions={
           <>
-            <span className="hidden items-center gap-2 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-3 py-1.5 text-[11px] font-medium text-[oklch(0.88_0.15_155)] sm:inline-flex">
+            <span className="hidden items-center gap-2 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-3 py-1.5 text-[11px] font-medium text-[oklch(0.45_0.15_155)] sm:inline-flex">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.85_0.18_155)] opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.85_0.18_155)] shadow-[0_0_8px_oklch(0.85_0.18_155)]" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.55_0.2_155)] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.55_0.2_155)] shadow-[0_0_8px_oklch(0.55_0.2_155)]" />
               </span>
               Live sync active
             </span>
@@ -133,8 +133,8 @@ function Dashboard() {
                 <span
                   className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium ${
                     m.up
-                      ? "border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] text-[oklch(0.85_0.15_155)]"
-                      : "border-[oklch(0.82_0.16_70_/_0.3)] bg-[oklch(0.82_0.16_70_/_0.1)] text-[oklch(0.88_0.16_70)]"
+                      ? "border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] text-[oklch(0.5_0.15_155)]"
+                      : "border-[oklch(0.82_0.16_70_/_0.3)] bg-[oklch(0.82_0.16_70_/_0.1)] text-[oklch(0.55_0.18_70)]"
                   }`}
                 >
                   {m.up ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
@@ -160,8 +160,8 @@ function Dashboard() {
           </div>
 
           {/* Area chart */}
-          <div className="relative h-[200px] rounded-2xl border border-white/10 bg-[oklch(0.15_0.02_260_/_0.4)] p-3">
-            <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.12)] px-2 py-0.5 text-[10px] font-medium text-[oklch(0.88_0.15_155)]">
+          <div className="relative h-[200px] rounded-2xl border border-black/[0.07] bg-[oklch(0.98_0.005_250_/_0.6)] p-3">
+            <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.12)] px-2 py-0.5 text-[10px] font-medium text-[oklch(0.45_0.15_155)]">
               <TrendingUp className="h-3 w-3" /> +18% YoY
             </span>
             <ResponsiveContainer>
@@ -211,7 +211,7 @@ function Dashboard() {
                   </span>
                   <span className="font-medium">{s.amount}</span>
                 </div>
-                <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/5">
+                <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-black/[0.04]">
                   <div
                     className="h-full rounded-full"
                     style={{
@@ -238,26 +238,26 @@ function Dashboard() {
                 <div className="text-sm font-semibold">Smart Communications</div>
                 <div className="text-[11px] text-muted-foreground">WhatsApp Bot · Live</div>
               </div>
-              <span className="ml-auto inline-flex items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.12)] px-2 py-0.5 text-[10px] text-[oklch(0.85_0.15_155)]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[oklch(0.85_0.15_155)] shadow-[0_0_6px_oklch(0.85_0.15_155)]" />
+              <span className="ml-auto inline-flex items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.12)] px-2 py-0.5 text-[10px] text-[oklch(0.5_0.15_155)]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[oklch(0.5_0.15_155)] shadow-[0_0_6px_oklch(0.5_0.15_155)]" />
                 Online
               </span>
             </div>
 
-            <div className="mt-4 space-y-2 rounded-2xl border border-white/10 bg-[oklch(0.15_0.02_260_/_0.5)] p-3">
+            <div className="mt-4 space-y-2 rounded-2xl border border-black/[0.07] bg-[oklch(0.98_0.005_250_/_0.7)] p-3">
               <Bubble side="in">Hi</Bubble>
               <Bubble side="out">
                 Hello Mr. Sharma 👋 — Aarav's pending fee is <b>₹48,500</b> (due 22 Sep). Tap to pay via UPI.
               </Bubble>
               <Bubble side="out" flush>
-                <button className="mt-1 flex w-full items-center justify-between gap-2 rounded-xl border border-white/10 bg-[oklch(0.18_0.03_260)] px-3 py-2.5 text-[11px] font-semibold text-foreground shadow-inner transition hover:bg-[oklch(0.22_0.03_260)]">
+                <button className="mt-1 flex w-full items-center justify-between gap-2 rounded-xl border border-black/[0.07] bg-[oklch(0.99_0.005_155)] px-3 py-2.5 text-[11px] font-semibold text-foreground shadow-inner transition hover:bg-[oklch(0.95_0.03_155)]">
                   <span className="flex items-center gap-2">
-                    <IndianRupee className="h-3.5 w-3.5 text-[oklch(0.85_0.15_155)]" />
-                    <span className="text-[oklch(0.85_0.15_155)]">Secure UPI</span>
-                    <span className="text-white/30">|</span>
+                    <IndianRupee className="h-3.5 w-3.5 text-[oklch(0.5_0.15_155)]" />
+                    <span className="text-[oklch(0.5_0.15_155)]">Secure UPI</span>
+                    <span className="text-black/40">|</span>
                     <span>Pay ₹48,500</span>
                   </span>
-                  <ArrowUpRight className="h-3.5 w-3.5 text-[oklch(0.85_0.15_155)]" />
+                  <ArrowUpRight className="h-3.5 w-3.5 text-[oklch(0.5_0.15_155)]" />
                 </button>
               </Bubble>
               <Bubble side="in">
@@ -281,8 +281,8 @@ function Dashboard() {
           <div>
             <div className="flex items-center gap-2">
               <span className="text-sm font-semibold">Prioritized Defaulters</span>
-              <span className="inline-flex items-center gap-1 rounded-full border border-[oklch(0.7_0.2_25_/_0.4)] bg-[oklch(0.7_0.2_25_/_0.15)] px-2 py-0.5 text-[10px] font-semibold text-[oklch(0.85_0.2_25)]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[oklch(0.85_0.2_25)] shadow-[0_0_6px_oklch(0.85_0.2_25)]" />
+              <span className="inline-flex items-center gap-1 rounded-full border border-[oklch(0.7_0.2_25_/_0.4)] bg-[oklch(0.7_0.2_25_/_0.15)] px-2 py-0.5 text-[10px] font-semibold text-[oklch(0.55_0.22_25)]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[oklch(0.55_0.22_25)] shadow-[0_0_6px_oklch(0.55_0.22_25)]" />
                 5 Critical
               </span>
             </div>
@@ -304,9 +304,9 @@ function Dashboard() {
                 <th className="pb-3 text-right font-medium">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-black/[0.04]">
               {defaulters.map((d) => (
-                <tr key={d.id} className="group transition-colors hover:bg-white/[0.03]">
+                <tr key={d.id} className="group transition-colors hover:bg-black/[0.04]">
                   <td className="py-3">
                     <div className="flex items-center gap-3">
                       <div className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-[oklch(0.82_0.12_300)] to-[oklch(0.82_0.13_220)] text-xs font-semibold text-[oklch(0.2_0.03_260)]">
@@ -328,8 +328,8 @@ function Dashboard() {
                     <UrgencyBadge level={d.level} />
                   </td>
                   <td className="text-right">
-                    <button className="glass inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition hover:bg-white/10">
-                      <Bell className="h-3.5 w-3.5 text-[oklch(0.85_0.15_155)]" />
+                    <button className="glass inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition hover:bg-black/[0.07]">
+                      <Bell className="h-3.5 w-3.5 text-[oklch(0.5_0.15_155)]" />
                       Notify
                     </button>
                   </td>
@@ -389,7 +389,7 @@ function Bubble({ side, children, flush }: { side: "in" | "out"; children: React
             ? ""
             : side === "in"
               ? "rounded-br-sm bg-[oklch(0.6_0.14_155_/_0.35)] text-foreground"
-              : "rounded-bl-sm bg-white/10 text-foreground"
+              : "rounded-bl-sm bg-black/[0.07] text-foreground"
         }`}
       >
         {children}
@@ -400,8 +400,8 @@ function Bubble({ side, children, flush }: { side: "in" | "out"; children: React
 
 function UrgencyBadge({ level }: { level: string }) {
   const map = {
-    high: { bg: "bg-[oklch(0.7_0.2_25_/_0.15)]", ring: "border-[oklch(0.7_0.2_25_/_0.4)]", text: "text-[oklch(0.85_0.2_25)]", label: "Critical" },
-    med: { bg: "bg-[oklch(0.82_0.16_70_/_0.15)]", ring: "border-[oklch(0.82_0.16_70_/_0.4)]", text: "text-[oklch(0.9_0.16_70)]", label: "High" },
+    high: { bg: "bg-[oklch(0.7_0.2_25_/_0.15)]", ring: "border-[oklch(0.7_0.2_25_/_0.4)]", text: "text-[oklch(0.55_0.22_25)]", label: "Critical" },
+    med: { bg: "bg-[oklch(0.82_0.16_70_/_0.15)]", ring: "border-[oklch(0.82_0.16_70_/_0.4)]", text: "text-[oklch(0.55_0.18_70)]", label: "High" },
     low: { bg: "bg-[oklch(0.82_0.13_220_/_0.15)]", ring: "border-[oklch(0.82_0.13_220_/_0.4)]", text: "text-[oklch(0.9_0.13_220)]", label: "Watch" },
   }[level]!;
   return (
