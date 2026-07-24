@@ -227,33 +227,47 @@ function FeeEngine() {
 
       {/* Waiver Rules */}
       <div className="glass rounded-2xl p-6">
-        <div className="flex items-center gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-[oklch(0.82_0.12_300)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)]">
-            <Shield className="h-5 w-5" strokeWidth={2.4} />
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-[oklch(0.82_0.12_300)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)]">
+              <Shield className="h-5 w-5" strokeWidth={2.4} />
+            </div>
+            <div>
+              <div className="text-sm font-semibold">Waiver Rules Engine</div>
+              <div className="text-xs text-muted-foreground">Fair, automated penalties and grace periods.</div>
+            </div>
           </div>
-          <div>
-            <div className="text-sm font-semibold">Waiver Rules Engine</div>
-            <div className="text-xs text-muted-foreground">Fair, automated penalties and grace periods.</div>
-          </div>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.55_0.16_155_/_0.35)] bg-[oklch(0.55_0.16_155_/_0.12)] px-3 py-1 text-[11px] font-medium text-[oklch(0.45_0.15_155)]">
+            <Zap className="h-3 w-3" /> Automation Active
+          </span>
         </div>
         <div className="mt-5 grid gap-3 md:grid-cols-2">
           <RuleToggle
+            icon={Clock}
             title="First-Time Late Payer Grace Period"
             desc="Waive the late-fee automatically for parents on their first delayed payment (up to 5 days)."
+            impact="APPLIED TO 34 STUDENTS THIS TERM"
             defaultOn
           />
           <RuleToggle
+            icon={Shield}
             title="Strict Penalty for Habitual Defaulters"
             desc="After 3 late payments in 6 months, apply escalating penalties and lock EMI splits."
+            impact="CURRENTLY WOULD TRIGGER FOR 18 ACCOUNTS"
+            strict
             defaultOn
           />
           <RuleToggle
+            icon={Star}
             title="Scholarship Auto-Waive"
             desc="Skip transport and activity fees for merit and need-based scholarship holders."
+            impact="9 CANDIDATES IDENTIFIED"
           />
           <RuleToggle
+            icon={Users}
             title="Sibling Discount"
             desc="Automatically deduct 8% from tuition when a sibling is enrolled in the same academic year."
+            impact="₹1.8L SAVED FOR 62 FAMILIES"
             defaultOn
           />
         </div>
@@ -264,22 +278,49 @@ function FeeEngine() {
   );
 }
 
-function RuleToggle({ title, desc, defaultOn }: { title: string; desc: string; defaultOn?: boolean }) {
+function RuleToggle({
+  icon: Icon,
+  title,
+  desc,
+  impact,
+  strict,
+  defaultOn,
+}: {
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  title: string;
+  desc: string;
+  impact: string;
+  strict?: boolean;
+  defaultOn?: boolean;
+}) {
   const [on, setOn] = useState(!!defaultOn);
   return (
     <button
       onClick={() => setOn((v) => !v)}
-      className={`flex items-start justify-between gap-4 rounded-xl border p-4 text-left transition ${
+      className={`flex items-start justify-between gap-4 rounded-xl border p-4 text-left transition hover:-translate-y-0.5 ${
         on ? "border-[oklch(0.85_0.12_180_/_0.4)] bg-[oklch(0.85_0.12_180_/_0.06)]" : "border-black/[0.07] bg-black/[0.04]"
       }`}
     >
       <div className="min-w-0 flex-1">
-        <div className="text-sm font-medium">{title}</div>
+        <div className="flex items-center gap-2">
+          <div className={`grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)] ${on ? "opacity-100" : "opacity-70"}`}>
+            <Icon className="h-4 w-4" strokeWidth={2.4} />
+          </div>
+          <div className="text-sm font-medium">{title}</div>
+          {strict && (
+            <span className="rounded-full border border-[oklch(0.62_0.22_25_/_0.35)] bg-[oklch(0.62_0.22_25_/_0.10)] px-2 py-0.5 text-[10px] font-semibold text-[oklch(0.55_0.2_25)]">
+              Strict
+            </span>
+          )}
+        </div>
         <div className="mt-1 text-xs text-muted-foreground">{desc}</div>
+        <div className="mt-2 text-[10px] font-bold uppercase tracking-wider text-[oklch(0.55_0.14_160)]">
+          {impact}
+        </div>
       </div>
       <span
         className={`relative mt-1 inline-flex h-6 w-11 shrink-0 items-center rounded-full transition ${
-          on ? "bg-[oklch(0.85_0.12_180)]" : "bg-black/[0.09]"
+          on ? "bg-[oklch(0.55_0.16_155)]" : "bg-black/[0.09]"
         }`}
       >
         <span
