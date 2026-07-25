@@ -248,7 +248,7 @@ function PaymentsPage() {
                   <div className="text-right">
                     <div className="text-base font-semibold text-foreground">₹{u.amount.toLocaleString("en-IN")}</div>
                     <div className="mt-0.5 flex items-center justify-end gap-2">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-success px-2 py-0.5 text-[11px] font-medium text-success-foreground">
+                      <span className="inline-flex items-center gap-1 rounded-full border border-success/25 bg-success/10 px-2 py-0.5 text-[11px] font-medium text-success">
                         <CheckCircle2 className="h-3 w-3" /> Auto approved
                       </span>
                       <span className="text-[11px] text-muted-foreground">{u.time}</span>
