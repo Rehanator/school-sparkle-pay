@@ -13,6 +13,7 @@ import {
   GraduationCap,
   MessageCircle,
 } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const nav = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -121,6 +122,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 ⌘K
               </kbd>
             </div>
+            <ThemeToggle />
             <button className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-black/[0.07] bg-black/[0.04] hover:bg-black/[0.07]">
               <Bell className="h-[18px] w-[18px]" />
               <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[oklch(0.82_0.16_70)] shadow-[0_0_8px_oklch(0.82_0.16_70)]" />

@@ -2,7 +2,7 @@
 @source "../src";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -82,7 +82,30 @@
 }
 
 .dark {
-  --background: oklch(0.985 0.005 250);
+  --background: oklch(0.18 0.03 260);
+  --foreground: oklch(0.97 0.01 250);
+
+  --card: oklch(0.24 0.03 260 / 0.6);
+  --card-foreground: oklch(0.97 0.01 250);
+  --popover: oklch(0.22 0.03 260 / 0.98);
+  --popover-foreground: oklch(0.97 0.01 250);
+
+  --primary: oklch(0.75 0.14 200);
+  --primary-foreground: oklch(0.15 0.03 260);
+  --secondary: oklch(0.28 0.03 260);
+  --secondary-foreground: oklch(0.97 0.01 250);
+  --muted: oklch(0.28 0.03 260);
+  --muted-foreground: oklch(0.72 0.02 255);
+  --accent: oklch(0.75 0.14 300);
+  --accent-foreground: oklch(0.15 0.03 260);
+
+  --border: oklch(1 0 0 / 0.10);
+  --input: oklch(1 0 0 / 0.08);
+  --ring: oklch(0.75 0.14 200);
+
+  --sidebar: oklch(0.22 0.03 260 / 0.6);
+  --sidebar-foreground: oklch(0.97 0.01 250);
+  --sidebar-border: oklch(1 0 0 / 0.10);
 }
 
 @layer base {
@@ -97,6 +120,7 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    transition: background-color 300ms ease, color 300ms ease;
   }
 }
 
@@ -122,4 +146,34 @@
 
 @utility glow-mint {
   box-shadow: 0 0 60px -10px var(--mint);
+}
+
+/* Dark mode overrides for glass surfaces */
+.dark .glass {
+  background: color-mix(in oklab, oklch(0.28 0.03 260) 60%, transparent);
+  border: 1px solid oklch(1 0 0 / 0.10);
+  box-shadow:
+    0 10px 30px -12px oklch(0 0 0 / 0.55),
+    0 2px 8px -4px oklch(0 0 0 / 0.35),
+    inset 0 1px 0 oklch(1 0 0 / 0.06);
+}
+
+.dark .glass-strong {
+  background: color-mix(in oklab, oklch(0.30 0.03 260) 75%, transparent);
+  border: 1px solid oklch(1 0 0 / 0.12);
+  box-shadow:
+    0 14px 40px -14px oklch(0 0 0 / 0.65),
+    0 3px 10px -4px oklch(0 0 0 / 0.4),
+    inset 0 1px 0 oklch(1 0 0 / 0.08);
+}
+
+/* In dark mode, black overlay utilities used across the app become white overlays */
+.dark [class*="bg-black/"] {
+  background-color: oklch(1 0 0 / 0.06) !important;
+}
+.dark [class*="border-black/"] {
+  border-color: oklch(1 0 0 / 0.10) !important;
+}
+.dark [class*="hover\\:bg-black/"]:hover {
+  background-color: oklch(1 0 0 / 0.10) !important;
 }
