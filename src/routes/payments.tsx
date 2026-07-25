@@ -11,6 +11,7 @@ import {
   CreditCard,
   Wallet,
   Percent,
+  Clock,
   type LucideIcon,
 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
