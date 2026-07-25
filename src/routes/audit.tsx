@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Lock, ShieldCheck, Search, Download } from "lucide-react";
+import { Lock, ShieldCheck, Search, Download, Fingerprint } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 
 export const Route = createFileRoute("/audit")({
@@ -62,7 +62,7 @@ function Audit() {
             <ShieldCheck className="h-3.5 w-3.5" /> SHA-256 chained
           </span>
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.62_0.14_200_/_0.3)] bg-[oklch(0.62_0.14_200_/_0.12)] px-3 py-1 text-xs font-medium text-[oklch(0.55_0.14_200)]">
-            <Search className="h-3.5 w-3.5" /> IP + Device fingerprinted
+            <Fingerprint className="h-3.5 w-3.5" /> IP + Device fingerprinted
           </span>
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.7_0.14_300_/_0.3)] bg-[oklch(0.7_0.14_300_/_0.12)] px-3 py-1 text-xs font-medium text-[oklch(0.55_0.16_300)]">
             <Lock className="h-3.5 w-3.5" /> Read-only
