@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Sun, Moon } from "lucide-react";
+import SkyToggle from "./ui/sky-toggle";
 
 function applyTheme(theme: "light" | "dark") {
   const root = document.documentElement;
@@ -25,14 +25,13 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
     localStorage.setItem("ssft-theme", next);
   };
 
-  const Icon = theme === "light" ? Moon : Sun;
+  if (!mounted) {
+    return <div className={`inline-block h-[30px] w-[68px] ${className}`} aria-hidden />;
+  }
+
   return (
-    <button
-      onClick={toggle}
-      aria-label="Toggle theme"
-      className={`glass relative grid h-10 w-10 shrink-0 place-items-center rounded-xl transition hover:brightness-110 hover:scale-[1.04] ${className}`}
-    >
-      {mounted && <Icon className="h-[18px] w-[18px]" strokeWidth={2} />}
-    </button>
+    <div className={`inline-flex shrink-0 items-center ${className}`}>
+      <SkyToggle checked={theme === "dark"} onChange={toggle} ariaLabel="Toggle theme" />
+    </div>
   );
 }
