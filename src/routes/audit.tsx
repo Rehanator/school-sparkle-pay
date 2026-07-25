@@ -226,7 +226,7 @@ function Audit() {
 
 
       {/* Log table */}
-      <div className="glass overflow-hidden rounded-2xl">
+      <div className="glass relative z-0 overflow-hidden rounded-2xl">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[900px] text-left text-sm">
             <thead className="bg-black/[0.04] text-[11px] uppercase tracking-wider text-muted-foreground">
