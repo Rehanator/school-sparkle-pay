@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { GraduationCap, ArrowRight } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
   { to: "/dashboard", label: "Dashboard" },
