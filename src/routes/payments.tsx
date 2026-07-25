@@ -43,17 +43,17 @@ const metrics = [
     icon: Smartphone,
   },
   {
+    label: "Offline Earning",
+    value: "₹1,12,800",
+    change: "Awaiting bank deposit",
+    changeType: "neutral" as const,
+    icon: Banknote,
+  },
+  {
     label: "Pending Offline",
     value: "18",
     change: "Requires reconciliation",
     changeType: "warning" as const,
-    icon: Banknote,
-  },
-  {
-    label: "Auto-Approval",
-    value: "99.4%",
-    change: "Rules engine active",
-    changeType: "positive" as const,
     icon: Percent,
   },
 ];
@@ -62,7 +62,7 @@ type UpiRow = {
   payer: string;
   student: string;
   grade: string;
-  provider: string;
+  vpa: string;
   txnId: string;
   amount: number;
   icon: "bolt" | "incoming";
@@ -75,7 +75,7 @@ const upiFeed: UpiRow[] = [
     payer: "Mrs. Sharma",
     student: "Riya Sharma",
     grade: "Class IX-B",
-    provider: "PhonePe",
+    vpa: "priya.k@okhdfc",
     txnId: "TXN-9821245",
     amount: 15000,
     icon: "bolt",
@@ -86,7 +86,7 @@ const upiFeed: UpiRow[] = [
     payer: "Mr. Reddy",
     student: "Isha Reddy",
     grade: "Class VII-A",
-    provider: "GPay",
+    vpa: "rahul.m@ybl",
     txnId: "TXN-9821244",
     amount: 8600,
     icon: "incoming",
@@ -97,7 +97,7 @@ const upiFeed: UpiRow[] = [
     payer: "Mrs. Menon",
     student: "Kabir Menon",
     grade: "Class XI-C",
-    provider: "Paytm",
+    vpa: "anita.m@paytm",
     txnId: "TXN-9821243",
     amount: 22400,
     icon: "bolt",
@@ -108,7 +108,7 @@ const upiFeed: UpiRow[] = [
     payer: "Mr. Khan",
     student: "Zoya Khan",
     grade: "Class V-B",
-    provider: "BHIM",
+    vpa: "zafar.k@upi",
     txnId: "TXN-9821242",
     amount: 4500,
     icon: "incoming",
@@ -249,14 +249,14 @@ function PaymentsPage() {
                       {u.payer} → {u.student} · {u.grade}
                     </div>
                     <div className="truncate text-[11px] text-muted-foreground">
-                      Paid via {u.provider} · {u.txnId}
+                      {u.vpa} · {u.txnId}
                     </div>
                   </div>
                   <div className="text-right">
                     <div className="text-base font-semibold text-foreground">₹{u.amount.toLocaleString("en-IN")}</div>
                     <div className="mt-0.5 flex items-center justify-end gap-2">
                       <span className="inline-flex items-center gap-1 rounded-full bg-success px-2 py-0.5 text-[11px] font-medium text-success-foreground">
-                        <CheckCircle2 className="h-3 w-3" /> Settled
+                        <CheckCircle2 className="h-3 w-3" /> Auto approved
                       </span>
                       <span className="text-[11px] text-muted-foreground">{u.time}</span>
                     </div>
@@ -266,10 +266,10 @@ function PaymentsPage() {
             </div>
           </div>
 
-          {/* Right column - Today's UPI Snapshot */}
+          {/* Right column - Today's UPI Collection */}
           <div className="glass flex flex-col rounded-2xl p-6">
             <div className="mb-5">
-              <div className="text-sm font-semibold">Today's UPI Snapshot</div>
+              <div className="text-sm font-semibold">Today's UPI Collection</div>
               <div className="text-xs text-muted-foreground">Real-time settlement summary</div>
             </div>
             <div className="flex-1 divide-y divide-border">
