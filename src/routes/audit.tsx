@@ -57,8 +57,16 @@ function Audit() {
         <div className="mx-auto grid h-20 w-20 place-items-center rounded-3xl bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)] shadow-[0_0_60px_-10px_oklch(0.85_0.12_180)]">
           <Lock className="h-9 w-9" strokeWidth={2.4} />
         </div>
-        <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-black/[0.07] bg-black/[0.04] px-3 py-1 text-xs text-muted-foreground">
-          <ShieldCheck className="h-3.5 w-3.5 text-[oklch(0.5_0.15_155)]" /> Tamper-proof · Hash-chained · Read-only
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.5_0.15_155_/_0.3)] bg-[oklch(0.5_0.15_155_/_0.12)] px-3 py-1 text-xs font-medium text-[oklch(0.5_0.15_155)]">
+            <ShieldCheck className="h-3.5 w-3.5" /> SHA-256 chained
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.62_0.14_200_/_0.3)] bg-[oklch(0.62_0.14_200_/_0.12)] px-3 py-1 text-xs font-medium text-[oklch(0.55_0.14_200)]">
+            <Search className="h-3.5 w-3.5" /> IP + Device fingerprinted
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.7_0.14_300_/_0.3)] bg-[oklch(0.7_0.14_300_/_0.12)] px-3 py-1 text-xs font-medium text-[oklch(0.55_0.16_300)]">
+            <Lock className="h-3.5 w-3.5" /> Read-only
+          </span>
         </div>
         <div className="mt-2 text-lg font-semibold">This ledger cannot be edited or deleted.</div>
         <div className="text-xs text-muted-foreground">
