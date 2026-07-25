@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Award, Mail, Phone, ArrowRight, Github, Linkedin, Twitter } from "lucide-react";
+import { Award, Mail, Phone, ArrowRight, Github, Linkedin, Twitter, UserPlus } from "lucide-react";
 import React, { useCallback, useMemo, useState } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 
