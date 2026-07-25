@@ -11,11 +11,11 @@ export const Route = createFileRoute("/")({
         content:
           "Eliminate chaotic spreadsheets. Automate collections, offer smart EMI splits, and reconcile payments instantly with our modern FinTech suite for schools.",
       },
-      { property: "og:title", content: "Smart School FinTech" },
+      { property: "og:title", content: "Smart School FinTech — The Future of School Fee Management" },
       {
         property: "og:description",
         content:
-          "Automate collections, offer smart EMI splits, and reconcile payments instantly — the modern FinTech suite for schools.",
+          "Eliminate chaotic spreadsheets. Automate collections, offer smart EMI splits, and reconcile payments instantly with our modern FinTech suite for schools.",
       },
     ],
   }),

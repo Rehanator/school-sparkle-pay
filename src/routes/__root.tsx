@@ -74,16 +74,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Smart School FinTech — Digital Fee Management" },
+      { title: "Smart School FinTech — The Future of School Fee Management" },
       {
         name: "description",
         content:
-          "An end-to-end digital fee management console for schools — UPI payments, smart fee splits, tamper-proof audit trail and more.",
+          "Eliminate chaotic spreadsheets. Automate collections, offer smart EMI splits, and reconcile payments instantly with our modern FinTech suite for schools.",
       },
-      { property: "og:title", content: "Smart School FinTech" },
-      { property: "og:description", content: "Digital fee management, reimagined." },
+      { property: "og:title", content: "Smart School FinTech — The Future of School Fee Management" },
+      { property: "og:description", content: "Eliminate chaotic spreadsheets. Automate collections, offer smart EMI splits, and reconcile payments instantly with our modern FinTech suite for schools." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Smart School FinTech — The Future of School Fee Management" },
+      { name: "twitter:description", content: "Eliminate chaotic spreadsheets. Automate collections, offer smart EMI splits, and reconcile payments instantly with our modern FinTech suite for schools." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ec653b9b-ae90-4257-bca3-11e873fc47dc/id-preview-6732ab38--67e09847-7766-4954-bd75-25d54b35d67c.lovable.app-1784926991446.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ec653b9b-ae90-4257-bca3-11e873fc47dc/id-preview-6732ab38--67e09847-7766-4954-bd75-25d54b35d67c.lovable.app-1784926991446.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
