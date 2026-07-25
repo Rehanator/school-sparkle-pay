@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import { Lock, ShieldCheck, Search, Download, Fingerprint } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 
