@@ -1,5 +1,5 @@
-import { Link, useRouterState } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
+import { useRouterState } from "@tanstack/react-router";
+import { type ReactNode } from "react";
 import {
   LayoutDashboard,
   Wallet,
@@ -9,11 +9,12 @@ import {
   Settings,
   Search,
   Bell,
-  Menu,
   GraduationCap,
   MessageCircle,
 } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import { Sidebar, SidebarBody, SidebarLink, useSidebar } from "./ui/sidebar-aceternity";
+import { motion } from "framer-motion";
 
 const nav = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -24,8 +25,91 @@ const nav = [
   { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
 
+function SidebarBrand() {
+  const { open, animate } = useSidebar();
+  return (
+    <div className="flex items-center gap-3 px-1 pt-1 pb-5">
+      <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)] shadow-lg">
+        <GraduationCap className="h-5 w-5" strokeWidth={2.4} />
+      </div>
+      <motion.div
+        animate={{
+          display: animate ? (open ? "block" : "none") : "block",
+          opacity: animate ? (open ? 1 : 0) : 1,
+        }}
+        className="min-w-0"
+      >
+        <div className="truncate text-sm font-semibold tracking-tight">Smart School</div>
+        <div className="truncate text-[11px] text-muted-foreground">FinTech Console</div>
+      </motion.div>
+    </div>
+  );
+}
+
+function SidebarSupport() {
+  const { open, animate } = useSidebar();
+  if (!animate) return null;
+  return (
+    <motion.div
+      animate={{
+        opacity: open ? 1 : 0,
+        height: open ? "auto" : 0,
+      }}
+      className="overflow-hidden"
+    >
+      <div className="rounded-xl border border-black/[0.07] bg-black/[0.04] p-3 backdrop-blur-xl">
+        <div className="flex items-center gap-2">
+          <div className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)]">
+            <MessageCircle className="h-3.5 w-3.5" strokeWidth={2.5} />
+          </div>
+          <div className="text-[11px] font-semibold">Need help?</div>
+        </div>
+        <div className="mt-2 text-[10.5px] leading-snug text-muted-foreground">
+          Reach our support desk 24/7
+        </div>
+        <button className="mt-2 w-full rounded-lg border border-black/[0.07] bg-black/[0.04] px-2 py-1.5 text-[10.5px] font-medium text-foreground hover:bg-black/[0.07]">
+          Contact support
+        </button>
+      </div>
+    </motion.div>
+  );
+}
+
+function SidebarNavItem({
+  to,
+  label,
+  Icon,
+  active,
+}: {
+  to: string;
+  label: string;
+  Icon: typeof LayoutDashboard;
+  active: boolean;
+}) {
+  return (
+    <SidebarLink
+      link={{
+        href: to,
+        label,
+        icon: (
+          <div className="relative flex h-[18px] w-[18px] shrink-0 items-center justify-center">
+            {active && (
+              <span className="absolute -left-3 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r bg-gradient-to-b from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)]" />
+            )}
+            <Icon className="h-[18px] w-[18px]" />
+          </div>
+        ),
+      }}
+      className={`rounded-xl px-2 transition-colors ${
+        active
+          ? "bg-black/[0.07] text-foreground shadow-inner"
+          : "text-muted-foreground hover:bg-black/[0.04] hover:text-foreground"
+      }`}
+    />
+  );
+}
+
 export function AppShell({ children }: { children: ReactNode }) {
-  const [collapsed, setCollapsed] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
@@ -39,74 +123,29 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
 
       <div className="flex min-h-screen">
-        {/* Sidebar */}
-        <aside
-          className={`glass sticky top-0 z-30 flex h-screen shrink-0 flex-col transition-all duration-300 ${
-            collapsed ? "w-[76px]" : "w-[248px]"
-          }`}
-        >
-          <div className="flex items-center gap-3 px-5 pt-6 pb-5">
-            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)] shadow-lg">
-              <GraduationCap className="h-5 w-5" strokeWidth={2.4} />
+        <Sidebar>
+          <SidebarBody className="glass sticky top-0 h-screen justify-between !bg-transparent">
+            <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+              <SidebarBrand />
+              <nav className="flex flex-col gap-1">
+                {nav.map((item) => {
+                  const active =
+                    pathname === item.to || pathname.startsWith(item.to + "/");
+                  return (
+                    <SidebarNavItem
+                      key={item.to}
+                      to={item.to}
+                      label={item.label}
+                      Icon={item.icon}
+                      active={active}
+                    />
+                  );
+                })}
+              </nav>
             </div>
-            {!collapsed && (
-              <div className="min-w-0">
-                <div className="truncate text-sm font-semibold tracking-tight">Smart School</div>
-                <div className="truncate text-[11px] text-muted-foreground">FinTech Console</div>
-              </div>
-            )}
-          </div>
-
-          <nav className="flex-1 space-y-1 px-3">
-            {nav.map((item) => {
-              const active = pathname === item.to || pathname.startsWith(item.to + "/");
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all ${
-                    active
-                      ? "bg-black/[0.07] text-foreground shadow-inner"
-                      : "text-muted-foreground hover:bg-black/[0.04] hover:text-foreground"
-                  }`}
-                >
-                  {active && (
-                    <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r bg-gradient-to-b from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)]" />
-                  )}
-                  <Icon className="h-[18px] w-[18px] shrink-0" />
-                  {!collapsed && <span className="truncate">{item.label}</span>}
-                </Link>
-              );
-            })}
-          </nav>
-
-          <div className="space-y-2 p-3">
-            {!collapsed && (
-              <div className="rounded-xl border border-black/[0.07] bg-black/[0.04] p-3 backdrop-blur-xl">
-                <div className="flex items-center gap-2">
-                  <div className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)]">
-                    <MessageCircle className="h-3.5 w-3.5" strokeWidth={2.5} />
-                  </div>
-                  <div className="text-[11px] font-semibold">Need help?</div>
-                </div>
-                <div className="mt-2 text-[10.5px] leading-snug text-muted-foreground">
-                  Reach our support desk 24/7
-                </div>
-                <button className="mt-2 w-full rounded-lg border border-black/[0.07] bg-black/[0.04] px-2 py-1.5 text-[10.5px] font-medium text-foreground hover:bg-black/[0.07]">
-                  Contact support
-                </button>
-              </div>
-            )}
-            <button
-              onClick={() => setCollapsed((v) => !v)}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2 text-xs text-muted-foreground hover:text-foreground"
-            >
-              <Menu className="h-4 w-4" />
-              {!collapsed && "Collapse"}
-            </button>
-          </div>
-        </aside>
+            <SidebarSupport />
+          </SidebarBody>
+        </Sidebar>
 
         {/* Main */}
         <div className="flex min-w-0 flex-1 flex-col">
