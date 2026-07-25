@@ -31,7 +31,7 @@ function Landing() {
           Purpose-built for K-12 finance offices
         </span>
 
-        <h1 className="mt-6 max-w-4xl bg-gradient-to-br from-[oklch(0.22_0.02_260)] via-[oklch(0.35_0.09_220)] to-[oklch(0.5_0.14_200)] bg-clip-text text-5xl font-semibold leading-[1.05] tracking-tight text-transparent sm:text-6xl md:text-7xl">
+        <h1 className="mt-6 max-w-4xl bg-gradient-to-br from-[oklch(0.22_0.02_260)] via-[oklch(0.35_0.09_220)] to-[oklch(0.5_0.14_200)] bg-clip-text text-5xl font-semibold leading-[1.05] tracking-tight text-transparent dark:from-[oklch(0.98_0.01_250)] dark:via-[oklch(0.85_0.10_220)] dark:to-[oklch(0.75_0.15_200)] sm:text-6xl md:text-7xl">
           The Future of School Fee Management
         </h1>
 
