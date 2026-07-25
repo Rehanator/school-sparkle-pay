@@ -160,7 +160,7 @@ function Audit() {
       </div>
 
       {/* Filters */}
-      <div className="glass flex flex-wrap items-center gap-2 rounded-2xl p-3">
+      <div className="glass relative z-30 flex flex-wrap items-center gap-2 rounded-2xl p-3">
         <div className="flex w-full max-w-xs items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input
@@ -195,7 +195,7 @@ function Audit() {
               <ChevronDown className="h-4 w-4" />
             </button>
             {timeOpen && (
-              <div className="absolute right-0 top-full z-50 mt-2 min-w-[11rem] overflow-hidden rounded-xl border border-white/10 bg-black/90 p-1 shadow-xl backdrop-blur-md">
+              <div className="absolute right-0 top-full z-[100] mt-2 min-w-[11rem] overflow-hidden rounded-xl border border-white/10 bg-black/90 p-1 shadow-xl backdrop-blur-md">
                 {TIME_OPTIONS.map((opt) => (
                   <button
                     key={opt}
@@ -226,7 +226,7 @@ function Audit() {
 
 
       {/* Log table */}
-      <div className="glass overflow-hidden rounded-2xl">
+      <div className="glass relative z-0 overflow-hidden rounded-2xl">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[900px] text-left text-sm">
             <thead className="bg-black/[0.04] text-[11px] uppercase tracking-wider text-muted-foreground">
