@@ -16,16 +16,16 @@ export const Route = createFileRoute("/audit")({
 });
 
 const logs = [
-  { ts: "2026-07-24 14:22:08 IST", user: "ADM-001 · anita.kapoor", action: "Manually Waived ₹500 Late Fee for Student #104", ip: "10.14.22.8", type: "waive" },
-  { ts: "2026-07-24 13:58:47 IST", user: "ADM-004 · meera.joshi", action: "Approved Offline Cash Payment ₹12,000 (Receipt R-2251)", ip: "10.14.22.19", type: "approve" },
-  { ts: "2026-07-24 13:41:02 IST", user: "ADM-004 · meera.joshi", action: "Rejected Cheque Entry #OFF-1039 · Reason: Signature mismatch", ip: "10.14.22.19", type: "reject" },
-  { ts: "2026-07-24 12:07:33 IST", user: "ADM-001 · anita.kapoor", action: "Enabled 'First-Time Late Payer Grace Period' rule", ip: "10.14.22.8", type: "rule" },
-  { ts: "2026-07-24 11:44:15 IST", user: "ADM-007 · ravi.narayanan", action: "Split ₹60,000 Annual Fee → 4× ₹15,000 EMI for Student #104", ip: "10.14.22.34", type: "split" },
-  { ts: "2026-07-24 10:12:59 IST", user: "ADM-001 · anita.kapoor", action: "Deleted Cash Entry #OFF-1038 · Duplicate", ip: "10.14.22.8", type: "delete" },
-  { ts: "2026-07-24 09:33:07 IST", user: "ADM-012 · arjun.rathore", action: "Rotated API key for UPI webhook", ip: "10.14.22.51", type: "system" },
-  { ts: "2026-07-23 17:52:41 IST", user: "ADM-004 · meera.joshi", action: "Bulk Reminder sent to 34 defaulters via WhatsApp Bot", ip: "10.14.22.19", type: "system" },
-  { ts: "2026-07-23 16:18:20 IST", user: "ADM-001 · anita.kapoor", action: "Created New Fee Head 'Robotics Club' ₹3,500 · Annually", ip: "10.14.22.8", type: "create" },
-  { ts: "2026-07-23 15:09:11 IST", user: "ADM-007 · ravi.narayanan", action: "Exported Q2 Reconciliation Report (CSV)", ip: "10.14.22.34", type: "export" },
+  { ts: "2026-07-25 14:22:08 IST", user: "ADM-001 · anita.kapoor", action: "Manually Waived ₹500 Late Fee for Student #104", ip: "10.14.22.8", type: "waive" },
+  { ts: "2026-07-25 13:58:47 IST", user: "ADM-004 · meera.joshi", action: "Approved Offline Cash Payment ₹12,000 (Receipt R-2251)", ip: "10.14.22.19", type: "approve" },
+  { ts: "2026-07-25 13:41:02 IST", user: "ADM-004 · meera.joshi", action: "Rejected Cheque Entry #OFF-1039 · Reason: Signature mismatch", ip: "10.14.22.19", type: "reject" },
+  { ts: "2026-07-25 12:07:33 IST", user: "ADM-001 · anita.kapoor", action: "Enabled 'First-Time Late Payer Grace Period' rule", ip: "10.14.22.8", type: "rule" },
+  { ts: "2026-07-25 11:44:15 IST", user: "ADM-007 · ravi.narayanan", action: "Split ₹60,000 Annual Fee → 4× ₹15,000 EMI for Student #104", ip: "10.14.22.34", type: "split" },
+  { ts: "2026-07-25 10:12:59 IST", user: "ADM-001 · anita.kapoor", action: "Deleted Cash Entry #OFF-1038 · Duplicate", ip: "10.14.22.8", type: "delete" },
+  { ts: "2026-07-25 09:33:07 IST", user: "ADM-012 · arjun.rathore", action: "Rotated API key for UPI webhook", ip: "10.14.22.51", type: "system" },
+  { ts: "2026-07-24 17:52:41 IST", user: "ADM-004 · meera.joshi", action: "Bulk Reminder sent to 34 defaulters via WhatsApp Bot", ip: "10.14.22.19", type: "system" },
+  { ts: "2026-07-24 16:18:20 IST", user: "ADM-001 · anita.kapoor", action: "Created New Fee Head 'Robotics Club' ₹3,500 · Annually", ip: "10.14.22.8", type: "create" },
+  { ts: "2026-07-24 15:09:11 IST", user: "ADM-007 · ravi.narayanan", action: "Exported Q2 Reconciliation Report (CSV)", ip: "10.14.22.34", type: "export" },
 ];
 
 const typeColor: Record<string, string> = {
