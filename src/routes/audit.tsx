@@ -40,8 +40,47 @@ const typeColor: Record<string, string> = {
   export: "text-muted-foreground bg-black/[0.04] border-black/[0.07]",
 };
 
+const FILTERS: { label: string; types: string[] | null }[] = [
+  { label: "All actions", types: null },
+  { label: "Waivers", types: ["waive"] },
+  { label: "Deletions", types: ["delete"] },
+  { label: "Rule changes", types: ["rule"] },
+  { label: "System", types: ["system", "export"] },
+];
+
 function Audit() {
-  return (
+  const [query, setQuery] = useState("");
+  const [activeFilter, setActiveFilter] = useState(0);
+
+  const filteredLogs = useMemo(() => {
+    const types = FILTERS[activeFilter].types;
+    const q = query.trim().toLowerCase();
+    return logs.filter((l) => {
+      if (types && !types.includes(l.type)) return false;
+      if (!q) return true;
+      return (
+        l.user.toLowerCase().includes(q) ||
+        l.action.toLowerCase().includes(q) ||
+        l.ip.toLowerCase().includes(q)
+      );
+    });
+  }, [query, activeFilter]);
+
+  const handleExport = () => {
+    const header = ["Timestamp", "Admin", "Action", "IP", "Type"];
+    const rows = filteredLogs.map((l) => [l.ts, l.user, l.action, l.ip, l.type]);
+    const csv = [header, ...rows]
+      .map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `audit-log-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
     <div className="space-y-6">
       {/* Live status badge + page header */}
       <div>
