@@ -135,11 +135,12 @@ type OfflineRow = {
   by: string;
   status: OfflineStatus;
 };
-const initialOffline: OfflineRow[] = [
-  { id: "OFF-1042", name: "Nikhil Verma", grade: "9-C", method: "Cash", amount: 12000, receipt: "R-2251", by: "Front Desk · Priya", status: "pending" },
-  { id: "OFF-1041", name: "Anaya Bose", grade: "7-A", method: "Cheque", amount: 45000, receipt: "R-2250", by: "Accounts · Ravi", status: "pending" },
-  { id: "OFF-1040", name: "Vivaan Rao", grade: "11-A", method: "Cash", amount: 8600, receipt: "R-2249", by: "Front Desk · Priya", status: "pending" },
-  { id: "OFF-1039", name: "Sara Fernandes", grade: "5-B", method: "Cheque", amount: 22000, receipt: "R-2248", by: "Accounts · Ravi", status: "pending" },
+type OfflineRowFull = OfflineRow & { time: string };
+const initialOffline: OfflineRowFull[] = [
+  { id: "OFF-1042", name: "Nikhil Verma", grade: "IX-C", method: "Cash", amount: 12000, receipt: "Receipt #4820", by: "Front Desk · Priya", status: "pending", time: "Today, 10:24 AM" },
+  { id: "OFF-1041", name: "Anaya Bose", grade: "VII-A", method: "Cheque", amount: 45000, receipt: "Receipt #4819", by: "Accounts · Ravi", status: "pending", time: "Today, 09:58 AM" },
+  { id: "OFF-1040", name: "Vivaan Rao", grade: "XI-A", method: "Cash", amount: 8600, receipt: "Receipt #4818", by: "Front Desk · Priya", status: "approved", time: "Today, 09:12 AM" },
+  { id: "OFF-1039", name: "Sara Fernandes", grade: "V-B", method: "Cheque", amount: 22000, receipt: "Receipt #4817", by: "Accounts · Ravi", status: "pending", time: "Today, 08:45 AM" },
 ];
 
 function PaymentsPage() {
