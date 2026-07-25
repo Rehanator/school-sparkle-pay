@@ -1,13 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Smartphone, Banknote, CheckCircle2, XCircle, Filter, Download } from "lucide-react";
+import {
+  Smartphone,
+  Banknote,
+  CheckCircle2,
+  XCircle,
+  Filter,
+  Download,
+  TrendingUp,
+  Clock,
+  CreditCard,
+  Wallet,
+  Percent,
+} from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 
 export const Route = createFileRoute("/payments")({
   head: () => ({
     meta: [
-      { title: "Payments · Smart School FinTech" },
-      { name: "description", content: "Realtime UPI feed and offline reconciliation workflow." },
+      { title: "Omnichannel Payments · Smart School FinTech" },
+      { name: "description", content: "Auto-approved UPI in real-time and offline reconciliation." },
       { property: "og:title", content: "Omnichannel Payments" },
       { property: "og:description", content: "UPI, cash and cheque — all reconciled in one console." },
     ],
@@ -15,13 +27,49 @@ export const Route = createFileRoute("/payments")({
   component: PaymentsPage,
 });
 
+const metrics = [
+  {
+    label: "Today's Collection",
+    value: "₹4,82,300",
+    change: "+12% vs yesterday",
+    changeType: "positive" as const,
+    icon: Wallet,
+  },
+  {
+    label: "UPI Transactions",
+    value: "326",
+    change: "Zero-fee",
+    changeType: "neutral" as const,
+    icon: Smartphone,
+  },
+  {
+    label: "Pending Offline",
+    value: "18",
+    change: "Cash + Cheque",
+    changeType: "neutral" as const,
+    icon: Banknote,
+  },
+  {
+    label: "Auto-Approval",
+    value: "98.4%",
+    change: "Rules engine active",
+    changeType: "positive" as const,
+    icon: Percent,
+  },
+];
+
 const upiFeed = [
-  { name: "Aarav Sharma", ref: "yesbnk@upi · TXN 89231", amount: 15000, at: "just now" },
-  { name: "Isha Reddy", ref: "hdfc@upi · TXN 89224", amount: 8600, at: "12s ago" },
-  { name: "Kabir Menon", ref: "gpay@okaxis · TXN 89218", amount: 22400, at: "48s ago" },
-  { name: "Zoya Khan", ref: "phonepe@ybl · TXN 89211", amount: 4500, at: "1m ago" },
-  { name: "Rohan Patel", ref: "paytm@paytm · TXN 89204", amount: 12000, at: "3m ago" },
-  { name: "Meera Iyer", ref: "hdfc@upi · TXN 89197", amount: 3800, at: "6m ago" },
+  { name: "Aarav Sharma", provider: "PhonePe", id: "TXN-98214", amount: 15000, avatar: "AS", color: "oklch(0.82 0.14 165)" },
+  { name: "Isha Reddy", provider: "GPay", id: "TXN-98213", amount: 8600, avatar: "IR", color: "oklch(0.82 0.13 220)" },
+  { name: "Kabir Menon", provider: "Paytm", id: "TXN-98212", amount: 22400, avatar: "KM", color: "oklch(0.82 0.12 300)" },
+  { name: "Zoya Khan", provider: "BHIM", id: "TXN-98211", amount: 4500, avatar: "ZK", color: "oklch(0.82 0.14 70)" },
+];
+
+const providerSplit = [
+  { name: "PhonePe", percent: 42, color: "bg-[oklch(0.65_0.18_280)]" },
+  { name: "GPay", percent: 31, color: "bg-[oklch(0.65_0.16_155)]" },
+  { name: "Paytm", percent: 18, color: "bg-[oklch(0.7_0.17_70)]" },
+  { name: "BHIM", percent: 9, color: "bg-[oklch(0.7_0.14_200)]" },
 ];
 
 type OfflineStatus = "pending" | "approved" | "rejected";
@@ -52,9 +100,9 @@ function PaymentsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Omnichannel"
-        title="Payments"
-        description="Auto-approved UPI in real-time, and a clean workflow for offline reconciliation."
+        eyebrow="Payments"
+        title="Omnichannel Payments"
+        description="Auto-approved UPI in real-time and offline reconciliation."
         actions={
           <>
             <button className="inline-flex items-center gap-2 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2 text-sm hover:bg-black/[0.07]">
@@ -67,53 +115,127 @@ function PaymentsPage() {
         }
       />
 
+      {/* Top metric cards */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {metrics.map((m) => (
+          <div key={m.label} className="glass rounded-2xl p-5">
+            <div className="flex items-start justify-between">
+              <div>
+                <div className="text-xs text-muted-foreground">{m.label}</div>
+                <div className="mt-1 text-2xl font-semibold tracking-tight">{m.value}</div>
+              </div>
+              <div className="grid h-9 w-9 place-items-center rounded-xl bg-black/[0.04]">
+                <m.icon className="h-4 w-4 text-primary" />
+              </div>
+            </div>
+            <div
+              className={`mt-3 inline-flex items-center gap-1 text-[11px] font-medium ${
+                m.changeType === "positive" ? "text-[oklch(0.5_0.15_155)]" : "text-muted-foreground"
+              }`}
+            >
+              {m.changeType === "positive" && <TrendingUp className="h-3 w-3" />}
+              {m.change}
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* Tabs */}
       <div className="glass inline-flex rounded-xl p-1">
-        <TabBtn active={tab === "digital"} onClick={() => setTab("digital")} icon={Smartphone}>
-          Digital · UPI
+        <TabBtn active={tab === "digital"} onClick={() => setTab("digital")}>
+          📱 Digital (UPI)
         </TabBtn>
-        <TabBtn active={tab === "offline"} onClick={() => setTab("offline")} icon={Banknote}>
-          Offline · Cash & Cheque
+        <TabBtn active={tab === "offline"} onClick={() => setTab("offline")}>
+          💵 Offline
         </TabBtn>
       </div>
 
       {tab === "digital" ? (
-        <div className="glass rounded-2xl p-5">
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <div className="text-sm font-semibold">Live UPI Feed</div>
-              <div className="text-xs text-muted-foreground">Zero-fee, auto-reconciled</div>
-            </div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-3 py-1 text-xs text-[oklch(0.5_0.15_155)]">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.5_0.15_155)] opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.5_0.15_155)]" />
-              </span>
-              Live
-            </span>
-          </div>
-          <div className="space-y-2">
-            {upiFeed.map((u, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-3 rounded-xl border border-black/[0.07] bg-black/[0.04] px-4 py-3"
-              >
-                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)]">
-                  <Smartphone className="h-4 w-4" strokeWidth={2.4} />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_0.54fr] xl:grid-cols-[1fr_0.54fr]">
+          {/* Left column - Live UPI Feed */}
+          <div className="glass rounded-2xl p-5">
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2 text-sm font-semibold">
+                  Live UPI Stream
+                  <span className="inline-flex items-center gap-2 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-2.5 py-1 text-[11px] text-[oklch(0.5_0.15_155)]">
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.5_0.15_155)] opacity-75" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.5_0.15_155)]" />
+                    </span>
+                    Live
+                  </span>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <div className="truncate text-sm font-medium">{u.name}</div>
-                  <div className="truncate text-[11px] text-muted-foreground">{u.ref}</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm font-semibold">₹{u.amount.toLocaleString("en-IN")}</div>
-                  <div className="text-[11px] text-muted-foreground">{u.at}</div>
-                </div>
-                <span className="hidden shrink-0 items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-2 py-0.5 text-[11px] text-[oklch(0.5_0.15_155)] sm:inline-flex">
-                  <CheckCircle2 className="h-3 w-3" /> Auto-approved
-                </span>
+                <div className="mt-0.5 text-xs text-muted-foreground">Zero platform fee · Settled instantly</div>
               </div>
-            ))}
+            </div>
+            <div className="space-y-2">
+              {upiFeed.map((u, i) => (
+                <div
+                  key={i}
+                  className="group flex items-center gap-4 rounded-xl border border-black/[0.07] bg-white px-4 py-3 transition-colors hover:bg-[oklch(0.82_0.15_155_/_0.06)]"
+                >
+                  <div
+                    className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-xs font-semibold text-[oklch(0.2_0.03_260)] shadow-sm"
+                    style={{ backgroundColor: u.color }}
+                  >
+                    {u.avatar}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate text-sm font-medium">{u.name}</div>
+                    <div className="truncate text-[11px] text-muted-foreground">
+                      {u.id} · {u.provider}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-base font-semibold">₹{u.amount.toLocaleString("en-IN")}</div>
+                    <span className="inline-flex items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-2 py-0.5 text-[11px] text-[oklch(0.5_0.15_155)]">
+                      <CheckCircle2 className="h-3 w-3" /> Auto-approved
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right column - Analytics & Insights */}
+          <div className="space-y-6">
+            {/* Digital Summary */}
+            <div className="glass rounded-2xl p-5">
+              <div className="mb-4">
+                <div className="text-sm font-semibold">Digital Summary</div>
+                <div className="text-xs text-muted-foreground">Real-time payment health</div>
+              </div>
+              <div className="space-y-4">
+                <SummaryRow label="Success Rate" value="99.4%" icon={CheckCircle2} />
+                <SummaryRow label="Avg Settlement" value="8 sec" icon={Clock} />
+                <SummaryRow label="Fees Saved" value="₹4,297" icon={CreditCard} />
+              </div>
+            </div>
+
+            {/* Provider Split */}
+            <div className="glass rounded-2xl p-5">
+              <div className="mb-4">
+                <div className="text-sm font-semibold">Provider Split</div>
+                <div className="text-xs text-muted-foreground">Share by payment app</div>
+              </div>
+              <div className="space-y-4">
+                {providerSplit.map((p) => (
+                  <div key={p.name}>
+                    <div className="mb-1.5 flex items-center justify-between text-xs">
+                      <span className="font-medium">{p.name}</span>
+                      <span className="text-muted-foreground">{p.percent}%</span>
+                    </div>
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-black/[0.06]">
+                      <div
+                        className={`h-full rounded-full ${p.color} transition-all duration-700 ease-out`}
+                        style={{ width: `${p.percent}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       ) : (
@@ -123,9 +245,7 @@ function PaymentsPage() {
               <div className="text-sm font-semibold">Offline Reconciliation</div>
               <div className="text-xs text-muted-foreground">Approve or reject manual entries.</div>
             </div>
-            <div className="text-xs text-muted-foreground">
-              {rows.filter((r) => r.status === "pending").length} pending
-            </div>
+            <div className="text-xs text-muted-foreground">{rows.filter((r) => r.status === "pending").length} pending</div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[820px] text-left text-sm">
@@ -191,6 +311,20 @@ function PaymentsPage() {
   );
 }
 
+function SummaryRow({ label, value, icon: Icon }: { label: string; value: string; icon: typeof CheckCircle2 }) {
+  return (
+    <div className="flex items-center justify-between rounded-xl border border-black/[0.07] bg-white px-4 py-3">
+      <div className="flex items-center gap-3">
+        <div className="grid h-8 w-8 place-items-center rounded-lg bg-black/[0.04]">
+          <Icon className="h-4 w-4 text-primary" />
+        </div>
+        <span className="text-sm text-muted-foreground">{label}</span>
+      </div>
+      <span className="text-sm font-semibold">{value}</span>
+    </div>
+  );
+}
+
 function TabBtn({
   active,
   onClick,
@@ -199,19 +333,19 @@ function TabBtn({
 }: {
   active: boolean;
   onClick: () => void;
-  icon: typeof Smartphone;
+  icon?: typeof Smartphone;
   children: React.ReactNode;
 }) {
   return (
     <button
       onClick={onClick}
-      className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm transition ${
+      className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition ${
         active
-          ? "bg-black/[0.07] text-foreground shadow-inner"
+          ? "bg-primary text-primary-foreground shadow-sm"
           : "text-muted-foreground hover:text-foreground"
       }`}
     >
-      <Icon className="h-4 w-4" />
+      {Icon && <Icon className="h-4 w-4" />}
       {children}
     </button>
   );
