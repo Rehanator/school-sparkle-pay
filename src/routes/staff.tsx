@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Award, Mail, Phone, ArrowRight } from "lucide-react";
+import { Award, Mail, Phone, ArrowRight, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
 
@@ -35,11 +35,20 @@ function initials(n: string) {
 
 function Staff() {
   const [active, setActive] = useState<Filter>("All");
+  const [query, setQuery] = useState("");
 
-  const filtered = useMemo(
-    () => (active === "All" ? staff : staff.filter((s) => s.dept === active)),
-    [active],
-  );
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return staff.filter((s) => {
+      const matchesDept = active === "All" || s.dept === active;
+      const matchesQuery =
+        !q ||
+        s.name.toLowerCase().includes(q) ||
+        s.role.toLowerCase().includes(q) ||
+        s.dept.toLowerCase().includes(q);
+      return matchesDept && matchesQuery;
+    });
+  }, [active, query]);
 
   return (
     <div className="space-y-6">
@@ -54,24 +63,37 @@ function Staff() {
         }
       />
 
-      {/* Category filters */}
-      <div className="-mx-1 flex flex-wrap gap-2 px-1">
-        {FILTERS.map((f) => {
-          const isActive = f === active;
-          return (
-            <button
-              key={f}
-              onClick={() => setActive(f)}
-              className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all duration-250 ${
-                isActive
-                  ? "border-primary/30 bg-primary/10 text-foreground shadow-[0_0_0_1px_var(--primary)_/_0.1]"
-                  : "border-black/[0.08] bg-black/[0.02] text-muted-foreground hover:border-black/[0.14] hover:bg-black/[0.04] hover:text-foreground"
-              }`}
-            >
-              {f}
-            </button>
-          );
-        })}
+      {/* Controls: department filters + search */}
+      <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+        <div className="flex flex-wrap gap-2">
+          {FILTERS.map((f) => {
+            const isActive = f === active;
+            return (
+              <button
+                key={f}
+                onClick={() => setActive(f)}
+                className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all duration-250 ${
+                  isActive
+                    ? "border-primary bg-primary text-primary-foreground shadow-[0_0_0_1px_var(--primary)_/_0.15]"
+                    : "border-border bg-card text-muted-foreground hover:border-border hover:bg-accent/10 hover:text-foreground"
+                }`}
+              >
+                {f}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="relative w-full sm:w-auto">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search staff by name or role..."
+            className="w-full rounded-xl border border-border bg-card py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground transition-colors focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/20 sm:w-[280px]"
+          />
+        </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
