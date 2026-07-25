@@ -12,6 +12,7 @@ import {
   CreditCard,
   Wallet,
   Percent,
+  type LucideIcon,
 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 
@@ -19,9 +20,9 @@ export const Route = createFileRoute("/payments")({
   head: () => ({
     meta: [
       { title: "Omnichannel Payments · Smart School FinTech" },
-      { name: "description", content: "Auto-approved UPI in real-time and offline reconciliation." },
+      { name: "description", content: "Live UPI collections and manual reconciliation in one console." },
       { property: "og:title", content: "Omnichannel Payments" },
-      { property: "og:description", content: "UPI, cash and cheque — all reconciled in one console." },
+      { property: "og:description", content: "Live UPI collections and manual reconciliation in one console." },
     ],
   }),
   component: PaymentsPage,
@@ -31,45 +32,97 @@ const metrics = [
   {
     label: "Today's Collection",
     value: "₹4,82,300",
-    change: "+12% vs yesterday",
+    change: "↑ +12% vs yesterday",
     changeType: "positive" as const,
     icon: Wallet,
   },
   {
     label: "UPI Transactions",
     value: "326",
-    change: "Zero-fee",
+    change: "Zero-fee routed",
     changeType: "neutral" as const,
     icon: Smartphone,
   },
   {
     label: "Pending Offline",
     value: "18",
-    change: "Cash + Cheque",
-    changeType: "neutral" as const,
+    change: "Requires reconciliation",
+    changeType: "warning" as const,
     icon: Banknote,
   },
   {
     label: "Auto-Approval",
-    value: "98.4%",
+    value: "99.4%",
     change: "Rules engine active",
     changeType: "positive" as const,
     icon: Percent,
   },
 ];
 
-const upiFeed = [
-  { name: "Aarav Sharma", provider: "PhonePe", id: "TXN-98214", amount: 15000, avatar: "AS", color: "oklch(0.82 0.14 165)" },
-  { name: "Isha Reddy", provider: "GPay", id: "TXN-98213", amount: 8600, avatar: "IR", color: "oklch(0.82 0.13 220)" },
-  { name: "Kabir Menon", provider: "Paytm", id: "TXN-98212", amount: 22400, avatar: "KM", color: "oklch(0.82 0.12 300)" },
-  { name: "Zoya Khan", provider: "BHIM", id: "TXN-98211", amount: 4500, avatar: "ZK", color: "oklch(0.82 0.14 70)" },
+type UpiRow = {
+  payer: string;
+  student: string;
+  grade: string;
+  provider: string;
+  txnId: string;
+  amount: number;
+  icon: "bolt" | "incoming";
+  iconBg: string;
+  time: string;
+};
+
+const upiFeed: UpiRow[] = [
+  {
+    payer: "Mrs. Sharma",
+    student: "Riya Sharma",
+    grade: "Class IX-B",
+    provider: "PhonePe",
+    txnId: "TXN-9821245",
+    amount: 15000,
+    icon: "bolt",
+    iconBg: "oklch(0.88 0.14 165)",
+    time: "12s ago",
+  },
+  {
+    payer: "Mr. Reddy",
+    student: "Isha Reddy",
+    grade: "Class VII-A",
+    provider: "GPay",
+    txnId: "TXN-9821244",
+    amount: 8600,
+    icon: "incoming",
+    iconBg: "oklch(0.82 0.13 220)",
+    time: "34s ago",
+  },
+  {
+    payer: "Mrs. Menon",
+    student: "Kabir Menon",
+    grade: "Class XI-C",
+    provider: "Paytm",
+    txnId: "TXN-9821243",
+    amount: 22400,
+    icon: "bolt",
+    iconBg: "oklch(0.82 0.12 300)",
+    time: "1m ago",
+  },
+  {
+    payer: "Mr. Khan",
+    student: "Zoya Khan",
+    grade: "Class V-B",
+    provider: "BHIM",
+    txnId: "TXN-9821242",
+    amount: 4500,
+    icon: "incoming",
+    iconBg: "oklch(0.82 0.14 70)",
+    time: "2m ago",
+  },
 ];
 
-const providerSplit = [
-  { name: "PhonePe", percent: 42, color: "bg-[oklch(0.65_0.18_280)]" },
-  { name: "GPay", percent: 31, color: "bg-[oklch(0.65_0.16_155)]" },
-  { name: "Paytm", percent: 18, color: "bg-[oklch(0.7_0.17_70)]" },
-  { name: "BHIM", percent: 9, color: "bg-[oklch(0.7_0.14_200)]" },
+const snapshotItems = [
+  { label: "Collected Today", value: "₹2,14,850", icon: Wallet },
+  { label: "Total Transactions", value: "86", icon: CheckCircle2 },
+  { label: "Avg. Ticket Size", value: "₹2,498", icon: TrendingUp },
+  { label: "Convenience Fees Saved", value: "₹4,297", icon: CreditCard },
 ];
 
 type OfflineStatus = "pending" | "approved" | "rejected";
@@ -102,16 +155,23 @@ function PaymentsPage() {
       <PageHeader
         eyebrow="Payments"
         title="Omnichannel Payments"
-        description="Auto-approved UPI in real-time and offline reconciliation."
+        description="Live UPI collections and manual reconciliation in one console."
         actions={
-          <>
-            <button className="inline-flex items-center gap-2 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2 text-sm hover:bg-black/[0.07]">
+          <div className="flex items-center gap-3">
+            <span className="inline-flex items-center gap-2 rounded-full border border-success/30 bg-success/10 px-3 py-1.5 text-xs font-medium text-success">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
+              </span>
+              Gateway Health: Online (99.99% uptime)
+            </span>
+            <button className="inline-flex items-center gap-2 rounded-xl border border-border bg-secondary px-3 py-2 text-sm font-medium transition hover:bg-secondary/80">
               <Filter className="h-4 w-4" /> Filter
             </button>
-            <button className="inline-flex items-center gap-2 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2 text-sm hover:bg-black/[0.07]">
+            <button className="inline-flex items-center gap-2 rounded-xl border border-border bg-secondary px-3 py-2 text-sm font-medium transition hover:bg-secondary/80">
               <Download className="h-4 w-4" /> Export
             </button>
-          </>
+          </div>
         }
       />
 
@@ -124,13 +184,17 @@ function PaymentsPage() {
                 <div className="text-xs text-muted-foreground">{m.label}</div>
                 <div className="mt-1 text-2xl font-semibold tracking-tight">{m.value}</div>
               </div>
-              <div className="grid h-9 w-9 place-items-center rounded-xl bg-black/[0.04]">
+              <div className="grid h-9 w-9 place-items-center rounded-xl bg-secondary">
                 <m.icon className="h-4 w-4 text-primary" />
               </div>
             </div>
             <div
               className={`mt-3 inline-flex items-center gap-1 text-[11px] font-medium ${
-                m.changeType === "positive" ? "text-[oklch(0.5_0.15_155)]" : "text-muted-foreground"
+                m.changeType === "positive"
+                  ? "text-success"
+                  : m.changeType === "warning"
+                    ? "text-warning"
+                    : "text-muted-foreground"
               }`}
             >
               {m.changeType === "positive" && <TrendingUp className="h-3 w-3" />}
@@ -140,28 +204,28 @@ function PaymentsPage() {
         ))}
       </div>
 
-      {/* Tabs */}
-      <div className="glass inline-flex rounded-xl p-1">
+      {/* Full-width segmented tabs */}
+      <div className="glass grid w-full grid-cols-2 rounded-xl p-1">
         <TabBtn active={tab === "digital"} onClick={() => setTab("digital")}>
           📱 Digital (UPI)
         </TabBtn>
         <TabBtn active={tab === "offline"} onClick={() => setTab("offline")}>
-          💵 Offline
+          💵 Offline · Reconciliation
         </TabBtn>
       </div>
 
       {tab === "digital" ? (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_0.54fr] xl:grid-cols-[1fr_0.54fr]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_0.538fr]">
           {/* Left column - Live UPI Feed */}
           <div className="glass rounded-2xl p-5">
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-2 text-sm font-semibold">
-                  Live UPI Stream
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-2.5 py-1 text-[11px] text-[oklch(0.5_0.15_155)]">
+                  Live UPI Feed
+                  <span className="inline-flex items-center gap-2 rounded-full border border-success/30 bg-success/10 px-2.5 py-1 text-[11px] text-success">
                     <span className="relative flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.5_0.15_155)] opacity-75" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.5_0.15_155)]" />
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
                     </span>
                     Live
                   </span>
@@ -169,72 +233,50 @@ function PaymentsPage() {
                 <div className="mt-0.5 text-xs text-muted-foreground">Zero platform fee · Settled instantly</div>
               </div>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-3">
               {upiFeed.map((u, i) => (
                 <div
                   key={i}
-                  className="group flex items-center gap-4 rounded-xl border border-black/[0.07] bg-white px-4 py-3 transition-colors hover:bg-[oklch(0.82_0.15_155_/_0.06)]"
+                  className="group flex items-center gap-4 rounded-xl border border-border bg-card/60 px-4 py-3 transition hover:bg-secondary/60"
                 >
                   <div
-                    className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-xs font-semibold text-[oklch(0.2_0.03_260)] shadow-sm"
-                    style={{ backgroundColor: u.color }}
+                    className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-sm font-semibold shadow-sm"
+                    style={{ backgroundColor: u.iconBg }}
                   >
-                    {u.avatar}
+                    {u.icon === "bolt" ? "⚡" : "↘"}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="truncate text-sm font-medium">{u.name}</div>
+                    <div className="truncate text-sm font-semibold text-foreground">
+                      {u.payer} → {u.student} · {u.grade}
+                    </div>
                     <div className="truncate text-[11px] text-muted-foreground">
-                      {u.id} · {u.provider}
+                      Paid via {u.provider} · {u.txnId}
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-base font-semibold">₹{u.amount.toLocaleString("en-IN")}</div>
-                    <span className="inline-flex items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-2 py-0.5 text-[11px] text-[oklch(0.5_0.15_155)]">
-                      <CheckCircle2 className="h-3 w-3" /> Auto-approved
-                    </span>
+                    <div className="text-base font-semibold text-foreground">₹{u.amount.toLocaleString("en-IN")}</div>
+                    <div className="mt-0.5 flex items-center justify-end gap-2">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-success px-2 py-0.5 text-[11px] font-medium text-success-foreground">
+                        <CheckCircle2 className="h-3 w-3" /> Settled
+                      </span>
+                      <span className="text-[11px] text-muted-foreground">{u.time}</span>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Right column - Analytics & Insights */}
-          <div className="space-y-6">
-            {/* Digital Summary */}
-            <div className="glass rounded-2xl p-5">
-              <div className="mb-4">
-                <div className="text-sm font-semibold">Digital Summary</div>
-                <div className="text-xs text-muted-foreground">Real-time payment health</div>
-              </div>
-              <div className="space-y-4">
-                <SummaryRow label="Success Rate" value="99.4%" icon={CheckCircle2} />
-                <SummaryRow label="Avg Settlement" value="8 sec" icon={Clock} />
-                <SummaryRow label="Fees Saved" value="₹4,297" icon={CreditCard} />
-              </div>
+          {/* Right column - Today's UPI Snapshot */}
+          <div className="glass flex flex-col rounded-2xl p-6">
+            <div className="mb-5">
+              <div className="text-sm font-semibold">Today's UPI Snapshot</div>
+              <div className="text-xs text-muted-foreground">Real-time settlement summary</div>
             </div>
-
-            {/* Provider Split */}
-            <div className="glass rounded-2xl p-5">
-              <div className="mb-4">
-                <div className="text-sm font-semibold">Provider Split</div>
-                <div className="text-xs text-muted-foreground">Share by payment app</div>
-              </div>
-              <div className="space-y-4">
-                {providerSplit.map((p) => (
-                  <div key={p.name}>
-                    <div className="mb-1.5 flex items-center justify-between text-xs">
-                      <span className="font-medium">{p.name}</span>
-                      <span className="text-muted-foreground">{p.percent}%</span>
-                    </div>
-                    <div className="h-2 w-full overflow-hidden rounded-full bg-black/[0.06]">
-                      <div
-                        className={`h-full rounded-full ${p.color} transition-all duration-700 ease-out`}
-                        style={{ width: `${p.percent}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div className="flex-1 divide-y divide-border">
+              {snapshotItems.map((item) => (
+                <SnapshotRow key={item.label} label={item.label} value={item.value} icon={item.icon} />
+              ))}
             </div>
           </div>
         </div>
@@ -260,7 +302,7 @@ function PaymentsPage() {
                   <th className="pb-3 text-right font-medium">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-black/[0.04]">
+              <tbody className="divide-y divide-border">
                 {rows.map((r) => (
                   <tr key={r.id}>
                     <td className="py-3">
@@ -270,7 +312,7 @@ function PaymentsPage() {
                       </div>
                     </td>
                     <td>
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-black/[0.07] bg-black/[0.04] px-2 py-0.5 text-[11px]">
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-2 py-0.5 text-[11px]">
                         <Banknote className="h-3 w-3" /> {r.method}
                       </span>
                     </td>
@@ -285,13 +327,13 @@ function PaymentsPage() {
                         <div className="inline-flex gap-2">
                           <button
                             onClick={() => decide(r.id, "approved")}
-                            className="inline-flex items-center gap-1 rounded-lg border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.1)] px-2.5 py-1.5 text-xs text-[oklch(0.5_0.15_155)] hover:brightness-110"
+                            className="inline-flex items-center gap-1 rounded-lg border border-success/30 bg-success/10 px-2.5 py-1.5 text-xs font-medium text-success transition hover:brightness-110"
                           >
                             <CheckCircle2 className="h-3 w-3" /> Approve
                           </button>
                           <button
                             onClick={() => decide(r.id, "rejected")}
-                            className="inline-flex items-center gap-1 rounded-lg border border-[oklch(0.7_0.2_25_/_0.3)] bg-[oklch(0.7_0.2_25_/_0.1)] px-2.5 py-1.5 text-xs text-[oklch(0.55_0.22_25)] hover:brightness-110"
+                            className="inline-flex items-center gap-1 rounded-lg border border-destructive/30 bg-destructive/10 px-2.5 py-1.5 text-xs font-medium text-destructive transition hover:brightness-110"
                           >
                             <XCircle className="h-3 w-3" /> Reject
                           </button>
@@ -311,16 +353,16 @@ function PaymentsPage() {
   );
 }
 
-function SummaryRow({ label, value, icon: Icon }: { label: string; value: string; icon: typeof CheckCircle2 }) {
+function SnapshotRow({ label, value, icon: Icon }: { label: string; value: string; icon: LucideIcon }) {
   return (
-    <div className="flex items-center justify-between rounded-xl border border-black/[0.07] bg-white px-4 py-3">
+    <div className="flex items-center justify-between py-4 first:pt-0 last:pb-0">
       <div className="flex items-center gap-3">
-        <div className="grid h-8 w-8 place-items-center rounded-lg bg-black/[0.04]">
+        <div className="grid h-9 w-9 place-items-center rounded-xl bg-secondary">
           <Icon className="h-4 w-4 text-primary" />
         </div>
         <span className="text-sm text-muted-foreground">{label}</span>
       </div>
-      <span className="text-sm font-semibold">{value}</span>
+      <span className="text-xl font-semibold tracking-tight">{value}</span>
     </div>
   );
 }
@@ -328,37 +370,34 @@ function SummaryRow({ label, value, icon: Icon }: { label: string; value: string
 function TabBtn({
   active,
   onClick,
-  icon: Icon,
   children,
 }: {
   active: boolean;
   onClick: () => void;
-  icon?: typeof Smartphone;
   children: React.ReactNode;
 }) {
   return (
     <button
       onClick={onClick}
-      className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition ${
+      className={`inline-flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition ${
         active
           ? "bg-primary text-primary-foreground shadow-sm"
-          : "text-muted-foreground hover:text-foreground"
+          : "text-muted-foreground hover:bg-secondary hover:text-foreground"
       }`}
     >
-      {Icon && <Icon className="h-4 w-4" />}
       {children}
     </button>
   );
 }
 
-function StatusPill({ status }: { status: "pending" | "approved" | "rejected" }) {
+function StatusPill({ status }: { status: OfflineStatus }) {
   const map = {
-    pending: { c: "text-[oklch(0.55_0.18_70)]", b: "border-[oklch(0.82_0.16_70_/_0.3)]", bg: "bg-[oklch(0.82_0.16_70_/_0.1)]", l: "Pending" },
-    approved: { c: "text-[oklch(0.5_0.15_155)]", b: "border-[oklch(0.82_0.15_155_/_0.3)]", bg: "bg-[oklch(0.82_0.15_155_/_0.1)]", l: "Approved" },
-    rejected: { c: "text-[oklch(0.55_0.22_25)]", b: "border-[oklch(0.7_0.2_25_/_0.3)]", bg: "bg-[oklch(0.7_0.2_25_/_0.1)]", l: "Rejected" },
+    pending: { c: "text-warning", b: "border-warning/30", bg: "bg-warning/10", l: "Pending" },
+    approved: { c: "text-success", b: "border-success/30", bg: "bg-success/10", l: "Approved" },
+    rejected: { c: "text-destructive", b: "border-destructive/30", bg: "bg-destructive/10", l: "Rejected" },
   }[status];
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full border ${map.b} ${map.bg} px-2 py-0.5 text-[11px] ${map.c}`}>
+    <span className={`inline-flex items-center gap-1 rounded-full border ${map.b} ${map.bg} px-2 py-0.5 text-[11px] font-medium ${map.c}`}>
       <span className="h-1.5 w-1.5 rounded-full bg-current" /> {map.l}
     </span>
   );
