@@ -163,7 +163,7 @@ function PaymentsPage() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
               </span>
-              Gateway Health: Online (99.99% uptime)
+              🟢 Gateway Health: Online (99.99% uptime)
             </span>
             <button className="inline-flex items-center gap-2 rounded-xl border border-border bg-secondary px-3 py-2 text-sm font-medium transition hover:bg-secondary/80">
               <Filter className="h-4 w-4" /> Filter
