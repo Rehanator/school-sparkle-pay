@@ -149,32 +149,35 @@
   box-shadow: 0 0 60px -10px var(--mint);
 }
 
-/* Dark mode overrides for glass surfaces */
+/* Dark mode overrides for glass surfaces — true black, neutral gray borders */
 .dark .glass {
-  background: color-mix(in oklab, oklch(0.28 0.03 260) 60%, transparent);
-  border: 1px solid oklch(1 0 0 / 0.10);
+  background: oklch(0.16 0 0 / 0.85);
+  border: 1px solid oklch(1 0 0 / 0.08);
   box-shadow:
-    0 10px 30px -12px oklch(0 0 0 / 0.55),
-    0 2px 8px -4px oklch(0 0 0 / 0.35),
-    inset 0 1px 0 oklch(1 0 0 / 0.06);
+    0 10px 30px -12px oklch(0 0 0 / 0.7),
+    0 2px 8px -4px oklch(0 0 0 / 0.5),
+    inset 0 1px 0 oklch(1 0 0 / 0.04);
 }
 
 .dark .glass-strong {
-  background: color-mix(in oklab, oklch(0.30 0.03 260) 75%, transparent);
-  border: 1px solid oklch(1 0 0 / 0.12);
+  background: oklch(0.18 0 0 / 0.92);
+  border: 1px solid oklch(1 0 0 / 0.1);
   box-shadow:
-    0 14px 40px -14px oklch(0 0 0 / 0.65),
-    0 3px 10px -4px oklch(0 0 0 / 0.4),
-    inset 0 1px 0 oklch(1 0 0 / 0.08);
+    0 14px 40px -14px oklch(0 0 0 / 0.8),
+    0 3px 10px -4px oklch(0 0 0 / 0.55),
+    inset 0 1px 0 oklch(1 0 0 / 0.05);
 }
 
-/* In dark mode, black overlay utilities used across the app become white overlays */
+/* Hide pastel background blobs in dark mode for true-black aesthetic */
+.dark .pastel-blob { display: none !important; }
+
+/* In dark mode, black overlay utilities used across the app become neutral white overlays */
 .dark [class*="bg-black/"] {
-  background-color: oklch(1 0 0 / 0.06) !important;
+  background-color: oklch(1 0 0 / 0.05) !important;
 }
 .dark [class*="border-black/"] {
-  border-color: oklch(1 0 0 / 0.10) !important;
+  border-color: oklch(1 0 0 / 0.09) !important;
 }
 .dark [class*="hover\\:bg-black/"]:hover {
-  background-color: oklch(1 0 0 / 0.10) !important;
+  background-color: oklch(1 0 0 / 0.09) !important;
 }
