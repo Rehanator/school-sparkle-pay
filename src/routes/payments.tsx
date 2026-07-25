@@ -208,10 +208,13 @@ function PaymentsPage() {
         </TabBtn>
         <TabBtn active={tab === "offline"} onClick={() => setTab("offline")}>
           💵 Offline · Reconciliation
-          <span className="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-warning/15 px-1.5 text-[10px] font-semibold text-warning">
-            {rows.filter((r) => r.status === "pending").length}
-          </span>
+          {pendingCount > 0 && (
+            <span className="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-warning/15 px-1.5 text-[10px] font-semibold text-warning">
+              {pendingCount}
+            </span>
+          )}
         </TabBtn>
+
       </div>
 
       {tab === "digital" ? (
