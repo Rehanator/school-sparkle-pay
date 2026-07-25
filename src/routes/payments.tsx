@@ -62,7 +62,7 @@ type UpiRow = {
   payer: string;
   student: string;
   grade: string;
-  provider: string;
+  vpa: string;
   txnId: string;
   amount: number;
   icon: "bolt" | "incoming";
