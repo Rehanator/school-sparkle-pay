@@ -48,15 +48,48 @@ const FILTERS: { label: string; types: string[] | null }[] = [
   { label: "System", types: ["system", "export"] },
 ];
 
+const TIME_OPTIONS = [
+  "Last 1 hour",
+  "Last 24 hours",
+  "Last 7 days",
+  "Last 30 days",
+  "Custom Range...",
+];
+
+function parseLogTs(ts: string) {
+  return new Date(ts.replace(" IST", ""));
+}
+
 function Audit() {
   const [query, setQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState(0);
+  const [timeFilter, setTimeFilter] = useState("Last 24 hours");
+  const [timeOpen, setTimeOpen] = useState(false);
+  const timeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (timeRef.current && !timeRef.current.contains(e.target as Node)) {
+        setTimeOpen(false);
+      }
+    }
+    if (timeOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [timeOpen]);
 
   const filteredLogs = useMemo(() => {
     const types = FILTERS[activeFilter].types;
     const q = query.trim().toLowerCase();
+    const now = new Date();
+    let cutoff: Date | null = null;
+    if (timeFilter === "Last 1 hour") cutoff = new Date(now.getTime() - 60 * 60 * 1000);
+    else if (timeFilter === "Last 24 hours") cutoff = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    else if (timeFilter === "Last 7 days") cutoff = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    else if (timeFilter === "Last 30 days") cutoff = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
     return logs.filter((l) => {
       if (types && !types.includes(l.type)) return false;
+      if (cutoff && parseLogTs(l.ts) < cutoff) return false;
       if (!q) return true;
       return (
         l.user.toLowerCase().includes(q) ||
@@ -64,7 +97,7 @@ function Audit() {
         l.ip.toLowerCase().includes(q)
       );
     });
-  }, [query, activeFilter]);
+  }, [query, activeFilter, timeFilter]);
 
   const handleExport = () => {
     const header = ["Timestamp", "Admin", "Action", "IP", "Type"];
