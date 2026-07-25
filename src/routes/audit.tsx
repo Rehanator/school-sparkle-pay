@@ -185,41 +185,43 @@ function Audit() {
             </button>
           ))}
         </div>
-        <div ref={timeRef} className="relative">
+        <div className="ml-auto flex items-center gap-2">
+          <div ref={timeRef} className="relative">
+            <button
+              onClick={() => setTimeOpen((o) => !o)}
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-white/[0.09] hover:text-white transition-colors"
+            >
+              {timeFilter}
+              <ChevronDown className={`h-4 w-4 transition-transform ${timeOpen ? "rotate-180" : ""}`} />
+            </button>
+            {timeOpen && (
+              <div className="absolute right-0 top-full z-50 mt-2 min-w-[11rem] overflow-hidden rounded-xl border border-white/10 bg-black/90 p-1 shadow-xl backdrop-blur-md">
+                {TIME_OPTIONS.map((opt) => (
+                  <button
+                    key={opt}
+                    onClick={() => {
+                      setTimeFilter(opt);
+                      setTimeOpen(false);
+                    }}
+                    className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                      timeFilter === opt
+                        ? "bg-white/10 text-white"
+                        : "text-muted-foreground hover:bg-white/[0.06] hover:text-white"
+                    }`}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <button
-            onClick={() => setTimeOpen((o) => !o)}
-            className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-white/[0.09] hover:text-white transition-colors"
+            onClick={handleExport}
+            className="inline-flex items-center gap-2 rounded-xl bg-[oklch(0.72_0.16_195)] px-3 py-2 text-sm font-semibold text-[oklch(0.18_0.05_240)] hover:bg-[oklch(0.76_0.16_195)]"
           >
-            {timeFilter}
-            <ChevronDown className={`h-4 w-4 transition-transform ${timeOpen ? "rotate-180" : ""}`} />
+            <Download className="h-4 w-4" /> Export CSV
           </button>
-          {timeOpen && (
-            <div className="absolute right-0 top-full z-50 mt-2 min-w-[11rem] overflow-hidden rounded-xl border border-white/10 bg-black/90 p-1 shadow-xl backdrop-blur-md">
-              {TIME_OPTIONS.map((opt) => (
-                <button
-                  key={opt}
-                  onClick={() => {
-                    setTimeFilter(opt);
-                    setTimeOpen(false);
-                  }}
-                  className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-colors ${
-                    timeFilter === opt
-                      ? "bg-white/10 text-white"
-                      : "text-muted-foreground hover:bg-white/[0.06] hover:text-white"
-                  }`}
-                >
-                  {opt}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
-        <button
-          onClick={handleExport}
-          className="inline-flex items-center gap-2 rounded-xl bg-[oklch(0.72_0.16_195)] px-3 py-2 text-sm font-semibold text-[oklch(0.18_0.05_240)] hover:bg-[oklch(0.76_0.16_195)]"
-        >
-          <Download className="h-4 w-4" /> Export CSV
-        </button>
       </div>
 
 
