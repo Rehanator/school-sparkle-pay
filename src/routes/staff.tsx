@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Award, Mail, Phone, ArrowRight, Github, Linkedin, Twitter } from "lucide-react";
+import { Award, Mail, Phone, ArrowRight, Github, Linkedin, Twitter, UserPlus } from "lucide-react";
 import React, { useCallback, useMemo, useState } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 
@@ -152,11 +152,17 @@ function Staff() {
 
   return (
     <div className="space-y-8" style={{ perspective: "1200px" }}>
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Staff Directory</h1>
-        <p className="mt-2 max-w-2xl text-sm text-neutral-400">
-          Trusted finance professionals managing every school transaction with accuracy and transparency.
-        </p>
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Staff Directory</h1>
+          <p className="mt-2 max-w-2xl text-sm text-neutral-400">
+            Trusted finance professionals managing every school transaction with accuracy and transparency.
+          </p>
+        </div>
+        <button className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-cyan-400 px-4 py-2 text-sm font-semibold text-black shadow-[0_0_16px_-4px_rgba(34,211,238,0.45)] transition hover:bg-cyan-300">
+          <UserPlus className="h-4 w-4" />
+          Add Staff
+        </button>
       </div>
 
       {/* Segmented control */}
