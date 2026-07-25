@@ -244,20 +244,30 @@ function Audit() {
       {/* Log table */}
       <div className="glass relative z-0 overflow-hidden rounded-2xl">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[900px] text-left text-sm">
+          <table className="w-full min-w-[1100px] text-left text-sm">
             <thead className="bg-black/[0.04] text-[11px] uppercase tracking-wider text-muted-foreground">
               <tr>
                 <th className="px-5 py-3 font-medium">Date & Timestamp</th>
                 <th className="px-5 py-3 font-medium">Admin User ID</th>
+                <th className="px-5 py-3 font-medium">Type</th>
                 <th className="px-5 py-3 font-medium">Action Taken</th>
                 <th className="px-5 py-3 font-medium">IP Address</th>
+                <th className="px-5 py-3 font-medium">Risk</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-black/[0.04] font-mono">
               {filteredLogs.map((l, i) => (
                 <tr key={i} className="hover:bg-black/[0.04]">
                   <td className="whitespace-nowrap px-5 py-3 text-xs text-muted-foreground">{l.ts}</td>
-                  <td className="px-5 py-3 text-xs">{l.user}</td>
+                  <td className="px-5 py-3 text-xs">
+                    <div className="font-semibold text-white">{l.adminId}</div>
+                    <div className="mt-0.5 text-[11px] font-normal text-muted-foreground">{l.username}</div>
+                  </td>
+                  <td className="px-5 py-3">
+                    <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${categoryStyle[l.category]}`}>
+                      {l.category}
+                    </span>
+                  </td>
                   <td className="px-5 py-3">
                     <span className={`inline-flex items-center gap-2 rounded-full border px-2.5 py-0.5 text-[11px] ${typeColor[l.type]}`}>
                       <span className="h-1.5 w-1.5 rounded-full bg-current" />
@@ -265,6 +275,12 @@ function Audit() {
                     </span>
                   </td>
                   <td className="whitespace-nowrap px-5 py-3 text-xs text-muted-foreground">{l.ip}</td>
+                  <td className="px-5 py-3">
+                    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${riskStyle[l.risk]}`}>
+                      <span className="h-1.5 w-1.5 rounded-full bg-current" />
+                      {l.risk}
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>
