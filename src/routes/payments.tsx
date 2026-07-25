@@ -266,10 +266,10 @@ function PaymentsPage() {
             </div>
           </div>
 
-          {/* Right column - Today's UPI Snapshot */}
+          {/* Right column - Today's UPI Collection */}
           <div className="glass flex flex-col rounded-2xl p-6">
             <div className="mb-5">
-              <div className="text-sm font-semibold">Today's UPI Snapshot</div>
+              <div className="text-sm font-semibold">Today's UPI Collection</div>
               <div className="text-xs text-muted-foreground">Real-time settlement summary</div>
             </div>
             <div className="flex-1 divide-y divide-border">
