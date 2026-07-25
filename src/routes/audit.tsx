@@ -81,7 +81,9 @@ function Audit() {
     URL.revokeObjectURL(url);
   };
 
+  return (
     <div className="space-y-6">
+
       {/* Live status badge + page header */}
       <div>
         <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-emerald-950/30 px-3 py-1.5 text-xs font-medium uppercase tracking-wider text-emerald-400/90">
