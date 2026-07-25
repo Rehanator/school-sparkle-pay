@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Lock, ShieldCheck, Search, Download } from "lucide-react";
+import { Lock, ShieldCheck, Search, Download, Fingerprint } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 
 export const Route = createFileRoute("/audit")({
