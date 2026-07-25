@@ -54,19 +54,19 @@ function Staff() {
         }
       />
 
-      {/* Category filters */}
-      <div className="-mx-1 mb-8 overflow-x-auto px-1 pb-1">
-        <div className="flex w-max items-center gap-2">
+      {/* Category filters — unified segmented control */}
+      <div className="mb-10 overflow-x-auto">
+        <div className="flex w-max items-center rounded-full border border-neutral-800 bg-neutral-900 p-1">
           {FILTERS.map((f) => {
             const isActive = f === active;
             return (
               <button
                 key={f}
                 onClick={() => setActive(f)}
-                className={`shrink-0 rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200 ${
+                className={`shrink-0 px-4 py-2 text-xs font-semibold transition-all duration-200 first:rounded-l-full last:rounded-r-full ${
                   isActive
-                    ? "bg-cyan-400 text-black shadow-[0_0_16px_-4px_rgba(34,211,238,0.55)]"
-                    : "border border-neutral-800 bg-neutral-900/80 text-neutral-400 hover:border-neutral-700 hover:bg-neutral-800 hover:text-neutral-200"
+                    ? "rounded-full bg-cyan-400 text-black shadow-[0_0_16px_-4px_rgba(34,211,238,0.55)]"
+                    : "text-neutral-400 hover:text-neutral-200"
                 }`}
               >
                 {f}
