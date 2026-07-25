@@ -43,17 +43,17 @@ const metrics = [
     icon: Smartphone,
   },
   {
+    label: "Offline Earning",
+    value: "₹1,12,800",
+    change: "Awaiting bank deposit",
+    changeType: "neutral" as const,
+    icon: Banknote,
+  },
+  {
     label: "Pending Offline",
     value: "18",
     change: "Requires reconciliation",
     changeType: "warning" as const,
-    icon: Banknote,
-  },
-  {
-    label: "Auto-Approval",
-    value: "99.4%",
-    change: "Rules engine active",
-    changeType: "positive" as const,
     icon: Percent,
   },
 ];
