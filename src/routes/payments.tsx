@@ -74,7 +74,7 @@ const upiFeed: UpiRow[] = [
   {
     payer: "Mrs. Sharma",
     student: "Riya Sharma",
-    grade: "Class IX-B",
+    grade: "IX-B",
     vpa: "priya.k@okhdfc",
     txnId: "TXN-9821245",
     amount: 15000,
@@ -85,7 +85,7 @@ const upiFeed: UpiRow[] = [
   {
     payer: "Mr. Reddy",
     student: "Isha Reddy",
-    grade: "Class VII-A",
+    grade: "VII-A",
     vpa: "rahul.m@ybl",
     txnId: "TXN-9821244",
     amount: 8600,
@@ -96,7 +96,7 @@ const upiFeed: UpiRow[] = [
   {
     payer: "Mrs. Menon",
     student: "Kabir Menon",
-    grade: "Class XI-C",
+    grade: "XI-C",
     vpa: "anita.m@paytm",
     txnId: "TXN-9821243",
     amount: 22400,
@@ -107,7 +107,7 @@ const upiFeed: UpiRow[] = [
   {
     payer: "Mr. Khan",
     student: "Zoya Khan",
-    grade: "Class V-B",
+    grade: "V-B",
     vpa: "zafar.k@upi",
     txnId: "TXN-9821242",
     amount: 4500,
@@ -157,13 +157,6 @@ function PaymentsPage() {
         description="Live UPI collections and manual reconciliation in one console."
         actions={
           <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-2 rounded-full border border-success/30 bg-success/10 px-3 py-1.5 text-xs font-medium text-success">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
-              </span>
-              🟢 Gateway Health: Online (99.99% uptime)
-            </span>
             <button className="inline-flex items-center gap-2 rounded-xl border border-border bg-secondary px-3 py-2 text-sm font-medium transition hover:bg-secondary/80">
               <Filter className="h-4 w-4" /> Filter
             </button>
