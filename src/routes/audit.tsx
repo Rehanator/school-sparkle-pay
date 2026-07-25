@@ -42,11 +42,21 @@ const typeColor: Record<string, string> = {
 function Audit() {
   return (
     <div className="space-y-6">
-      <PageHeader
-        eyebrow="Immutable Ledger"
-        title="System Audit Log"
-        description="Every action, every timestamp, every IP — sealed and unchangeable."
-      />
+      {/* Live status badge + page header */}
+      <div>
+        <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-emerald-950/30 px-3 py-1.5 text-xs font-medium uppercase tracking-wider text-emerald-400/90">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+          </span>
+          Tamper-Proof Ledger
+        </span>
+        <PageHeader
+          eyebrow="Immutable Ledger"
+          title="System Audit Log"
+          description="Every action, every timestamp, every IP — sealed and unchangeable."
+        />
+      </div>
 
       {/* Lock hero */}
       <div className="glass relative overflow-hidden rounded-2xl p-8 text-center">
@@ -68,7 +78,7 @@ function Audit() {
             <Lock className="h-3.5 w-3.5" /> Read-only
           </span>
         </div>
-        <div className="mt-2 text-lg font-semibold">This ledger cannot be edited or deleted.</div>
+        <div className="mt-2 text-lg font-semibold">Tamper-Proof Ledger</div>
         <div className="text-xs text-muted-foreground">
           Every entry is signed and chained to the previous block — the ultimate defence against financial fraud.
         </div>
