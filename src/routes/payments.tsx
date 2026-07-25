@@ -333,7 +333,7 @@ function TabBtn({
 }: {
   active: boolean;
   onClick: () => void;
-  icon: typeof Smartphone;
+  icon?: typeof Smartphone;
   children: React.ReactNode;
 }) {
   return (
@@ -345,7 +345,7 @@ function TabBtn({
           : "text-muted-foreground hover:text-foreground"
       }`}
     >
-      <Icon className="h-4 w-4" />
+      {Icon && <Icon className="h-4 w-4" />}
       {children}
     </button>
   );
