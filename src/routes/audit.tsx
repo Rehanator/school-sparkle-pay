@@ -86,14 +86,28 @@ function Audit() {
 
       {/* Filters */}
       <div className="glass flex flex-wrap items-center gap-2 rounded-2xl p-3">
-        <div className="flex flex-1 items-center gap-2 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2">
+        <div className="flex w-full max-w-xs items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input
             placeholder="Search by admin ID, action, IP…"
             className="w-full bg-transparent text-sm placeholder:text-muted-foreground focus:outline-none"
           />
         </div>
-        <button className="inline-flex items-center gap-2 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2 text-sm">
+        <div className="flex flex-wrap items-center gap-2">
+          {["All actions", "Waivers", "Deletions", "Rule changes", "System"].map((label, i) => (
+            <button
+              key={label}
+              className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+                i === 0
+                  ? "bg-white/15 text-white shadow-[0_0_12px_-4px_rgba(255,255,255,0.25)]"
+                  : "bg-white/[0.04] text-muted-foreground hover:bg-white/[0.08] hover:text-white border border-white/10"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <button className="ml-auto inline-flex items-center gap-2 rounded-xl bg-[oklch(0.72_0.16_195)] px-3 py-2 text-sm font-semibold text-[oklch(0.18_0.05_240)] hover:bg-[oklch(0.76_0.16_195)]">
           <Download className="h-4 w-4" /> Export CSV
         </button>
       </div>
