@@ -249,14 +249,14 @@ function PaymentsPage() {
                       {u.payer} → {u.student} · {u.grade}
                     </div>
                     <div className="truncate text-[11px] text-muted-foreground">
-                      Paid via {u.provider} · {u.txnId}
+                      {u.vpa} · {u.txnId}
                     </div>
                   </div>
                   <div className="text-right">
                     <div className="text-base font-semibold text-foreground">₹{u.amount.toLocaleString("en-IN")}</div>
                     <div className="mt-0.5 flex items-center justify-end gap-2">
                       <span className="inline-flex items-center gap-1 rounded-full bg-success px-2 py-0.5 text-[11px] font-medium text-success-foreground">
-                        <CheckCircle2 className="h-3 w-3" /> Settled
+                        <CheckCircle2 className="h-3 w-3" /> Auto approved
                       </span>
                       <span className="text-[11px] text-muted-foreground">{u.time}</span>
                     </div>
