@@ -13,6 +13,7 @@ import {
   GraduationCap,
   MessageCircle,
 } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const nav = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
