@@ -195,7 +195,7 @@ function Audit() {
               <ChevronDown className="h-4 w-4" />
             </button>
             {timeOpen && (
-              <div className="absolute right-0 top-full z-50 mt-2 min-w-[11rem] overflow-hidden rounded-xl border border-white/10 bg-black/90 p-1 shadow-xl backdrop-blur-md">
+              <div className="absolute right-0 top-full z-[100] mt-2 min-w-[11rem] overflow-hidden rounded-xl border border-white/10 bg-black/90 p-1 shadow-xl backdrop-blur-md">
                 {TIME_OPTIONS.map((opt) => (
                   <button
                     key={opt}
