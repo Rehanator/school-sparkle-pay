@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import { Lock, ShieldCheck, Search, Download, Fingerprint } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 
@@ -39,9 +40,50 @@ const typeColor: Record<string, string> = {
   export: "text-muted-foreground bg-black/[0.04] border-black/[0.07]",
 };
 
+const FILTERS: { label: string; types: string[] | null }[] = [
+  { label: "All actions", types: null },
+  { label: "Waivers", types: ["waive"] },
+  { label: "Deletions", types: ["delete"] },
+  { label: "Rule changes", types: ["rule"] },
+  { label: "System", types: ["system", "export"] },
+];
+
 function Audit() {
+  const [query, setQuery] = useState("");
+  const [activeFilter, setActiveFilter] = useState(0);
+
+  const filteredLogs = useMemo(() => {
+    const types = FILTERS[activeFilter].types;
+    const q = query.trim().toLowerCase();
+    return logs.filter((l) => {
+      if (types && !types.includes(l.type)) return false;
+      if (!q) return true;
+      return (
+        l.user.toLowerCase().includes(q) ||
+        l.action.toLowerCase().includes(q) ||
+        l.ip.toLowerCase().includes(q)
+      );
+    });
+  }, [query, activeFilter]);
+
+  const handleExport = () => {
+    const header = ["Timestamp", "Admin", "Action", "IP", "Type"];
+    const rows = filteredLogs.map((l) => [l.ts, l.user, l.action, l.ip, l.type]);
+    const csv = [header, ...rows]
+      .map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `audit-log-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="space-y-6">
+
       {/* Live status badge + page header */}
       <div>
         <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-emerald-950/30 px-3 py-1.5 text-xs font-medium uppercase tracking-wider text-emerald-400/90">
@@ -89,28 +131,35 @@ function Audit() {
         <div className="flex w-full max-w-xs items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by admin ID, action, IP…"
             className="w-full bg-transparent text-sm placeholder:text-muted-foreground focus:outline-none"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {["All actions", "Waivers", "Deletions", "Rule changes", "System"].map((label, i) => (
+          {FILTERS.map((f, i) => (
             <button
-              key={label}
+              key={f.label}
+              onClick={() => setActiveFilter(i)}
               className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                i === 0
+                i === activeFilter
                   ? "bg-white/15 text-white shadow-[0_0_12px_-4px_rgba(255,255,255,0.25)]"
                   : "bg-white/[0.04] text-muted-foreground hover:bg-white/[0.08] hover:text-white border border-white/10"
               }`}
             >
-              {label}
+              {f.label}
             </button>
           ))}
         </div>
-        <button className="ml-auto inline-flex items-center gap-2 rounded-xl bg-[oklch(0.72_0.16_195)] px-3 py-2 text-sm font-semibold text-[oklch(0.18_0.05_240)] hover:bg-[oklch(0.76_0.16_195)]">
+        <button
+          onClick={handleExport}
+          className="ml-auto inline-flex items-center gap-2 rounded-xl bg-[oklch(0.72_0.16_195)] px-3 py-2 text-sm font-semibold text-[oklch(0.18_0.05_240)] hover:bg-[oklch(0.76_0.16_195)]"
+        >
           <Download className="h-4 w-4" /> Export CSV
         </button>
       </div>
+
 
       {/* Log table */}
       <div className="glass overflow-hidden rounded-2xl">
@@ -125,7 +174,7 @@ function Audit() {
               </tr>
             </thead>
             <tbody className="divide-y divide-black/[0.04] font-mono">
-              {logs.map((l, i) => (
+              {filteredLogs.map((l, i) => (
                 <tr key={i} className="hover:bg-black/[0.04]">
                   <td className="whitespace-nowrap px-5 py-3 text-xs text-muted-foreground">{l.ts}</td>
                   <td className="px-5 py-3 text-xs">{l.user}</td>
