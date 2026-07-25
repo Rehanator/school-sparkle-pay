@@ -290,7 +290,8 @@ function PaymentsPage() {
               <div className="text-sm font-semibold">Offline Reconciliation</div>
               <div className="text-xs text-muted-foreground">Approve or reject manual entries.</div>
             </div>
-            <div className="text-xs text-muted-foreground">{rows.filter((r) => r.status === "pending").length} pending</div>
+            <div className="text-xs text-muted-foreground">{pendingCount} pending</div>
+
           </div>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px] text-left text-sm">
