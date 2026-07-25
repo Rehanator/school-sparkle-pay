@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { Lock, ShieldCheck, Search, Download, Fingerprint } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Lock, ShieldCheck, Search, Download, Fingerprint, ChevronDown } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 
 export const Route = createFileRoute("/audit")({
@@ -16,16 +16,16 @@ export const Route = createFileRoute("/audit")({
 });
 
 const logs = [
-  { ts: "2026-07-24 14:22:08 IST", user: "ADM-001 · anita.kapoor", action: "Manually Waived ₹500 Late Fee for Student #104", ip: "10.14.22.8", type: "waive" },
-  { ts: "2026-07-24 13:58:47 IST", user: "ADM-004 · meera.joshi", action: "Approved Offline Cash Payment ₹12,000 (Receipt R-2251)", ip: "10.14.22.19", type: "approve" },
-  { ts: "2026-07-24 13:41:02 IST", user: "ADM-004 · meera.joshi", action: "Rejected Cheque Entry #OFF-1039 · Reason: Signature mismatch", ip: "10.14.22.19", type: "reject" },
-  { ts: "2026-07-24 12:07:33 IST", user: "ADM-001 · anita.kapoor", action: "Enabled 'First-Time Late Payer Grace Period' rule", ip: "10.14.22.8", type: "rule" },
-  { ts: "2026-07-24 11:44:15 IST", user: "ADM-007 · ravi.narayanan", action: "Split ₹60,000 Annual Fee → 4× ₹15,000 EMI for Student #104", ip: "10.14.22.34", type: "split" },
-  { ts: "2026-07-24 10:12:59 IST", user: "ADM-001 · anita.kapoor", action: "Deleted Cash Entry #OFF-1038 · Duplicate", ip: "10.14.22.8", type: "delete" },
-  { ts: "2026-07-24 09:33:07 IST", user: "ADM-012 · arjun.rathore", action: "Rotated API key for UPI webhook", ip: "10.14.22.51", type: "system" },
-  { ts: "2026-07-23 17:52:41 IST", user: "ADM-004 · meera.joshi", action: "Bulk Reminder sent to 34 defaulters via WhatsApp Bot", ip: "10.14.22.19", type: "system" },
-  { ts: "2026-07-23 16:18:20 IST", user: "ADM-001 · anita.kapoor", action: "Created New Fee Head 'Robotics Club' ₹3,500 · Annually", ip: "10.14.22.8", type: "create" },
-  { ts: "2026-07-23 15:09:11 IST", user: "ADM-007 · ravi.narayanan", action: "Exported Q2 Reconciliation Report (CSV)", ip: "10.14.22.34", type: "export" },
+  { ts: "2026-07-25 14:22:08 IST", user: "ADM-001 · anita.kapoor", action: "Manually Waived ₹500 Late Fee for Student #104", ip: "10.14.22.8", type: "waive" },
+  { ts: "2026-07-25 13:58:47 IST", user: "ADM-004 · meera.joshi", action: "Approved Offline Cash Payment ₹12,000 (Receipt R-2251)", ip: "10.14.22.19", type: "approve" },
+  { ts: "2026-07-25 13:41:02 IST", user: "ADM-004 · meera.joshi", action: "Rejected Cheque Entry #OFF-1039 · Reason: Signature mismatch", ip: "10.14.22.19", type: "reject" },
+  { ts: "2026-07-25 12:07:33 IST", user: "ADM-001 · anita.kapoor", action: "Enabled 'First-Time Late Payer Grace Period' rule", ip: "10.14.22.8", type: "rule" },
+  { ts: "2026-07-25 11:44:15 IST", user: "ADM-007 · ravi.narayanan", action: "Split ₹60,000 Annual Fee → 4× ₹15,000 EMI for Student #104", ip: "10.14.22.34", type: "split" },
+  { ts: "2026-07-25 10:12:59 IST", user: "ADM-001 · anita.kapoor", action: "Deleted Cash Entry #OFF-1038 · Duplicate", ip: "10.14.22.8", type: "delete" },
+  { ts: "2026-07-25 09:33:07 IST", user: "ADM-012 · arjun.rathore", action: "Rotated API key for UPI webhook", ip: "10.14.22.51", type: "system" },
+  { ts: "2026-07-24 17:52:41 IST", user: "ADM-004 · meera.joshi", action: "Bulk Reminder sent to 34 defaulters via WhatsApp Bot", ip: "10.14.22.19", type: "system" },
+  { ts: "2026-07-24 16:18:20 IST", user: "ADM-001 · anita.kapoor", action: "Created New Fee Head 'Robotics Club' ₹3,500 · Annually", ip: "10.14.22.8", type: "create" },
+  { ts: "2026-07-24 15:09:11 IST", user: "ADM-007 · ravi.narayanan", action: "Exported Q2 Reconciliation Report (CSV)", ip: "10.14.22.34", type: "export" },
 ];
 
 const typeColor: Record<string, string> = {
@@ -48,15 +48,48 @@ const FILTERS: { label: string; types: string[] | null }[] = [
   { label: "System", types: ["system", "export"] },
 ];
 
+const TIME_OPTIONS = [
+  "Last 1 hour",
+  "Last 24 hours",
+  "Last 7 days",
+  "Last 30 days",
+  "Custom Range...",
+];
+
+function parseLogTs(ts: string) {
+  return new Date(ts.replace(" IST", ""));
+}
+
 function Audit() {
   const [query, setQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState(0);
+  const [timeFilter, setTimeFilter] = useState("Last 24 hours");
+  const [timeOpen, setTimeOpen] = useState(false);
+  const timeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (timeRef.current && !timeRef.current.contains(e.target as Node)) {
+        setTimeOpen(false);
+      }
+    }
+    if (timeOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [timeOpen]);
 
   const filteredLogs = useMemo(() => {
     const types = FILTERS[activeFilter].types;
     const q = query.trim().toLowerCase();
+    const now = new Date();
+    let cutoff: Date | null = null;
+    if (timeFilter === "Last 1 hour") cutoff = new Date(now.getTime() - 60 * 60 * 1000);
+    else if (timeFilter === "Last 24 hours") cutoff = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    else if (timeFilter === "Last 7 days") cutoff = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    else if (timeFilter === "Last 30 days") cutoff = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
     return logs.filter((l) => {
       if (types && !types.includes(l.type)) return false;
+      if (cutoff && parseLogTs(l.ts) < cutoff) return false;
       if (!q) return true;
       return (
         l.user.toLowerCase().includes(q) ||
@@ -64,7 +97,7 @@ function Audit() {
         l.ip.toLowerCase().includes(q)
       );
     });
-  }, [query, activeFilter]);
+  }, [query, activeFilter, timeFilter]);
 
   const handleExport = () => {
     const header = ["Timestamp", "Admin", "Action", "IP", "Type"];
@@ -152,12 +185,43 @@ function Audit() {
             </button>
           ))}
         </div>
-        <button
-          onClick={handleExport}
-          className="ml-auto inline-flex items-center gap-2 rounded-xl bg-[oklch(0.72_0.16_195)] px-3 py-2 text-sm font-semibold text-[oklch(0.18_0.05_240)] hover:bg-[oklch(0.76_0.16_195)]"
-        >
-          <Download className="h-4 w-4" /> Export CSV
-        </button>
+        <div className="ml-auto flex items-center gap-2">
+          <div ref={timeRef} className="relative">
+            <button
+              onClick={() => setTimeOpen((o) => !o)}
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-white/[0.09] hover:text-white transition-colors"
+            >
+              {timeFilter}
+              <ChevronDown className={`h-4 w-4 transition-transform ${timeOpen ? "rotate-180" : ""}`} />
+            </button>
+            {timeOpen && (
+              <div className="absolute right-0 top-full z-50 mt-2 min-w-[11rem] overflow-hidden rounded-xl border border-white/10 bg-black/90 p-1 shadow-xl backdrop-blur-md">
+                {TIME_OPTIONS.map((opt) => (
+                  <button
+                    key={opt}
+                    onClick={() => {
+                      setTimeFilter(opt);
+                      setTimeOpen(false);
+                    }}
+                    className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                      timeFilter === opt
+                        ? "bg-white/10 text-white"
+                        : "text-muted-foreground hover:bg-white/[0.06] hover:text-white"
+                    }`}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+          <button
+            onClick={handleExport}
+            className="inline-flex items-center gap-2 rounded-xl bg-[oklch(0.72_0.16_195)] px-3 py-2 text-sm font-semibold text-[oklch(0.18_0.05_240)] hover:bg-[oklch(0.76_0.16_195)]"
+          >
+            <Download className="h-4 w-4" /> Export CSV
+          </button>
+        </div>
       </div>
 
 
