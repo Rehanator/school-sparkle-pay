@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Award, Mail, Phone, ArrowRight } from "lucide-react";
+import { Award, Mail, Phone, ArrowRight, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
 
