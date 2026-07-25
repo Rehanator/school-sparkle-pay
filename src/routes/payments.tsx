@@ -148,9 +148,11 @@ const initialOffline: OfflineRowFull[] = [
 function PaymentsPage() {
   const [tab, setTab] = useState<"digital" | "offline">("digital");
   const [rows, setRows] = useState(initialOffline);
+  const pendingCount = rows.filter((r) => r.status === "pending").length;
 
   const decide = (id: string, status: "approved" | "rejected") =>
     setRows((r) => r.map((x) => (x.id === id ? { ...x, status } : x)));
+
 
   return (
     <div className="space-y-6">
@@ -206,10 +208,13 @@ function PaymentsPage() {
         </TabBtn>
         <TabBtn active={tab === "offline"} onClick={() => setTab("offline")}>
           💵 Offline · Reconciliation
-          <span className="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-warning/15 px-1.5 text-[10px] font-semibold text-warning">
-            {rows.filter((r) => r.status === "pending").length}
-          </span>
+          {pendingCount > 0 && (
+            <span className="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-warning/15 px-1.5 text-[10px] font-semibold text-warning">
+              {pendingCount}
+            </span>
+          )}
         </TabBtn>
+
       </div>
 
       {tab === "digital" ? (
@@ -285,8 +290,9 @@ function PaymentsPage() {
               <div className="text-sm font-semibold">Offline Reconciliation</div>
               <div className="text-xs text-muted-foreground">Approve or reject manual entries.</div>
             </div>
-            <div className="text-xs text-muted-foreground">{rows.filter((r) => r.status === "pending").length} pending</div>
+            <div className="text-xs text-muted-foreground">{pendingCount} pending</div>
           </div>
+
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px] text-left text-sm">
               <thead>
