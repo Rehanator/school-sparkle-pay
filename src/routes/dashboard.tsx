@@ -148,9 +148,9 @@ function Dashboard() {
         })}
       </div>
 
-      {/* Analytics + WhatsApp */}
-      <div className="grid gap-4 lg:grid-cols-3">
-        <div className="glass rounded-2xl p-5 lg:col-span-2">
+      {/* Analytics */}
+      <div className="grid gap-4">
+        <div className="glass rounded-2xl p-5">
           <div className="mb-4 flex items-center justify-between">
             <div>
               <div className="text-sm font-semibold">Revenue Breakdown</div>
@@ -226,54 +226,8 @@ function Dashboard() {
             ))}
           </div>
         </div>
-
-        {/* WhatsApp Bot */}
-        <div className="glass relative overflow-hidden rounded-2xl p-5">
-          <div className="absolute -right-8 -top-8 h-40 w-40 rounded-full bg-[oklch(0.88_0.14_165)] opacity-20 blur-3xl" />
-          <div className="relative">
-            <div className="flex items-center gap-2">
-              <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)]">
-                <MessageCircle className="h-4 w-4" strokeWidth={2.5} />
-              </div>
-              <div>
-                <div className="text-sm font-semibold">Smart Communications</div>
-                <div className="text-[11px] text-muted-foreground">WhatsApp Bot · Live</div>
-              </div>
-              <span className="ml-auto inline-flex items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.12)] px-2 py-0.5 text-[10px] text-[oklch(0.5_0.15_155)]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[oklch(0.5_0.15_155)] shadow-[0_0_6px_oklch(0.5_0.15_155)]" />
-                Online
-              </span>
-            </div>
-
-            <div className="mt-4 space-y-2 rounded-2xl border border-black/[0.07] bg-[oklch(0.98_0.005_250_/_0.7)] p-3">
-              <Bubble side="in">Hi</Bubble>
-              <Bubble side="out">
-                Hello Mr. Sharma 👋 — Aarav's pending fee is <b>₹48,500</b> (due 22 Sep). Tap to pay via UPI.
-              </Bubble>
-              <Bubble side="out" flush>
-                <button className="mt-1 flex w-full items-center justify-between gap-2 rounded-xl border border-black/[0.07] bg-[oklch(0.99_0.005_155)] px-3 py-2.5 text-[11px] font-semibold text-foreground shadow-inner transition hover:bg-[oklch(0.95_0.03_155)]">
-                  <span className="flex items-center gap-2">
-                    <IndianRupee className="h-3.5 w-3.5 text-[oklch(0.5_0.15_155)]" />
-                    <span className="text-[oklch(0.5_0.15_155)]">Secure UPI</span>
-                    <span className="text-black/40">|</span>
-                    <span>Pay ₹48,500</span>
-                  </span>
-                  <ArrowUpRight className="h-3.5 w-3.5 text-[oklch(0.5_0.15_155)]" />
-                </button>
-              </Bubble>
-              <Bubble side="in">
-                <span className="inline-flex items-center gap-1">
-                  Paid ✅ <CheckCheck className="h-3 w-3" />
-                </span>
-              </Bubble>
-            </div>
-            <div className="mt-3 flex items-center justify-between text-[11px] text-muted-foreground">
-              <span>2,341 auto-replies this month</span>
-              <span>Avg response · 1.2s</span>
-            </div>
-          </div>
-        </div>
       </div>
+
 
 
       {/* Defaulters table */}
