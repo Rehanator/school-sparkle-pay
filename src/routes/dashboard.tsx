@@ -331,24 +331,6 @@ function Dashboard() {
   );
 }
 
-function Bubble({ side, children, flush }: { side: "in" | "out"; children: React.ReactNode; flush?: boolean }) {
-  return (
-    <div className={`flex ${side === "in" ? "justify-end" : "justify-start"}`}>
-      <div
-        className={`max-w-[85%] rounded-2xl text-xs ${flush ? "p-0 bg-transparent" : "px-3 py-2"} ${
-          flush
-            ? ""
-            : side === "in"
-              ? "rounded-br-sm bg-[oklch(0.9_0.12_155)] text-[oklch(0.2_0.05_155)]"
-              : "rounded-bl-sm bg-white text-foreground border border-black/[0.05] shadow-sm"
-        }`}
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
-
 function UrgencyBadge({ level }: { level: string }) {
   const map = {
     high: { bg: "bg-[oklch(0.7_0.2_25_/_0.15)]", ring: "border-[oklch(0.7_0.2_25_/_0.4)]", text: "text-[oklch(0.55_0.22_25)]", label: "Critical" },
