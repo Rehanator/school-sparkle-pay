@@ -37,12 +37,15 @@ export function MarketingNav() {
           ))}
         </nav>
 
-        <Link
-          to="/dashboard"
-          className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-[oklch(0.62_0.14_200_/_0.35)] transition hover:brightness-110"
-        >
-          Go to Dashboard <ArrowRight className="h-4 w-4" />
-        </Link>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <Link
+            to="/dashboard"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-[oklch(0.62_0.14_200_/_0.35)] transition hover:brightness-110"
+          >
+            Go to Dashboard <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
       </div>
     </header>
   );
