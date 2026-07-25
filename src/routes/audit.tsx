@@ -174,7 +174,7 @@ function Audit() {
               </tr>
             </thead>
             <tbody className="divide-y divide-black/[0.04] font-mono">
-              {logs.map((l, i) => (
+              {filteredLogs.map((l, i) => (
                 <tr key={i} className="hover:bg-black/[0.04]">
                   <td className="whitespace-nowrap px-5 py-3 text-xs text-muted-foreground">{l.ts}</td>
                   <td className="px-5 py-3 text-xs">{l.user}</td>
