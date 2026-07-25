@@ -160,7 +160,7 @@ function Audit() {
       </div>
 
       {/* Filters */}
-      <div className="glass flex flex-wrap items-center gap-2 rounded-2xl p-3">
+      <div className="glass relative z-30 flex flex-wrap items-center gap-2 rounded-2xl p-3">
         <div className="flex w-full max-w-xs items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input
