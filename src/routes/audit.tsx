@@ -116,7 +116,7 @@ function Audit() {
   }, [query, activeFilter, timeFilter]);
 
   const handleExport = () => {
-    const header = ["Timestamp", "Admin", "Action", "IP", "Type"];
+    const header = ["Timestamp", "Admin ID", "Username", "Action", "IP", "Type", "Category", "Risk"];
     const rows = filteredLogs.map((l) => [l.ts, `${l.adminId} · ${l.username}`, l.action, l.ip, l.type, l.category, l.risk]);
     const csv = [header, ...rows]
       .map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","))
