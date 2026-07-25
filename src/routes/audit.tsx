@@ -107,7 +107,10 @@ function Audit() {
       if (cutoff && parseLogTs(l.ts) < cutoff) return false;
       if (!q) return true;
       return (
-        l.user.toLowerCase().includes(q) ||
+        l.adminId.toLowerCase().includes(q) ||
+        l.username.toLowerCase().includes(q) ||
+        l.action.toLowerCase().includes(q) ||
+        l.ip.toLowerCase().includes(q)
         l.action.toLowerCase().includes(q) ||
         l.ip.toLowerCase().includes(q)
       );
