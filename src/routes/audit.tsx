@@ -111,8 +111,6 @@ function Audit() {
         l.username.toLowerCase().includes(q) ||
         l.action.toLowerCase().includes(q) ||
         l.ip.toLowerCase().includes(q)
-        l.action.toLowerCase().includes(q) ||
-        l.ip.toLowerCase().includes(q)
       );
     });
   }, [query, activeFilter, timeFilter]);
