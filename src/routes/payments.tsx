@@ -149,6 +149,7 @@ function PaymentsPage() {
   const [tab, setTab] = useState<"digital" | "offline">("digital");
   const [rows, setRows] = useState(initialOffline);
   const pendingCount = rows.filter((r) => r.status === "pending").length;
+  const approvedCount = rows.filter((r) => r.status === "approved").length;
 
   const decide = (id: string, status: "approved" | "rejected") =>
     setRows((r) => r.map((x) => (x.id === id ? { ...x, status } : x)));
