@@ -35,11 +35,20 @@ function initials(n: string) {
 
 function Staff() {
   const [active, setActive] = useState<Filter>("All");
+  const [query, setQuery] = useState("");
 
-  const filtered = useMemo(
-    () => (active === "All" ? staff : staff.filter((s) => s.dept === active)),
-    [active],
-  );
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return staff.filter((s) => {
+      const matchesDept = active === "All" || s.dept === active;
+      const matchesQuery =
+        !q ||
+        s.name.toLowerCase().includes(q) ||
+        s.role.toLowerCase().includes(q) ||
+        s.dept.toLowerCase().includes(q);
+      return matchesDept && matchesQuery;
+    });
+  }, [active, query]);
 
   return (
     <div className="space-y-6">
