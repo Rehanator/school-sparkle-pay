@@ -192,10 +192,10 @@ function Audit() {
               className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-white/[0.09] hover:text-white transition-colors"
             >
               {timeFilter}
-              <ChevronDown className={`h-4 w-4 transition-transform ${timeOpen ? "rotate-180" : ""}`} />
+              <ChevronDown className="h-4 w-4" />
             </button>
             {timeOpen && (
-              <div className="absolute right-0 bottom-full z-50 mb-2 min-w-[11rem] overflow-hidden rounded-xl border border-white/10 bg-black/90 p-1 shadow-xl backdrop-blur-md">
+              <div className="absolute right-0 top-full z-50 mt-2 min-w-[11rem] overflow-hidden rounded-xl border border-white/10 bg-black/90 p-1 shadow-xl backdrop-blur-md">
                 {TIME_OPTIONS.map((opt) => (
                   <button
                     key={opt}
