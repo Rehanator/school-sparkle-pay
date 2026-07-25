@@ -291,7 +291,14 @@ function PaymentsPage() {
               <div className="text-sm font-semibold">Offline Reconciliation</div>
               <div className="text-xs text-muted-foreground">Approve or reject manual entries.</div>
             </div>
-            <div className="text-xs text-muted-foreground">{pendingCount} pending</div>
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-2.5 py-1 text-sm font-medium text-foreground">
+                Pending <span className="text-muted-foreground">{pendingCount}</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-success/25 bg-success/10 px-2.5 py-1 text-sm font-medium text-success">
+                Approved today <span className="opacity-80">{approvedCount}</span>
+              </span>
+            </div>
           </div>
 
           <div className="overflow-x-auto">
