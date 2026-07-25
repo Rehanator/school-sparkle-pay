@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { Lock, ShieldCheck, Search, Download, Fingerprint } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Lock, ShieldCheck, Search, Download, Fingerprint, ChevronDown } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 
 export const Route = createFileRoute("/audit")({
