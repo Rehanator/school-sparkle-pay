@@ -55,23 +55,25 @@ function Staff() {
       />
 
       {/* Category filters */}
-      <div className="-mx-1 flex flex-wrap gap-2 px-1">
-        {FILTERS.map((f) => {
-          const isActive = f === active;
-          return (
-            <button
-              key={f}
-              onClick={() => setActive(f)}
-              className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all duration-250 ${
-                isActive
-                  ? "border-primary/30 bg-primary/10 text-foreground shadow-[0_0_0_1px_var(--primary)_/_0.1]"
-                  : "border-black/[0.08] bg-black/[0.02] text-muted-foreground hover:border-black/[0.14] hover:bg-black/[0.04] hover:text-foreground"
-              }`}
-            >
-              {f}
-            </button>
-          );
-        })}
+      <div className="-mx-1 mb-8 overflow-x-auto px-1 pb-1">
+        <div className="flex w-max items-center gap-2">
+          {FILTERS.map((f) => {
+            const isActive = f === active;
+            return (
+              <button
+                key={f}
+                onClick={() => setActive(f)}
+                className={`shrink-0 rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200 ${
+                  isActive
+                    ? "bg-cyan-400 text-black shadow-[0_0_16px_-4px_rgba(34,211,238,0.55)]"
+                    : "border border-neutral-800 bg-neutral-900/80 text-neutral-400 hover:border-neutral-700 hover:bg-neutral-800 hover:text-neutral-200"
+                }`}
+              >
+                {f}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
