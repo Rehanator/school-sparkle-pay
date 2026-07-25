@@ -11,6 +11,7 @@ import {
   CreditCard,
   Wallet,
   Percent,
+  Clock,
   type LucideIcon,
 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
@@ -135,11 +136,13 @@ type OfflineRow = {
   by: string;
   status: OfflineStatus;
 };
-const initialOffline: OfflineRow[] = [
-  { id: "OFF-1042", name: "Nikhil Verma", grade: "9-C", method: "Cash", amount: 12000, receipt: "R-2251", by: "Front Desk · Priya", status: "pending" },
-  { id: "OFF-1041", name: "Anaya Bose", grade: "7-A", method: "Cheque", amount: 45000, receipt: "R-2250", by: "Accounts · Ravi", status: "pending" },
-  { id: "OFF-1040", name: "Vivaan Rao", grade: "11-A", method: "Cash", amount: 8600, receipt: "R-2249", by: "Front Desk · Priya", status: "pending" },
-  { id: "OFF-1039", name: "Sara Fernandes", grade: "5-B", method: "Cheque", amount: 22000, receipt: "R-2248", by: "Accounts · Ravi", status: "pending" },
+type OfflineRowFull = OfflineRow & { time: string };
+const initialOffline: OfflineRowFull[] = [
+  { id: "OFF-1042", name: "Nikhil Verma", grade: "IX-C", method: "Cash", amount: 12000, receipt: "Receipt #4820", by: "Front Desk · Priya", status: "pending", time: "Today, 10:24 AM" },
+  { id: "OFF-1041", name: "Anaya Bose", grade: "VII-A", method: "Cheque", amount: 45000, receipt: "Receipt #4819", by: "Accounts · Ravi", status: "approved", time: "Today, 09:58 AM" },
+  { id: "OFF-1040", name: "Vivaan Rao", grade: "XI-A", method: "Cash", amount: 8600, receipt: "Receipt #4818", by: "Front Desk · Priya", status: "approved", time: "Today, 09:12 AM" },
+  { id: "OFF-1039", name: "Sara Fernandes", grade: "V-B", method: "Cheque", amount: 22000, receipt: "Receipt #4817", by: "Accounts · Ravi", status: "pending", time: "Today, 08:45 AM" },
+  { id: "OFF-1038", name: "Aarav Menon", grade: "III-B", method: "Cash", amount: 6400, receipt: "Receipt #4816", by: "Front Desk · Priya", status: "rejected", time: "Yesterday, 05:30 PM" },
 ];
 
 function PaymentsPage() {
@@ -203,6 +206,9 @@ function PaymentsPage() {
         </TabBtn>
         <TabBtn active={tab === "offline"} onClick={() => setTab("offline")}>
           💵 Offline · Reconciliation
+          <span className="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-warning/15 px-1.5 text-[10px] font-semibold text-warning">
+            {rows.filter((r) => r.status === "pending").length}
+          </span>
         </TabBtn>
       </div>
 
@@ -273,8 +279,8 @@ function PaymentsPage() {
           </div>
         </div>
       ) : (
-        <div className="glass rounded-2xl p-5">
-          <div className="mb-4 flex items-center justify-between">
+        <div className="glass overflow-hidden rounded-2xl">
+          <div className="flex items-center justify-between px-6 pt-5 pb-4">
             <div>
               <div className="text-sm font-semibold">Offline Reconciliation</div>
               <div className="text-xs text-muted-foreground">Approve or reject manual entries.</div>
@@ -282,62 +288,70 @@ function PaymentsPage() {
             <div className="text-xs text-muted-foreground">{rows.filter((r) => r.status === "pending").length} pending</div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[820px] text-left text-sm">
-              <thead className="text-[11px] uppercase tracking-wider text-muted-foreground">
-                <tr>
-                  <th className="pb-3 font-medium">Student</th>
-                  <th className="pb-3 font-medium">Method</th>
-                  <th className="pb-3 font-medium">Amount</th>
-                  <th className="pb-3 font-medium">Receipt</th>
-                  <th className="pb-3 font-medium">Entered by</th>
-                  <th className="pb-3 font-medium">Status</th>
-                  <th className="pb-3 text-right font-medium">Action</th>
+            <table className="w-full min-w-[900px] text-left text-sm">
+              <thead>
+                <tr className="border-y border-border bg-secondary/40 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  <th className="px-6 py-3">Entry</th>
+                  <th className="px-4 py-3">Student</th>
+                  <th className="px-4 py-3">Mode</th>
+                  <th className="px-4 py-3">Amount</th>
+                  <th className="px-4 py-3">Received By</th>
+                  <th className="px-4 py-3">Status</th>
+                  <th className="px-6 py-3 text-right">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {rows.map((r) => (
-                  <tr key={r.id}>
-                    <td className="py-3">
-                      <div className="font-medium">{r.name}</div>
-                      <div className="text-[11px] text-muted-foreground">
-                        {r.id} · {r.grade}
-                      </div>
+                  <tr key={r.id} className="transition hover:bg-secondary/40">
+                    <td className="px-6 py-5">
+                      <div className="font-semibold text-foreground">{r.id}</div>
+                      <div className="text-[11px] text-muted-foreground">{r.receipt}</div>
                     </td>
-                    <td>
+                    <td className="px-4 py-5">
+                      <div className="font-semibold text-foreground">{r.name}</div>
+                      <div className="text-[11px] text-muted-foreground">{r.grade}</div>
+                    </td>
+                    <td className="px-4 py-5">
                       <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-2 py-0.5 text-[11px]">
                         <Banknote className="h-3 w-3" /> {r.method}
                       </span>
                     </td>
-                    <td className="font-semibold">₹{r.amount.toLocaleString("en-IN")}</td>
-                    <td className="text-muted-foreground">{r.receipt}</td>
-                    <td className="text-muted-foreground">{r.by}</td>
-                    <td>
+                    <td className="px-4 py-5 font-semibold">₹{r.amount.toLocaleString("en-IN")}</td>
+                    <td className="px-4 py-5">
+                      <div className="text-sm text-foreground">{r.by}</div>
+                      <div className="text-[11px] text-muted-foreground">{r.time}</div>
+                    </td>
+                    <td className="px-4 py-5">
                       <StatusPill status={r.status} />
                     </td>
-                    <td className="text-right">
+                    <td className="px-6 py-5 text-right">
                       {r.status === "pending" ? (
                         <div className="inline-flex gap-2">
                           <button
                             onClick={() => decide(r.id, "approved")}
-                            className="inline-flex items-center gap-1 rounded-lg border border-success/30 bg-success/10 px-2.5 py-1.5 text-xs font-medium text-success transition hover:brightness-110"
+                            className="inline-flex items-center gap-1 rounded-lg bg-success/12 px-3 py-1.5 text-xs font-medium text-success transition hover:bg-success/20"
                           >
                             <CheckCircle2 className="h-3 w-3" /> Approve
                           </button>
                           <button
                             onClick={() => decide(r.id, "rejected")}
-                            className="inline-flex items-center gap-1 rounded-lg border border-destructive/30 bg-destructive/10 px-2.5 py-1.5 text-xs font-medium text-destructive transition hover:brightness-110"
+                            className="inline-flex items-center gap-1 rounded-lg bg-destructive/10 px-3 py-1.5 text-xs font-medium text-destructive transition hover:bg-destructive/20"
                           >
                             <XCircle className="h-3 w-3" /> Reject
                           </button>
                         </div>
                       ) : (
-                        <span className="text-[11px] text-muted-foreground">Resolved</span>
+                        <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground/70">Locked</span>
                       )}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className="flex items-center gap-2 border-t border-border bg-secondary/40 px-6 py-3 text-[11px] text-muted-foreground">
+            <Clock className="h-3.5 w-3.5" />
+            All manual entries are auto-audited. Approvals write immutable ledger entries in real time.
           </div>
         </div>
       )}
