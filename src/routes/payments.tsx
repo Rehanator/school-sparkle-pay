@@ -205,7 +205,16 @@ function PaymentsPage() {
       {/* Full-width segmented tabs */}
       <div className="glass grid w-full grid-cols-2 rounded-xl p-1">
         <TabBtn active={tab === "digital"} onClick={() => setTab("digital")}>
-          📱 Digital (UPI)
+          <span className="flex items-center gap-2">
+            📱 Digital (UPI)
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-black/20 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur-sm">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-400" />
+              </span>
+              Live
+            </span>
+          </span>
         </TabBtn>
         <TabBtn active={tab === "offline"} onClick={() => setTab("offline")}>
           💵 Offline · Reconciliation
@@ -215,7 +224,6 @@ function PaymentsPage() {
             </span>
           )}
         </TabBtn>
-
       </div>
 
       {tab === "digital" ? (
