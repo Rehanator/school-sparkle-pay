@@ -291,8 +291,8 @@ function PaymentsPage() {
               <div className="text-xs text-muted-foreground">Approve or reject manual entries.</div>
             </div>
             <div className="text-xs text-muted-foreground">{pendingCount} pending</div>
-
           </div>
+
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px] text-left text-sm">
               <thead>
