@@ -142,6 +142,7 @@ const initialOffline: OfflineRowFull[] = [
   { id: "OFF-1041", name: "Anaya Bose", grade: "VII-A", method: "Cheque", amount: 45000, receipt: "Receipt #4819", by: "Accounts · Ravi", status: "pending", time: "Today, 09:58 AM" },
   { id: "OFF-1040", name: "Vivaan Rao", grade: "XI-A", method: "Cash", amount: 8600, receipt: "Receipt #4818", by: "Front Desk · Priya", status: "approved", time: "Today, 09:12 AM" },
   { id: "OFF-1039", name: "Sara Fernandes", grade: "V-B", method: "Cheque", amount: 22000, receipt: "Receipt #4817", by: "Accounts · Ravi", status: "pending", time: "Today, 08:45 AM" },
+  { id: "OFF-1038", name: "Aarav Menon", grade: "III-B", method: "Cash", amount: 6400, receipt: "Receipt #4816", by: "Front Desk · Priya", status: "rejected", time: "Yesterday, 05:30 PM" },
 ];
 
 function PaymentsPage() {
