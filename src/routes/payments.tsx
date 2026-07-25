@@ -142,10 +142,10 @@ function PaymentsPage() {
 
       {/* Tabs */}
       <div className="glass inline-flex rounded-xl p-1">
-        <TabBtn active={tab === "digital"} onClick={() => setTab("digital")} icon={Smartphone}>
+        <TabBtn active={tab === "digital"} onClick={() => setTab("digital")}>
           📱 Digital (UPI)
         </TabBtn>
-        <TabBtn active={tab === "offline"} onClick={() => setTab("offline")} icon={Banknote}>
+        <TabBtn active={tab === "offline"} onClick={() => setTab("offline")}>
           💵 Offline
         </TabBtn>
       </div>
