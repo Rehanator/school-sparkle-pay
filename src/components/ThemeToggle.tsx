@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import SkyToggle from "./ui/sky-toggle";
+import { useEffect, useState, lazy, Suspense } from "react";
+
+const SkyToggle = lazy(() => import("./ui/sky-toggle"));
 
 function applyTheme(theme: "light" | "dark") {
   const root = document.documentElement;
@@ -31,7 +32,9 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
 
   return (
     <div className={`inline-flex shrink-0 items-center ${className}`}>
-      <SkyToggle checked={theme === "dark"} onChange={toggle} ariaLabel="Toggle theme" />
+      <Suspense fallback={<div className="h-[30px] w-[68px]" aria-hidden />}>
+        <SkyToggle checked={theme === "dark"} onChange={toggle} ariaLabel="Toggle theme" />
+      </Suspense>
     </div>
   );
 }
