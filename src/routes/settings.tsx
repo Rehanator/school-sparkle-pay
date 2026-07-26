@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Building2, Bell, Key, Palette } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/settings")({
   head: () => ({
@@ -44,7 +45,10 @@ function Settings() {
                   <div className="mt-1 text-xs text-muted-foreground">{s.desc}</div>
                 </div>
               </div>
-              <button className="mt-4 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-1.5 text-xs hover:bg-black/[0.07]">
+              <button
+                onClick={() => toast(s.title, { description: s.desc })}
+                className="mt-4 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-1.5 text-xs hover:bg-black/[0.07]"
+              >
                 Configure →
               </button>
             </div>

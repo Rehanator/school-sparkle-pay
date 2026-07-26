@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { Award, Mail, Phone, ArrowRight, Github, Linkedin, Twitter, UserPlus } from "lucide-react";
 import React, { useCallback, useMemo, useState } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
@@ -131,7 +132,14 @@ const TeamMemberCard = React.memo(({ member, index }: { member: Member; index: n
             <a href="#" aria-label="LinkedIn" className="transition hover:text-white"><Linkedin className="h-4 w-4" /></a>
             <a href="#" aria-label="Twitter" className="transition hover:text-white"><Twitter className="h-4 w-4" /></a>
           </div>
-          <button className="group inline-flex items-center gap-1 text-xs font-medium text-cyan-300 transition hover:text-cyan-200">
+          <button
+            onClick={() =>
+              toast(member.name, {
+                description: `${member.role} · ${member.dept} · ${member.email}`,
+              })
+            }
+            className="group inline-flex items-center gap-1 text-xs font-medium text-cyan-300 transition hover:text-cyan-200"
+          >
             View Profile
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </button>
@@ -159,7 +167,11 @@ function Staff() {
             Trusted finance professionals managing every school transaction with accuracy and transparency.
           </p>
         </div>
-        <button className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-cyan-400 px-4 py-2 text-sm font-semibold text-black shadow-[0_0_16px_-4px_rgba(34,211,238,0.45)] transition hover:bg-cyan-300">
+        <button
+          onClick={() =>
+            toast("Add staff", { description: "Staff onboarding form opens here in the full build." })
+          }
+          className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-cyan-400 px-4 py-2 text-sm font-semibold text-black shadow-[0_0_16px_-4px_rgba(34,211,238,0.45)] transition hover:bg-cyan-300">
           <UserPlus className="h-4 w-4" />
           Add Staff
         </button>

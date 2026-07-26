@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { useState } from "react";
 import {
   Plus,
@@ -92,7 +93,15 @@ function FeeEngine() {
                 <div className="mt-1 text-2xl font-semibold">₹{f.amount.toLocaleString("en-IN")}</div>
                 <div className="mt-auto flex items-center justify-between pt-3 text-[11px] text-muted-foreground">
                   <span>{f.students} students · {f.cycle}</span>
-                  <button className="rounded-lg px-2 py-1 text-xs font-medium text-primary transition hover:bg-primary/10">
+                  <button
+                    onClick={() =>
+                      toast(`${f.name} · ${f.status}`, {
+                        description: `₹${f.amount.toLocaleString("en-IN")} ${f.cycle.toLowerCase()} · ${f.students} students assigned.`,
+                        action: { label: "Edit", onClick: () => setModal(true) },
+                      })
+                    }
+                    className="rounded-lg px-2 py-1 text-xs font-medium text-primary transition hover:bg-primary/10"
+                  >
                     Manage →
                   </button>
                 </div>
@@ -143,7 +152,18 @@ function FeeEngine() {
             <div>
               <div className="flex items-center justify-between">
                 <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Installments</label>
-                <button className="text-[11px] font-medium text-primary hover:underline">✨ AI Auto-Suggest</button>
+                <button
+                  onClick={() => {
+                    setInstallments(6);
+                    setSplit(true);
+                    toast.success("AI suggested a 6-month split", {
+                      description: "Based on this family's past payment behaviour and income cycle.",
+                    });
+                  }}
+                  className="text-[11px] font-medium text-primary hover:underline"
+                >
+                  ✨ AI Auto-Suggest
+                </button>
               </div>
               <div className="mt-3">
                 <input
@@ -165,13 +185,22 @@ function FeeEngine() {
             </div>
 
             <button
-              onClick={() => setSplit(true)}
+              onClick={() => {
+                setSplit(true);
+                toast.success(`Plan generated · ${installments} installments`, {
+                  description: "Payment plan sent to the parent on WhatsApp.",
+                });
+              }}
               className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:brightness-105"
             >
               <Split className="h-4 w-4" /> Generate Plan & Notify Parent →
             </button>
             <button
-              onClick={() => { setSplit(false); setInstallments(4); }}
+              onClick={() => {
+                setSplit(false);
+                setInstallments(4);
+                toast("Split reset to default");
+              }}
               className="w-full text-center text-xs text-muted-foreground hover:text-foreground"
             >
               Reset Split
@@ -332,6 +361,7 @@ function RuleToggle({
 }
 
 function CreateFeeModal({ onClose }: { onClose: () => void }) {
+  const [cycle, setCycle] = useState("Monthly");
   return (
     <div className="fixed inset-0 z-50 grid place-items-center bg-black/50 p-4 backdrop-blur-sm">
       <div className="glass-strong w-full max-w-lg rounded-2xl p-6">
@@ -353,7 +383,12 @@ function CreateFeeModal({ onClose }: { onClose: () => void }) {
               {["Monthly", "Quarterly", "Annually"].map((c) => (
                 <button
                   key={c}
-                  className="rounded-lg border border-black/[0.07] bg-black/[0.04] px-3 py-2 text-sm hover:border-[oklch(0.85_0.12_180_/_0.4)] hover:bg-[oklch(0.85_0.12_180_/_0.08)]"
+                  onClick={() => setCycle(c)}
+                  className={`rounded-lg border px-3 py-2 text-sm transition ${
+                    cycle === c
+                      ? "border-[oklch(0.85_0.12_180_/_0.6)] bg-[oklch(0.85_0.12_180_/_0.14)] font-medium"
+                      : "border-black/[0.07] bg-black/[0.04] hover:border-[oklch(0.85_0.12_180_/_0.4)] hover:bg-[oklch(0.85_0.12_180_/_0.08)]"
+                  }`}
                 >
                   {c}
                 </button>
@@ -366,7 +401,10 @@ function CreateFeeModal({ onClose }: { onClose: () => void }) {
             Cancel
           </button>
           <button
-            onClick={onClose}
+            onClick={() => {
+              onClose();
+              toast.success("Fee head created", { description: `New ${cycle.toLowerCase()} fee added to your structure.` });
+            }}
             className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
           >
             Create Fee
