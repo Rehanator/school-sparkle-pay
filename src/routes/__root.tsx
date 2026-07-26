@@ -135,6 +135,8 @@ function RootComponent() {
           <Outlet />
         </AppShell>
       )}
+      <Toaster position="bottom-right" richColors closeButton />
     </QueryClientProvider>
+
   );
 }
