@@ -394,11 +394,6 @@ function LiveAuditStream({ query, types }: { query: string; types: string[] | nu
   return (
     <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/90 shadow-2xl shadow-slate-900/50 backdrop-blur-xl">
       <div className="flex items-center gap-3 border-b border-white/10 bg-slate-900 px-4 py-2.5">
-        <div className="flex items-center gap-1.5">
-          <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
-          <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
-          <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
-        </div>
         <div className="flex-1 text-center font-mono text-xs text-slate-400">
           /var/ledger/tamper_proof_audit.log
         </div>
