@@ -425,7 +425,9 @@ function LiveAuditStream({ query, types }: { query: string; types: string[] | nu
                 className="whitespace-nowrap font-mono text-sm"
               >
                 <span className="text-slate-500">[{e.ts}]</span>{" "}
-                <span className={statusTone[e.status] ?? "text-slate-300"}>[{e.status}]</span>{" "}
+                <span className={`inline-flex items-center gap-1.5 ${statusTone[e.status] ?? "text-slate-300"}`}>
+                  {statusIcon[e.status]} [{e.status}]
+                </span>{" "}
                 <span className="text-sky-400">
                   [{e.admin.startsWith("SYS") ? "System" : "User"}: {e.admin}]
                 </span>{" "}
