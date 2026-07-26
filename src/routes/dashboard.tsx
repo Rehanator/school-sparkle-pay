@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { NumberTicker } from "@/components/ui/number-ticker";
 import {
   TrendingUp,
   TrendingDown,
@@ -28,40 +30,44 @@ export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
 });
 
-const metrics = [
+const metricMeta = [
   {
+    key: "revenue" as const,
     label: "Total Revenue",
-    value: "₹42.8L",
     delta: "+5.2% this month",
     up: true,
     icon: IndianRupee,
     tint: "from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)]",
   },
   {
+    key: "dues" as const,
     label: "Pending Dues",
-    value: "₹6.4L",
     delta: "-2.1% vs last month",
     up: false,
     icon: TrendingDown,
     tint: "from-[oklch(0.82_0.16_70)] to-[oklch(0.75_0.2_35)]",
   },
   {
+    key: "defaulters" as const,
     label: "Active Defaulters",
-    value: "34",
     delta: "+3 new this week",
     up: false,
     icon: AlertTriangle,
     tint: "from-[oklch(0.7_0.2_25)] to-[oklch(0.75_0.18_15)]",
   },
   {
+    key: "upi" as const,
     label: "UPI vs Cash",
-    value: "78 / 22",
     delta: "UPI adoption ↑",
     up: true,
     icon: Smartphone,
     tint: "from-[oklch(0.82_0.12_300)] to-[oklch(0.82_0.13_220)]",
   },
 ] as const;
+
+const lakhs = (n: number) => (n / 100000).toFixed(1);
+const rand = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+
 
 const revenueSources = [
   { name: "Tuition", value: 2850000, color: "oklch(0.88 0.14 165)" },
@@ -88,7 +94,45 @@ const defaulters = [
 ];
 
 function Dashboard() {
+  const [live, setLive] = useState({
+    revenue: 4280000,
+    dues: 640000,
+    defaulters: 34,
+    upi: 78,
+    tuition: 2910000,
+    transport: 770000,
+    lateFees: 430000,
+  });
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setLive((p) => {
+        const tuition = p.tuition + rand(1000, 15000);
+        const transport = p.transport + rand(500, 6000);
+        const lateFees = p.lateFees + rand(200, 3000);
+        return {
+          revenue: p.revenue + rand(1000, 15000),
+          dues: Math.max(100000, p.dues + rand(-8000, 6000)),
+          defaulters: Math.min(60, Math.max(20, p.defaulters + rand(-1, 1))),
+          upi: Math.min(92, Math.max(60, p.upi + rand(-1, 1))),
+          tuition,
+          transport,
+          lateFees,
+        };
+      });
+    }, 3000);
+    return () => clearInterval(id);
+  }, []);
+
+  const breakdownTotal = live.tuition + live.transport + live.lateFees;
+  const sources = [
+    { name: "Tuition", amount: live.tuition, color: "oklch(0.88 0.14 165)" },
+    { name: "Transport", amount: live.transport, color: "oklch(0.82 0.13 220)" },
+    { name: "Late Fees", amount: live.lateFees, color: "oklch(0.82 0.16 70)" },
+  ].map((s) => ({ ...s, pct: Math.round((s.amount / breakdownTotal) * 100) }));
+
   return (
+
     <div className="space-y-6">
       <PageHeader
         eyebrow="Overview"
@@ -121,8 +165,22 @@ function Dashboard() {
 
       {/* Metric cards */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {metrics.map((m) => {
+        {metricMeta.map((m) => {
           const Icon = m.icon;
+          const ticker =
+            m.key === "revenue" ? (
+              <NumberTicker value={live.revenue} prefix="₹" suffix="L" format={lakhs} />
+            ) : m.key === "dues" ? (
+              <NumberTicker value={live.dues} prefix="₹" suffix="L" format={lakhs} />
+            ) : m.key === "defaulters" ? (
+              <NumberTicker value={live.defaulters} />
+            ) : (
+              <span className="inline-flex items-center gap-1">
+                <NumberTicker value={live.upi} />
+                <span>/</span>
+                <NumberTicker value={100 - live.upi} />
+              </span>
+            );
           return (
             <div key={m.label} className="glass rounded-2xl p-5">
               <div className="flex items-start justify-between">
@@ -140,11 +198,12 @@ function Dashboard() {
                   {m.delta}
                 </span>
               </div>
-              <div className="mt-4 text-3xl font-semibold tracking-tight">{m.value}</div>
+              <div className="mt-4 text-3xl font-semibold tracking-tight">{ticker}</div>
               <div className="mt-1 text-xs text-muted-foreground">{m.label}</div>
             </div>
           );
         })}
+
       </div>
 
       {/* Live collection pulse */}
@@ -158,27 +217,30 @@ function Dashboard() {
               <div className="text-sm font-semibold">Revenue Breakdown</div>
               <div className="text-xs text-muted-foreground">FY 2025-26 · YTD</div>
             </div>
-            <div className="text-xs text-muted-foreground">Total ₹42.8L</div>
+            <div className="text-xs text-muted-foreground">
+              Total <NumberTicker value={breakdownTotal} prefix="₹" suffix="L" format={lakhs} />
+            </div>
           </div>
 
           {/* Horizontal progress bars */}
           <div className="space-y-3">
-            {[
-              { name: "Tuition", pct: 68, amount: "₹29.1L", color: "oklch(0.88 0.14 165)" },
-              { name: "Transport", pct: 18, amount: "₹7.7L", color: "oklch(0.82 0.13 220)" },
-              { name: "Late Fees", pct: 10, amount: "₹4.3L", color: "oklch(0.82 0.16 70)" },
-            ].map((s) => (
+            {sources.map((s) => (
               <div key={s.name}>
                 <div className="flex items-center justify-between text-xs">
                   <span className="flex items-center gap-2">
                     <span className="h-2.5 w-2.5 rounded-full" style={{ background: s.color }} />
-                    {s.name} <span className="text-muted-foreground">({s.pct}%)</span>
+                    {s.name}{" "}
+                    <span className="inline-flex items-center text-muted-foreground">
+                      (<NumberTicker value={s.pct} suffix="%" />)
+                    </span>
                   </span>
-                  <span className="font-medium">{s.amount}</span>
+                  <span className="font-medium">
+                    <NumberTicker value={s.amount} prefix="₹" suffix="L" format={lakhs} />
+                  </span>
                 </div>
                 <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-black/[0.04]">
                   <div
-                    className="h-full rounded-full"
+                    className="h-full rounded-full transition-all duration-1000 ease-out"
                     style={{
                       width: `${s.pct}%`,
                       background: `linear-gradient(90deg, ${s.color}, oklch(0.9 0.1 200))`,
@@ -188,6 +250,7 @@ function Dashboard() {
                 </div>
               </div>
             ))}
+
           </div>
         </div>
       </div>
