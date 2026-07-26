@@ -193,8 +193,8 @@ function Audit() {
               onClick={() => setActiveFilter(i)}
               className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                 i === activeFilter
-                  ? "bg-white/15 text-white shadow-[0_0_12px_-4px_rgba(255,255,255,0.25)]"
-                  : "bg-white/[0.04] text-muted-foreground hover:bg-white/[0.08] hover:text-white border border-white/10"
+                  ? "bg-foreground/10 text-foreground"
+                  : "bg-foreground/[0.04] text-muted-foreground hover:bg-foreground/[0.08] hover:text-foreground border border-border"
               }`}
             >
               {f.label}
@@ -205,7 +205,7 @@ function Audit() {
           <div ref={timeRef} className="relative">
             <button
               onClick={() => setTimeOpen((o) => !o)}
-              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-white/[0.09] hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-foreground/[0.05] px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-foreground/[0.09] hover:text-foreground transition-colors"
             >
               {timeFilter}
               <ChevronDown className="h-4 w-4" />
@@ -221,8 +221,8 @@ function Audit() {
                     }}
                     className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-colors ${
                       timeFilter === opt
-                        ? "bg-white/10 text-white"
-                        : "text-muted-foreground hover:bg-white/[0.06] hover:text-white"
+                        ? "bg-foreground/10 text-foreground"
+                        : "text-muted-foreground hover:bg-foreground/[0.06] hover:text-foreground"
                     }`}
                   >
                     {opt}
@@ -260,7 +260,7 @@ function Audit() {
                 <tr key={i} className="hover:bg-black/[0.04]">
                   <td className="whitespace-nowrap px-5 py-3 text-xs text-muted-foreground">{l.ts}</td>
                   <td className="px-5 py-3 text-xs">
-                    <div className="font-semibold text-white">{l.adminId}</div>
+                    <div className="font-semibold text-foreground">{l.adminId}</div>
                     <div className="mt-0.5 text-[11px] font-normal text-muted-foreground">{l.username}</div>
                   </td>
                   <td className="px-5 py-3">
