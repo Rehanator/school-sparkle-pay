@@ -255,59 +255,132 @@ function Audit() {
   );
 }
 
-type StreamLevel = "SUCCESS" | "ERROR" | "WARNING" | "INFO";
+const TYPES = [
+  "Waiver", "Approval", "Config", "Payment", "Delete",
+  "System", "Refund", "Auth", "Sync", "Backup", "Export",
+] as const;
 
-const STREAM_MESSAGES: { msg: string; level: StreamLevel; type: string }[] = [
-  { msg: "Manually Waived ₹500 Late Fee for Student #104", level: "INFO", type: "waive" },
-  { msg: "Approved Offline Cash Payment ₹12,000 (Receipt R-2251)", level: "SUCCESS", type: "approve" },
-  { msg: "Rejected Cheque Entry #OFF-1039 - Signature mismatch", level: "ERROR", type: "reject" },
-  { msg: "Enabled rule: First-Time Late Payer Grace Period", level: "SUCCESS", type: "rule" },
-  { msg: "Split ₹60,000 Annual Fee -> 4x ₹15,000 EMI for Student #104", level: "SUCCESS", type: "split" },
-  { msg: "Deleted Cash Entry #OFF-1038 - Reason: Duplicate", level: "ERROR", type: "delete" },
-  { msg: "Rotated API key for UPI webhook", level: "WARNING", type: "system" },
-  { msg: "WhatsApp Bot sent 214 due-reminders to defaulters", level: "INFO", type: "system" },
-  { msg: 'Created New Fee Head "Robotics Club" ₹3,500', level: "SUCCESS", type: "create" },
-  { msg: "Exported Q2 Reconciliation Report (CSV)", level: "INFO", type: "export" },
-  { msg: "Auto-approved 42 UPI transactions (₹4,86,300 total)", level: "SUCCESS", type: "approve" },
-  { msg: "Ledger block #48,229 cryptographically verified.", level: "SUCCESS", type: "system" },
+const RISKS = ["Low", "Medium", "High", "Critical"] as const;
+
+const ADMINS = [
+  "ADM-001", "ADM-045", "ADM-089", "SYS-BOT-1", "SYS-UPI-GATEWAY",
+  "FIN-012", "ACC-033", "MGR-005", "AUDIT-99",
 ];
 
-const levelStyle: Record<StreamLevel, { text: string; Icon: typeof CheckCircle2 }> = {
-  SUCCESS: { text: "text-emerald-400", Icon: CheckCircle2 },
-  ERROR: { text: "text-rose-400", Icon: AlertTriangle },
-  WARNING: { text: "text-amber-400", Icon: AlertTriangle },
-  INFO: { text: "text-sky-400", Icon: Info },
+const IPS = [
+  "10.14.22.8", "192.168.1.45", "127.0.0.1", "10.0.4.19",
+  "203.192.14.55", "182.68.90.14", "sys.internal",
+];
+
+const ACTIONS = [
+  "Manually Waived ₹500 Late Fee for Student #104",
+  "Approved Offline Cash Payment ₹12,000 (Receipt R-2251)",
+  "Rejected Cheque Entry #OFF-1039 - Signature mismatch",
+  "Enabled rule: First-Time Late Payer Grace Period",
+  "Split ₹60,000 Annual Fee -> 4x ₹15,000 EMI for Student #104",
+  "Deleted Cash Entry #OFF-1038 - Reason: Duplicate",
+  "Rotated API key for UPI webhook",
+  "Nightly ledger snapshot committed - block #48,221",
+  "Failed SSO login attempt detected - Account locked",
+  "Reversed transaction TXN2019 - Reason: Wrong student mapped",
+  "Auto-approved 42 UPI transactions (₹4,86,300 total)",
+  "Database backup synced to secure cloud vault",
+];
+
+const typeTone: Record<string, string> = {
+  Waiver: "text-amber-400",
+  Approval: "text-sky-400",
+  Config: "text-fuchsia-400",
+  Payment: "text-emerald-400",
+  Delete: "text-rose-400",
+  System: "text-slate-300",
+  Refund: "text-orange-400",
+  Auth: "text-cyan-400",
+  Sync: "text-teal-400",
+  Backup: "text-indigo-400",
+  Export: "text-violet-400",
 };
 
-type StreamEntry = { id: number; ts: string; level: StreamLevel; msg: string; type: string };
+const riskTone: Record<string, string> = {
+  Low: "text-emerald-400",
+  Medium: "text-amber-400",
+  High: "text-rose-400",
+  Critical: "text-red-500",
+};
 
-function stamp() {
-  return new Date().toLocaleTimeString("en-GB", { hour12: false }) + "." +
-    String(new Date().getMilliseconds()).padStart(3, "0");
+// map a log Type onto the top action-bar filter keys
+const typeToFilterKey: Record<string, string> = {
+  Waiver: "waive",
+  Delete: "delete",
+  Config: "rule",
+  System: "system",
+  Sync: "system",
+  Auth: "system",
+  Backup: "system",
+  Export: "export",
+  Approval: "approve",
+  Payment: "split",
+  Refund: "reject",
+};
+
+type StreamEntry = {
+  id: number;
+  ts: string;
+  type: string;
+  risk: string;
+  admin: string;
+  ip: string;
+  msg: string;
+  filterKey: string;
+};
+
+const pick = <T,>(arr: readonly T[]) => arr[Math.floor(Math.random() * arr.length)];
+
+function stamp(offsetMs = 0) {
+  const d = new Date(Date.now() - offsetMs);
+  const p = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+}
+
+let streamId = 0;
+function makeEntry(offsetMs = 0): StreamEntry {
+  const type = pick(TYPES) as string;
+  return {
+    id: ++streamId,
+    ts: stamp(offsetMs),
+    type,
+    risk: pick(RISKS) as string,
+    admin: pick(ADMINS),
+    ip: pick(IPS),
+    msg: pick(ACTIONS),
+    filterKey: typeToFilterKey[type] ?? "system",
+  };
 }
 
 function LiveAuditStream({ query, types }: { query: string; types: string[] | null }) {
   const [entries, setEntries] = useState<StreamEntry[]>(() =>
-    Array.from({ length: 6 }, (_, i) => {
-      const pick = STREAM_MESSAGES[Math.floor(Math.random() * STREAM_MESSAGES.length)];
-      return { id: i, ts: stamp(), ...pick };
-    }),
+    Array.from({ length: 10 }, (_, i) => makeEntry((10 - i) * 4000)),
   );
-  const idRef = useRef(1000);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const t = setInterval(() => {
-      const pick = STREAM_MESSAGES[Math.floor(Math.random() * STREAM_MESSAGES.length)];
-      setEntries((prev) => [...prev.slice(-24), { id: ++idRef.current, ts: stamp(), ...pick }]);
-    }, 1800);
+      setEntries((prev) => [...prev.slice(-30), makeEntry()]);
+    }, 1600);
     return () => clearInterval(t);
   }, []);
 
   const visible = entries.filter((e) => {
-    if (types && !types.includes(e.type)) return false;
+    if (types && !types.includes(e.filterKey)) return false;
     const q = query.trim().toLowerCase();
-    return !q || e.msg.toLowerCase().includes(q) || e.level.toLowerCase().includes(q);
+    if (!q) return true;
+    return (
+      e.msg.toLowerCase().includes(q) ||
+      e.admin.toLowerCase().includes(q) ||
+      e.ip.toLowerCase().includes(q) ||
+      e.type.toLowerCase().includes(q) ||
+      e.risk.toLowerCase().includes(q)
+    );
   });
 
   useEffect(() => {
@@ -315,7 +388,7 @@ function LiveAuditStream({ query, types }: { query: string; types: string[] | nu
   }, [visible.length]);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/80 shadow-2xl shadow-slate-900/50 backdrop-blur-xl">
+    <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/90 shadow-2xl shadow-slate-900/50 backdrop-blur-xl">
       <div className="flex items-center gap-3 border-b border-white/10 bg-slate-900 px-4 py-2.5">
         <div className="flex items-center gap-1.5">
           <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
@@ -334,29 +407,27 @@ function LiveAuditStream({ query, types }: { query: string; types: string[] | nu
         </div>
       </div>
 
-      <div className="h-[26rem] overflow-hidden px-4 py-3">
-        <div className="flex h-full flex-col justify-end gap-1">
+      <div className="h-[26rem] overflow-x-auto overflow-y-hidden px-4 py-3">
+        <div className="flex h-full min-w-max flex-col justify-end gap-1">
           <AnimatePresence initial={false}>
-            {visible.slice(-14).map((e) => {
-              const { text, Icon } = levelStyle[e.level];
-              return (
-                <motion.div
-                  key={e.id}
-                  layout
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="flex items-start gap-2 whitespace-nowrap font-mono text-sm"
-                >
-                  <span className="text-slate-500">[{e.ts}]</span>
-                  <span className={`inline-flex shrink-0 items-center gap-1 font-semibold ${text}`}>
-                    <Icon className="h-3.5 w-3.5" />[{e.level}]
-                  </span>
-                  <span className="truncate text-slate-200">{e.msg}</span>
-                </motion.div>
-              );
-            })}
+            {visible.slice(-14).map((e) => (
+              <motion.div
+                key={e.id}
+                layout
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className="whitespace-nowrap font-mono text-sm"
+              >
+                <span className="text-slate-500">[{e.ts}]</span>{" "}
+                <span className={typeTone[e.type] ?? "text-slate-300"}>[{e.type}]</span>{" "}
+                <span className={riskTone[e.risk]}>[Risk: {e.risk}]</span>{" "}
+                <span className="text-slate-500">[{e.admin}]</span>{" "}
+                <span className="text-slate-500">[{e.ip}]</span>{" "}
+                <span className="text-emerald-200">{e.msg}</span>
+              </motion.div>
+            ))}
           </AnimatePresence>
           <div ref={bottomRef} />
           <div className="font-mono text-sm text-emerald-500">
@@ -368,4 +439,5 @@ function LiveAuditStream({ query, types }: { query: string; types: string[] | nu
     </div>
   );
 }
+
 
