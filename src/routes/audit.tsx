@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Lock, ShieldCheck, Search, Download, Fingerprint, ChevronDown } from "lucide-react";
+import { Lock, ShieldCheck, Search, Download, Fingerprint, ChevronDown, CheckCircle, AlertTriangle, Info } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { PageHeader } from "@/components/PageHeader";
 
@@ -283,6 +283,13 @@ const statusTone: Record<string, string> = {
   ERROR: "text-rose-400",
 };
 
+const statusIcon: Record<string, React.ReactNode> = {
+  INFO: <Info className="h-3.5 w-3.5" />,
+  SUCCESS: <CheckCircle className="h-3.5 w-3.5" />,
+  WARNING: <AlertTriangle className="h-3.5 w-3.5" />,
+  ERROR: <AlertTriangle className="h-3.5 w-3.5" />,
+};
+
 const ADMINS = [
   "ADM-001", "ADM-045", "ADM-089", "SYS-BOT-1", "SYS-UPI-GATEWAY",
   "FIN-012", "ACC-033", "MGR-005", "AUDIT-99",
@@ -418,7 +425,9 @@ function LiveAuditStream({ query, types }: { query: string; types: string[] | nu
                 className="whitespace-nowrap font-mono text-sm"
               >
                 <span className="text-slate-500">[{e.ts}]</span>{" "}
-                <span className={statusTone[e.status] ?? "text-slate-300"}>[{e.status}]</span>{" "}
+                <span className={`inline-flex items-center gap-1.5 ${statusTone[e.status] ?? "text-slate-300"}`}>
+                  {statusIcon[e.status]} [{e.status}]
+                </span>{" "}
                 <span className="text-sky-400">
                   [{e.admin.startsWith("SYS") ? "System" : "User"}: {e.admin}]
                 </span>{" "}
