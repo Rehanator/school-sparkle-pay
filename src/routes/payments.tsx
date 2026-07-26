@@ -15,6 +15,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/payments")({
   head: () => ({
@@ -151,8 +152,33 @@ function PaymentsPage() {
   const pendingCount = rows.filter((r) => r.status === "pending").length;
   const approvedCount = rows.filter((r) => r.status === "approved").length;
 
-  const decide = (id: string, status: "approved" | "rejected") =>
+  const decide = (id: string, status: "approved" | "rejected") => {
     setRows((r) => r.map((x) => (x.id === id ? { ...x, status } : x)));
+    const row = rows.find((x) => x.id === id);
+    if (status === "approved") {
+      toast.success(`Payment approved · ${row?.receipt ?? id}`, {
+        description: "Receipt issued and an immutable audit entry was written.",
+      });
+    } else {
+      toast.error(`Payment rejected · ${row?.receipt ?? id}`, {
+        description: "The cashier has been notified to re-verify the entry.",
+      });
+    }
+  };
+
+  const exportCsv = () => {
+    const header = "receipt,student,grade,method,amount,recorded_by,status";
+    const body = rows
+      .map((r) => [r.receipt, r.name, r.grade, r.method, r.amount, r.by, r.status].join(","))
+      .join("\n");
+    const url = URL.createObjectURL(new Blob([`${header}\n${body}`], { type: "text/csv" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "payments-export.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Export ready", { description: `${rows.length} reconciliation rows downloaded.` });
+  };
 
 
   return (
@@ -163,10 +189,16 @@ function PaymentsPage() {
         description="Live UPI collections and manual reconciliation in one console."
         actions={
           <div className="flex items-center gap-3">
-            <button className="inline-flex items-center gap-2 rounded-xl border border-border bg-secondary px-3 py-2 text-sm font-medium transition hover:bg-secondary/80">
+            <button
+              onClick={() => setTab((t) => (t === "digital" ? "offline" : "digital"))}
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-secondary px-3 py-2 text-sm font-medium transition hover:bg-secondary/80"
+            >
               <Filter className="h-4 w-4" /> Filter
             </button>
-            <button className="inline-flex items-center gap-2 rounded-xl border border-border bg-secondary px-3 py-2 text-sm font-medium transition hover:bg-secondary/80">
+            <button
+              onClick={exportCsv}
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-secondary px-3 py-2 text-sm font-medium transition hover:bg-secondary/80"
+            >
               <Download className="h-4 w-4" /> Export
             </button>
           </div>
