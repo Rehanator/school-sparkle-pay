@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Lock, ShieldCheck, Search, Download, Fingerprint, ChevronDown } from "lucide-react";
+import { Lock, ShieldCheck, Search, Download, Fingerprint, ChevronDown, CheckCircle, AlertTriangle, Info } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { PageHeader } from "@/components/PageHeader";
 
