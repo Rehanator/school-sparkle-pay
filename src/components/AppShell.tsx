@@ -13,6 +13,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import { toast } from "sonner";
 import { Sidebar, SidebarBody, SidebarLink, useSidebar } from "./ui/sidebar-aceternity";
 import { motion } from "framer-motion";
 
@@ -67,7 +68,12 @@ function SidebarSupport() {
         <div className="mt-2 text-[10.5px] leading-snug text-muted-foreground">
           Reach our support desk 24/7
         </div>
-        <button className="mt-2 w-full rounded-lg border border-black/[0.07] bg-black/[0.04] px-2 py-1.5 text-[10.5px] font-medium text-foreground hover:bg-black/[0.07]">
+        <button
+          onClick={() =>
+            toast("Support desk", { description: "We're online 24/7 — support@smartschool.app · +91 80 4567 1200" })
+          }
+          className="mt-2 w-full rounded-lg border border-black/[0.07] bg-black/[0.04] px-2 py-1.5 text-[10.5px] font-medium text-foreground hover:bg-black/[0.07]"
+        >
           Contact support
         </button>
       </div>
@@ -162,7 +168,15 @@ export function AppShell({ children }: { children: ReactNode }) {
               </kbd>
             </div>
             <ThemeToggle />
-            <button className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-black/[0.07] bg-black/[0.04] hover:bg-black/[0.07]">
+            <button
+              aria-label="Notifications"
+              onClick={() =>
+                toast("3 new notifications", {
+                  description: "2 offline payments awaiting approval · 1 waiver request.",
+                })
+              }
+              className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-black/[0.07] bg-black/[0.04] hover:bg-black/[0.07]"
+            >
               <Bell className="h-[18px] w-[18px]" />
               <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[oklch(0.82_0.16_70)] shadow-[0_0_8px_oklch(0.82_0.16_70)]" />
             </button>

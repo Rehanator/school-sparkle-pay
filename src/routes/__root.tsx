@@ -15,6 +15,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppShell } from "../components/AppShell";
 import { MarketingBackdrop } from "../components/MarketingBackdrop";
 import { MarketingNav } from "../components/MarketingNav";
+import { Toaster } from "../components/ui/sonner";
+
 
 function NotFoundComponent() {
   return (
@@ -135,6 +137,8 @@ function RootComponent() {
           <Outlet />
         </AppShell>
       )}
+      <Toaster position="bottom-right" richColors closeButton />
     </QueryClientProvider>
+
   );
 }

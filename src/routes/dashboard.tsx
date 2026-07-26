@@ -21,6 +21,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import { PageHeader } from "@/components/PageHeader";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -109,7 +110,16 @@ function Dashboard() {
               </span>
               Live sync active
             </span>
-            <button className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-[oklch(0.85_0.12_180)_/_0.25] hover:brightness-110">
+            <button
+              onClick={() =>
+                toast.promise(new Promise((r) => setTimeout(r, 1200)), {
+                  loading: "Compiling today's collection report…",
+                  success: "Report ready — download link sent to your inbox.",
+                  error: "Could not generate report.",
+                })
+              }
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-[oklch(0.85_0.12_180)_/_0.25] hover:brightness-110"
+            >
               <Sparkles className="h-4 w-4" /> Generate Report
             </button>
           </>
@@ -239,7 +249,14 @@ function Dashboard() {
             </div>
             <div className="text-xs text-muted-foreground">Highest overdue balances, first</div>
           </div>
-          <button className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-[oklch(0.85_0.12_180)_/_0.25] hover:brightness-110">
+          <button
+            onClick={() =>
+              toast.success(`Bulk reminder queued for ${defaulters.length} families`, {
+                description: "WhatsApp + SMS reminders will be delivered within 5 minutes.",
+              })
+            }
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-[oklch(0.85_0.12_180)_/_0.25] hover:brightness-110"
+          >
             <Send className="h-4 w-4" /> Send Bulk Reminder
           </button>
         </div>
@@ -279,7 +296,14 @@ function Dashboard() {
                     <UrgencyBadge level={d.level} />
                   </td>
                   <td className="text-right">
-                    <button className="glass inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition hover:bg-black/[0.07]">
+                    <button
+                      onClick={() =>
+                        toast.success(`Reminder sent to ${d.name}'s parent`, {
+                          description: `WhatsApp payment link for ${d.due} delivered.`,
+                        })
+                      }
+                      className="glass inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition hover:bg-black/[0.07]"
+                    >
                       <Bell className="h-3.5 w-3.5 text-[oklch(0.5_0.15_155)]" />
                       Notify
                     </button>
