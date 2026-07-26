@@ -10,6 +10,7 @@ import {
   Send,
   MessagesSquare,
   CheckCircle2,
+  LineChart,
 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { TodayCollectionPulse } from "@/components/TodayCollectionPulse";
