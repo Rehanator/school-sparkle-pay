@@ -136,7 +136,7 @@ export function TodayCollectionPulse() {
                 dataKey="amount"
                 stroke="#3b82f6"
                 strokeWidth={3}
-                dot={{ r: 4, stroke: "#3b82f6", strokeWidth: 2, fill: "hsl(var(--card))" }}
+                dot={{ r: 4, stroke: "#3b82f6", strokeWidth: 2, fill: "var(--card)" }}
                 activeDot={{ r: 6, stroke: "#3b82f6", strokeWidth: 2, fill: "#3b82f6" }}
                 isAnimationActive={true}
                 animationDuration={800}
