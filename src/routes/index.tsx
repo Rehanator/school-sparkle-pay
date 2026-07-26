@@ -48,7 +48,12 @@ function Landing() {
             Open Admin Dashboard
             <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
           </Link>
-          <button className="glass inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-sm font-semibold text-foreground transition hover:bg-white/60">
+          <button
+            onClick={() =>
+              document.getElementById("product-preview")?.scrollIntoView({ behavior: "smooth", block: "center" })
+            }
+            className="glass inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-sm font-semibold text-foreground transition hover:bg-white/60"
+          >
             <PlayCircle className="h-4 w-4 text-[oklch(0.5_0.15_200)]" />
             See How It Works
           </button>
@@ -67,16 +72,18 @@ function Landing() {
         </div>
 
         {/* Floating dashboard mockup */}
-        <div className="relative mt-16 w-full">
+        <div id="product-preview" className="relative mt-16 w-full scroll-mt-24">
           <div className="pointer-events-none absolute inset-x-8 -bottom-6 h-24 rounded-[40px] bg-[oklch(0.5_0.14_200)] opacity-25 blur-3xl" />
           <div className="glass-strong relative overflow-hidden rounded-3xl p-2 shadow-[0_40px_100px_-30px_oklch(0_0_0/0.35)] ring-1 ring-black/[0.04]">
+            <Link to="/dashboard" className="block">
             <img
               src={dashboardMockup}
               alt="Preview of the Smart School FinTech admin dashboard showing revenue analytics, defaulters and WhatsApp payment automation."
               width={1600}
               height={1008}
-              className="w-full rounded-2xl"
+              className="w-full rounded-2xl transition hover:brightness-[1.02]"
             />
+            </Link>
           </div>
         </div>
       </section>
