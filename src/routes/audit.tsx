@@ -283,6 +283,13 @@ const statusTone: Record<string, string> = {
   ERROR: "text-rose-400",
 };
 
+const statusIcon: Record<string, React.ReactNode> = {
+  INFO: <Info className="h-3.5 w-3.5" />,
+  SUCCESS: <CheckCircle className="h-3.5 w-3.5" />,
+  WARNING: <AlertTriangle className="h-3.5 w-3.5" />,
+  ERROR: <AlertTriangle className="h-3.5 w-3.5" />,
+};
+
 const ADMINS = [
   "ADM-001", "ADM-045", "ADM-089", "SYS-BOT-1", "SYS-UPI-GATEWAY",
   "FIN-012", "ACC-033", "MGR-005", "AUDIT-99",
