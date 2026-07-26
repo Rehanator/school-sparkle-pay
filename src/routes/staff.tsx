@@ -84,7 +84,7 @@ const TeamMemberCard = React.memo(({ member, index }: { member: Member; index: n
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="relative rounded-2xl border border-white/10 bg-neutral-900/60 p-6 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.6)] backdrop-blur-xl"
+      className="glass relative rounded-2xl p-6"
     >
       <div style={{ transform: "translateZ(40px)", transformStyle: "preserve-3d" }} className="flex flex-col gap-5">
         {/* Header: avatar + name + role */}
@@ -92,12 +92,12 @@ const TeamMemberCard = React.memo(({ member, index }: { member: Member; index: n
           <img
             src={member.avatar}
             alt={member.name}
-            className="h-14 w-14 rounded-full border-2 border-white/15 object-cover shadow-lg"
+            className="h-14 w-14 rounded-full border-2 border-border object-cover shadow-lg"
           />
           <div className="min-w-0 flex-1">
-            <div className="truncate text-base font-semibold tracking-tight text-white">{member.name}</div>
-            <div className="truncate text-xs text-neutral-400">{member.role}</div>
-            <div className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[10px] font-medium text-neutral-300">
+            <div className="truncate text-base font-semibold tracking-tight text-foreground">{member.name}</div>
+            <div className="truncate text-xs text-muted-foreground">{member.role}</div>
+            <div className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-0.5 text-[10px] font-medium text-muted-foreground">
               <span className={`h-1.5 w-1.5 rounded-full ${member.dotColor}`} />
               {member.dept}
             </div>
@@ -105,32 +105,32 @@ const TeamMemberCard = React.memo(({ member, index }: { member: Member; index: n
         </div>
 
         {/* Experience badge */}
-        <div className="flex items-center gap-2 rounded-xl border border-cyan-400/20 bg-cyan-400/10 px-3 py-2">
-          <Award className="h-4 w-4 text-cyan-300" />
-          <span className="text-sm font-semibold text-white">{member.years} Years</span>
-          <span className="text-xs text-neutral-400">Experience</span>
+        <div className="flex items-center gap-2 rounded-xl border border-primary/25 bg-primary/10 px-3 py-2">
+          <Award className="h-4 w-4 text-primary" />
+          <span className="text-sm font-semibold text-foreground">{member.years} Years</span>
+          <span className="text-xs text-muted-foreground">Experience</span>
         </div>
 
         {/* Contact */}
-        <div className="space-y-2 text-xs text-neutral-300">
+        <div className="space-y-2 text-xs text-muted-foreground">
           <div className="flex items-center gap-2 truncate">
-            <Mail className="h-3.5 w-3.5 shrink-0 text-neutral-500" />
+            <Mail className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
             <span className="truncate">{member.email}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Phone className="h-3.5 w-3.5 shrink-0 text-neutral-500" />
+            <Phone className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
             {member.phone}
           </div>
         </div>
 
-        <div className="h-px w-full bg-white/5" />
+        <div className="h-px w-full bg-border" />
 
         {/* Footer */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3 text-neutral-500">
-            <a href="#" aria-label="Github" className="transition hover:text-white"><Github className="h-4 w-4" /></a>
-            <a href="#" aria-label="LinkedIn" className="transition hover:text-white"><Linkedin className="h-4 w-4" /></a>
-            <a href="#" aria-label="Twitter" className="transition hover:text-white"><Twitter className="h-4 w-4" /></a>
+          <div className="flex items-center gap-3 text-muted-foreground">
+            <a href="#" aria-label="Github" className="transition hover:text-foreground"><Github className="h-4 w-4" /></a>
+            <a href="#" aria-label="LinkedIn" className="transition hover:text-foreground"><Linkedin className="h-4 w-4" /></a>
+            <a href="#" aria-label="Twitter" className="transition hover:text-foreground"><Twitter className="h-4 w-4" /></a>
           </div>
           <button
             onClick={() =>
@@ -138,7 +138,7 @@ const TeamMemberCard = React.memo(({ member, index }: { member: Member; index: n
                 description: `${member.role} · ${member.dept} · ${member.email}`,
               })
             }
-            className="group inline-flex items-center gap-1 text-xs font-medium text-cyan-300 transition hover:text-cyan-200"
+            className="group inline-flex items-center gap-1 text-xs font-medium text-primary transition hover:opacity-80"
           >
             View Profile
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -162,8 +162,8 @@ function Staff() {
     <div className="space-y-8" style={{ perspective: "1200px" }}>
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Staff Directory</h1>
-          <p className="mt-2 max-w-2xl text-sm text-neutral-400">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Staff Directory</h1>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
             Trusted finance professionals managing every school transaction with accuracy and transparency.
           </p>
         </div>
@@ -171,7 +171,7 @@ function Staff() {
           onClick={() =>
             toast("Add staff", { description: "Staff onboarding form opens here in the full build." })
           }
-          className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-cyan-400 px-4 py-2 text-sm font-semibold text-black shadow-[0_0_16px_-4px_rgba(34,211,238,0.45)] transition hover:bg-cyan-300">
+          className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[0_0_16px_-4px_rgba(34,211,238,0.45)] transition hover:opacity-90">
           <UserPlus className="h-4 w-4" />
           Add Staff
         </button>
@@ -179,7 +179,7 @@ function Staff() {
 
       {/* Segmented control */}
       <div className="-mx-1 overflow-x-auto px-1 pb-1">
-        <div className="flex w-max items-center rounded-full border border-neutral-800 bg-neutral-900 p-1">
+        <div className="flex w-max items-center rounded-full border border-border bg-muted p-1">
           {FILTERS.map((f) => {
             const isActive = f === active;
             return (
@@ -188,8 +188,8 @@ function Staff() {
                 onClick={() => setActive(f)}
                 className={`shrink-0 rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200 ${
                   isActive
-                    ? "bg-cyan-400 text-black shadow-[0_0_16px_-4px_rgba(34,211,238,0.55)]"
-                    : "text-neutral-400 hover:text-neutral-200"
+                    ? "bg-primary text-primary-foreground shadow-[0_0_16px_-4px_rgba(34,211,238,0.45)]"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {f}
