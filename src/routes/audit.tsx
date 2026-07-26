@@ -260,7 +260,28 @@ const TYPES = [
   "System", "Refund", "Auth", "Sync", "Backup", "Export",
 ] as const;
 
-const RISKS = ["Low", "Medium", "High", "Critical"] as const;
+const STATUS_TAGS = ["INFO", "SUCCESS", "WARNING", "ERROR"] as const;
+
+const statusForType: Record<string, typeof STATUS_TAGS[number]> = {
+  Waiver: "INFO",
+  Approval: "SUCCESS",
+  Config: "WARNING",
+  Payment: "SUCCESS",
+  Delete: "ERROR",
+  System: "INFO",
+  Refund: "WARNING",
+  Auth: "INFO",
+  Sync: "SUCCESS",
+  Backup: "SUCCESS",
+  Export: "INFO",
+};
+
+const statusTone: Record<string, string> = {
+  INFO: "text-sky-400",
+  SUCCESS: "text-emerald-400",
+  WARNING: "text-amber-400",
+  ERROR: "text-rose-400",
+};
 
 const ADMINS = [
   "ADM-001", "ADM-045", "ADM-089", "SYS-BOT-1", "SYS-UPI-GATEWAY",
@@ -287,27 +308,6 @@ const ACTIONS = [
   "Database backup synced to secure cloud vault",
 ];
 
-const typeTone: Record<string, string> = {
-  Waiver: "text-amber-400",
-  Approval: "text-sky-400",
-  Config: "text-fuchsia-400",
-  Payment: "text-emerald-400",
-  Delete: "text-rose-400",
-  System: "text-slate-300",
-  Refund: "text-orange-400",
-  Auth: "text-cyan-400",
-  Sync: "text-teal-400",
-  Backup: "text-indigo-400",
-  Export: "text-violet-400",
-};
-
-const riskTone: Record<string, string> = {
-  Low: "text-emerald-400",
-  Medium: "text-amber-400",
-  High: "text-rose-400",
-  Critical: "text-red-500",
-};
-
 // map a log Type onto the top action-bar filter keys
 const typeToFilterKey: Record<string, string> = {
   Waiver: "waive",
@@ -326,8 +326,7 @@ const typeToFilterKey: Record<string, string> = {
 type StreamEntry = {
   id: number;
   ts: string;
-  type: string;
-  risk: string;
+  status: string;
   admin: string;
   ip: string;
   msg: string;
@@ -348,8 +347,7 @@ function makeEntry(offsetMs = 0): StreamEntry {
   return {
     id: ++streamId,
     ts: stamp(offsetMs),
-    type,
-    risk: pick(RISKS) as string,
+    status: statusForType[type] ?? "INFO",
     admin: pick(ADMINS),
     ip: pick(IPS),
     msg: pick(ACTIONS),
@@ -378,8 +376,7 @@ function LiveAuditStream({ query, types }: { query: string; types: string[] | nu
       e.msg.toLowerCase().includes(q) ||
       e.admin.toLowerCase().includes(q) ||
       e.ip.toLowerCase().includes(q) ||
-      e.type.toLowerCase().includes(q) ||
-      e.risk.toLowerCase().includes(q)
+      e.status.toLowerCase().includes(q)
     );
   });
 
@@ -421,8 +418,7 @@ function LiveAuditStream({ query, types }: { query: string; types: string[] | nu
                 className="whitespace-nowrap font-mono text-sm"
               >
                 <span className="text-slate-500">[{e.ts}]</span>{" "}
-                <span className={typeTone[e.type] ?? "text-slate-300"}>[{e.type}]</span>{" "}
-                <span className={riskTone[e.risk]}>[Risk: {e.risk}]</span>{" "}
+                <span className={statusTone[e.status] ?? "text-slate-300"}>[{e.status}]</span>{" "}
                 <span className="text-sky-400">
                   [{e.admin.startsWith("SYS") ? "System" : "User"}: {e.admin}]
                 </span>{" "}
