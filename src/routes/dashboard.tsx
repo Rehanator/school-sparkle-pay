@@ -28,40 +28,44 @@ export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
 });
 
-const metrics = [
+const metricMeta = [
   {
+    key: "revenue" as const,
     label: "Total Revenue",
-    value: "₹42.8L",
     delta: "+5.2% this month",
     up: true,
     icon: IndianRupee,
     tint: "from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)]",
   },
   {
+    key: "dues" as const,
     label: "Pending Dues",
-    value: "₹6.4L",
     delta: "-2.1% vs last month",
     up: false,
     icon: TrendingDown,
     tint: "from-[oklch(0.82_0.16_70)] to-[oklch(0.75_0.2_35)]",
   },
   {
+    key: "defaulters" as const,
     label: "Active Defaulters",
-    value: "34",
     delta: "+3 new this week",
     up: false,
     icon: AlertTriangle,
     tint: "from-[oklch(0.7_0.2_25)] to-[oklch(0.75_0.18_15)]",
   },
   {
+    key: "upi" as const,
     label: "UPI vs Cash",
-    value: "78 / 22",
     delta: "UPI adoption ↑",
     up: true,
     icon: Smartphone,
     tint: "from-[oklch(0.82_0.12_300)] to-[oklch(0.82_0.13_220)]",
   },
 ] as const;
+
+const lakhs = (n: number) => (n / 100000).toFixed(1);
+const rand = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+
 
 const revenueSources = [
   { name: "Tuition", value: 2850000, color: "oklch(0.88 0.14 165)" },
