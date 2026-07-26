@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Lock, ShieldCheck, Search, Download, Fingerprint, ChevronDown } from "lucide-react";
+import { Lock, ShieldCheck, Search, Download, Fingerprint, ChevronDown, CheckCircle2, AlertTriangle, Info } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { PageHeader } from "@/components/PageHeader";
 
 export const Route = createFileRoute("/audit")({
@@ -241,52 +242,130 @@ function Audit() {
       </div>
 
 
-      {/* Log table */}
-      <div className="glass relative z-0 overflow-hidden rounded-2xl">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[1100px] text-left text-sm">
-            <thead className="bg-black/[0.04] text-[11px] uppercase tracking-wider text-muted-foreground">
-              <tr>
-                <th className="px-5 py-3 font-medium">Date & Timestamp</th>
-                <th className="px-5 py-3 font-medium">Admin User ID</th>
-                <th className="px-5 py-3 font-medium">Type</th>
-                <th className="px-5 py-3 font-medium">Action Taken</th>
-                <th className="px-5 py-3 font-medium">IP Address</th>
-                <th className="px-5 py-3 font-medium">Risk</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-black/[0.04] font-mono">
-              {filteredLogs.map((l, i) => (
-                <tr key={i} className="hover:bg-black/[0.04]">
-                  <td className="whitespace-nowrap px-5 py-3 text-xs text-muted-foreground">{l.ts}</td>
-                  <td className="px-5 py-3 text-xs">
-                    <div className="font-semibold text-foreground">{l.adminId}</div>
-                    <div className="mt-0.5 text-[11px] font-normal text-muted-foreground">{l.username}</div>
-                  </td>
-                  <td className="px-5 py-3">
-                    <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${categoryStyle[l.category]}`}>
-                      {l.category}
-                    </span>
-                  </td>
-                  <td className="px-5 py-3">
-                    <span className={`inline-flex items-center gap-2 rounded-full border px-2.5 py-0.5 text-[11px] ${typeColor[l.type]}`}>
-                      <span className="h-1.5 w-1.5 rounded-full bg-current" />
-                      {l.action}
-                    </span>
-                  </td>
-                  <td className="whitespace-nowrap px-5 py-3 text-xs text-muted-foreground">{l.ip}</td>
-                  <td className="px-5 py-3">
-                    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${riskStyle[l.risk]}`}>
-                      <span className="h-1.5 w-1.5 rounded-full bg-current" />
-                      {l.risk}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {/* Live Audit Stream */}
+      <div>
+        <h2 className="text-xl font-bold tracking-tight">Live Audit Stream</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Monitor real-time immutable ledger entries, administrative actions, and system-level financial operations.
+        </p>
+      </div>
+
+      <LiveAuditStream query={query} types={FILTERS[activeFilter].types} />
+    </div>
+  );
+}
+
+type StreamLevel = "SUCCESS" | "ERROR" | "WARNING" | "INFO";
+
+const STREAM_MESSAGES: { msg: string; level: StreamLevel; type: string }[] = [
+  { msg: "Manually Waived ₹500 Late Fee for Student #104", level: "INFO", type: "waive" },
+  { msg: "Approved Offline Cash Payment ₹12,000 (Receipt R-2251)", level: "SUCCESS", type: "approve" },
+  { msg: "Rejected Cheque Entry #OFF-1039 - Signature mismatch", level: "ERROR", type: "reject" },
+  { msg: "Enabled rule: First-Time Late Payer Grace Period", level: "SUCCESS", type: "rule" },
+  { msg: "Split ₹60,000 Annual Fee -> 4x ₹15,000 EMI for Student #104", level: "SUCCESS", type: "split" },
+  { msg: "Deleted Cash Entry #OFF-1038 - Reason: Duplicate", level: "ERROR", type: "delete" },
+  { msg: "Rotated API key for UPI webhook", level: "WARNING", type: "system" },
+  { msg: "WhatsApp Bot sent 214 due-reminders to defaulters", level: "INFO", type: "system" },
+  { msg: 'Created New Fee Head "Robotics Club" ₹3,500', level: "SUCCESS", type: "create" },
+  { msg: "Exported Q2 Reconciliation Report (CSV)", level: "INFO", type: "export" },
+  { msg: "Auto-approved 42 UPI transactions (₹4,86,300 total)", level: "SUCCESS", type: "approve" },
+  { msg: "Ledger block #48,229 cryptographically verified.", level: "SUCCESS", type: "system" },
+];
+
+const levelStyle: Record<StreamLevel, { text: string; Icon: typeof CheckCircle2 }> = {
+  SUCCESS: { text: "text-emerald-400", Icon: CheckCircle2 },
+  ERROR: { text: "text-rose-400", Icon: AlertTriangle },
+  WARNING: { text: "text-amber-400", Icon: AlertTriangle },
+  INFO: { text: "text-sky-400", Icon: Info },
+};
+
+type StreamEntry = { id: number; ts: string; level: StreamLevel; msg: string; type: string };
+
+function stamp() {
+  return new Date().toLocaleTimeString("en-GB", { hour12: false }) + "." +
+    String(new Date().getMilliseconds()).padStart(3, "0");
+}
+
+function LiveAuditStream({ query, types }: { query: string; types: string[] | null }) {
+  const [entries, setEntries] = useState<StreamEntry[]>(() =>
+    Array.from({ length: 6 }, (_, i) => {
+      const pick = STREAM_MESSAGES[Math.floor(Math.random() * STREAM_MESSAGES.length)];
+      return { id: i, ts: stamp(), ...pick };
+    }),
+  );
+  const idRef = useRef(1000);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      const pick = STREAM_MESSAGES[Math.floor(Math.random() * STREAM_MESSAGES.length)];
+      setEntries((prev) => [...prev.slice(-24), { id: ++idRef.current, ts: stamp(), ...pick }]);
+    }, 1800);
+    return () => clearInterval(t);
+  }, []);
+
+  const visible = entries.filter((e) => {
+    if (types && !types.includes(e.type)) return false;
+    const q = query.trim().toLowerCase();
+    return !q || e.msg.toLowerCase().includes(q) || e.level.toLowerCase().includes(q);
+  });
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [visible.length]);
+
+  return (
+    <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/80 shadow-2xl shadow-slate-900/50 backdrop-blur-xl">
+      <div className="flex items-center gap-3 border-b border-white/10 bg-slate-900 px-4 py-2.5">
+        <div className="flex items-center gap-1.5">
+          <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
+          <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
+          <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
+        </div>
+        <div className="flex-1 text-center font-mono text-xs text-slate-400">
+          /var/ledger/tamper_proof_audit.log
+        </div>
+        <div className="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider text-emerald-400">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+          </span>
+          streaming
+        </div>
+      </div>
+
+      <div className="h-[26rem] overflow-hidden px-4 py-3">
+        <div className="flex h-full flex-col justify-end gap-1">
+          <AnimatePresence initial={false}>
+            {visible.slice(-14).map((e) => {
+              const { text, Icon } = levelStyle[e.level];
+              return (
+                <motion.div
+                  key={e.id}
+                  layout
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="flex items-start gap-2 whitespace-nowrap font-mono text-sm"
+                >
+                  <span className="text-slate-500">[{e.ts}]</span>
+                  <span className={`inline-flex shrink-0 items-center gap-1 font-semibold ${text}`}>
+                    <Icon className="h-3.5 w-3.5" />[{e.level}]
+                  </span>
+                  <span className="truncate text-slate-200">{e.msg}</span>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+          <div ref={bottomRef} />
+          <div className="font-mono text-sm text-emerald-500">
+            <span className="text-slate-500">root@ledger:~$</span>{" "}
+            <span className="inline-block h-4 w-2 animate-pulse bg-emerald-500 align-middle" />
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
