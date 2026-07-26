@@ -21,6 +21,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import { PageHeader } from "@/components/PageHeader";
+import { TodayCollectionPulse } from "@/components/TodayCollectionPulse";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/dashboard")({
@@ -153,6 +154,9 @@ function Dashboard() {
           );
         })}
       </div>
+
+      {/* Live collection pulse */}
+      <TodayCollectionPulse />
 
       {/* Analytics */}
       <div className="grid gap-4">

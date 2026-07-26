@@ -122,14 +122,14 @@ export function TodayCollectionPulse() {
               />
               <Tooltip
                 contentStyle={{
-                  background: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
+                  background: "var(--card)",
+                  border: "1px solid var(--border)",
                   borderRadius: 12,
-                  boxShadow: "0 10px 30px -10px hsl(var(--foreground) / 0.15)",
+                  boxShadow: "0 10px 30px -10px oklch(0 0 0 / 0.2)",
                 }}
-                itemStyle={{ color: "hsl(var(--foreground))", fontSize: 13 }}
+                itemStyle={{ color: "var(--foreground)", fontSize: 13 }}
                 formatter={(value: number) => [formatINR(value), "Collected"]}
-                labelStyle={{ color: "hsl(var(--muted-foreground))", fontSize: 11 }}
+                labelStyle={{ color: "var(--muted-foreground)", fontSize: 11 }}
               />
               <Line
                 type="monotone"
