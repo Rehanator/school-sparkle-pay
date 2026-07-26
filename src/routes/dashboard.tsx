@@ -165,8 +165,22 @@ function Dashboard() {
 
       {/* Metric cards */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {metrics.map((m) => {
+        {metricMeta.map((m) => {
           const Icon = m.icon;
+          const ticker =
+            m.key === "revenue" ? (
+              <NumberTicker value={live.revenue} prefix="₹" suffix="L" format={lakhs} />
+            ) : m.key === "dues" ? (
+              <NumberTicker value={live.dues} prefix="₹" suffix="L" format={lakhs} />
+            ) : m.key === "defaulters" ? (
+              <NumberTicker value={live.defaulters} />
+            ) : (
+              <span className="inline-flex items-center gap-1">
+                <NumberTicker value={live.upi} />
+                <span>/</span>
+                <NumberTicker value={100 - live.upi} />
+              </span>
+            );
           return (
             <div key={m.label} className="glass rounded-2xl p-5">
               <div className="flex items-start justify-between">
@@ -184,11 +198,12 @@ function Dashboard() {
                   {m.delta}
                 </span>
               </div>
-              <div className="mt-4 text-3xl font-semibold tracking-tight">{m.value}</div>
+              <div className="mt-4 text-3xl font-semibold tracking-tight">{ticker}</div>
               <div className="mt-1 text-xs text-muted-foreground">{m.label}</div>
             </div>
           );
         })}
+
       </div>
 
       {/* Live collection pulse */}
