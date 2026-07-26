@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { NumberTicker } from "@/components/ui/number-ticker";
 import {
   TrendingUp,
   TrendingDown,
