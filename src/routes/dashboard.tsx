@@ -92,7 +92,45 @@ const defaulters = [
 ];
 
 function Dashboard() {
+  const [live, setLive] = useState({
+    revenue: 4280000,
+    dues: 640000,
+    defaulters: 34,
+    upi: 78,
+    tuition: 2910000,
+    transport: 770000,
+    lateFees: 430000,
+  });
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setLive((p) => {
+        const tuition = p.tuition + rand(1000, 15000);
+        const transport = p.transport + rand(500, 6000);
+        const lateFees = p.lateFees + rand(200, 3000);
+        return {
+          revenue: p.revenue + rand(1000, 15000),
+          dues: Math.max(100000, p.dues + rand(-8000, 6000)),
+          defaulters: Math.min(60, Math.max(20, p.defaulters + rand(-1, 1))),
+          upi: Math.min(92, Math.max(60, p.upi + rand(-1, 1))),
+          tuition,
+          transport,
+          lateFees,
+        };
+      });
+    }, 3000);
+    return () => clearInterval(id);
+  }, []);
+
+  const breakdownTotal = live.tuition + live.transport + live.lateFees;
+  const sources = [
+    { name: "Tuition", amount: live.tuition, color: "oklch(0.88 0.14 165)" },
+    { name: "Transport", amount: live.transport, color: "oklch(0.82 0.13 220)" },
+    { name: "Late Fees", amount: live.lateFees, color: "oklch(0.82 0.16 70)" },
+  ].map((s) => ({ ...s, pct: Math.round((s.amount / breakdownTotal) * 100) }));
+
   return (
+
     <div className="space-y-6">
       <PageHeader
         eyebrow="Overview"
