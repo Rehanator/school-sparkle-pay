@@ -217,27 +217,30 @@ function Dashboard() {
               <div className="text-sm font-semibold">Revenue Breakdown</div>
               <div className="text-xs text-muted-foreground">FY 2025-26 · YTD</div>
             </div>
-            <div className="text-xs text-muted-foreground">Total ₹42.8L</div>
+            <div className="text-xs text-muted-foreground">
+              Total <NumberTicker value={breakdownTotal} prefix="₹" suffix="L" format={lakhs} />
+            </div>
           </div>
 
           {/* Horizontal progress bars */}
           <div className="space-y-3">
-            {[
-              { name: "Tuition", pct: 68, amount: "₹29.1L", color: "oklch(0.88 0.14 165)" },
-              { name: "Transport", pct: 18, amount: "₹7.7L", color: "oklch(0.82 0.13 220)" },
-              { name: "Late Fees", pct: 10, amount: "₹4.3L", color: "oklch(0.82 0.16 70)" },
-            ].map((s) => (
+            {sources.map((s) => (
               <div key={s.name}>
                 <div className="flex items-center justify-between text-xs">
                   <span className="flex items-center gap-2">
                     <span className="h-2.5 w-2.5 rounded-full" style={{ background: s.color }} />
-                    {s.name} <span className="text-muted-foreground">({s.pct}%)</span>
+                    {s.name}{" "}
+                    <span className="inline-flex items-center text-muted-foreground">
+                      (<NumberTicker value={s.pct} suffix="%" />)
+                    </span>
                   </span>
-                  <span className="font-medium">{s.amount}</span>
+                  <span className="font-medium">
+                    <NumberTicker value={s.amount} prefix="₹" suffix="L" format={lakhs} />
+                  </span>
                 </div>
                 <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-black/[0.04]">
                   <div
-                    className="h-full rounded-full"
+                    className="h-full rounded-full transition-all duration-1000 ease-out"
                     style={{
                       width: `${s.pct}%`,
                       background: `linear-gradient(90deg, ${s.color}, oklch(0.9 0.1 200))`,
@@ -247,6 +250,7 @@ function Dashboard() {
                 </div>
               </div>
             ))}
+
           </div>
         </div>
       </div>
