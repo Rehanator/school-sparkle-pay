@@ -10,16 +10,7 @@ import {
   Send,
   MessagesSquare,
   CheckCircle2,
-  LineChart,
 } from "lucide-react";
-import {
-  ResponsiveContainer,
-  Tooltip,
-  AreaChart,
-  Area,
-  XAxis,
-  CartesianGrid,
-} from "recharts";
 import { PageHeader } from "@/components/PageHeader";
 import { TodayCollectionPulse } from "@/components/TodayCollectionPulse";
 import { toast } from "sonner";
@@ -161,7 +152,7 @@ function Dashboard() {
       {/* Analytics */}
       <div className="grid gap-4">
         <div className="glass rounded-2xl p-5">
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-5 flex items-center justify-between">
             <div>
               <div className="text-sm font-semibold">Revenue Breakdown</div>
               <div className="text-xs text-muted-foreground">FY 2025-26 · YTD</div>
@@ -169,46 +160,8 @@ function Dashboard() {
             <div className="text-xs text-muted-foreground">Total ₹42.8L</div>
           </div>
 
-          {/* Area chart */}
-          <div className="relative h-[200px] rounded-2xl border border-black/[0.07] bg-[oklch(0.98_0.005_250_/_0.6)] p-3">
-            <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full border border-[oklch(0.82_0.15_155_/_0.3)] bg-[oklch(0.82_0.15_155_/_0.12)] px-2 py-0.5 text-[10px] font-medium text-[oklch(0.45_0.15_155)]">
-              <TrendingUp className="h-3 w-3" /> +18% YoY
-            </span>
-            <ResponsiveContainer>
-              <AreaChart data={trend} margin={{ top: 20, right: 8, left: 8, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="revWave" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="oklch(0.85 0.14 195)" stopOpacity={0.7} />
-                    <stop offset="60%" stopColor="oklch(0.82 0.13 220)" stopOpacity={0.25} />
-                    <stop offset="100%" stopColor="oklch(0.82 0.13 220)" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="oklch(0 0 0 / 0.08)" vertical={false} />
-                <XAxis dataKey="m" tick={{ fill: "oklch(0.4 0.02 255)", fontSize: 10 }} axisLine={false} tickLine={false} />
-                <Tooltip
-                  contentStyle={{
-                    background: "oklch(1 0 0 / 0.98)",
-                    border: "1px solid oklch(0 0 0 / 0.08)",
-                    borderRadius: 12,
-                    color: "oklch(0.2 0.03 260)",
-                    boxShadow: "0 10px 30px -10px oklch(0 0 0 / 0.15)",
-                  }}
-                  formatter={(v: number) => [`₹${v}K`, "Revenue"]}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="v"
-                  stroke="oklch(0.88 0.15 195)"
-                  strokeWidth={2.5}
-                  fill="url(#revWave)"
-                  style={{ filter: "drop-shadow(0 0 12px oklch(0.85 0.15 195 / 0.5))" }}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-
           {/* Horizontal progress bars */}
-          <div className="mt-5 space-y-3">
+          <div className="space-y-3">
             {[
               { name: "Tuition", pct: 68, amount: "₹29.1L", color: "oklch(0.88 0.14 165)" },
               { name: "Transport", pct: 18, amount: "₹7.7L", color: "oklch(0.82 0.13 220)" },
