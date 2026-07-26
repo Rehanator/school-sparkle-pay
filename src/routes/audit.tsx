@@ -423,7 +423,9 @@ function LiveAuditStream({ query, types }: { query: string; types: string[] | nu
                 <span className="text-slate-500">[{e.ts}]</span>{" "}
                 <span className={typeTone[e.type] ?? "text-slate-300"}>[{e.type}]</span>{" "}
                 <span className={riskTone[e.risk]}>[Risk: {e.risk}]</span>{" "}
-                <span className="text-slate-500">[{e.admin}]</span>{" "}
+                <span className="text-sky-400">
+                  [{e.admin.startsWith("SYS") ? "System" : "User"}: {e.admin}]
+                </span>{" "}
                 <span className="text-slate-500">[{e.ip}]</span>{" "}
                 <span className="text-emerald-200">{e.msg}</span>
               </motion.div>
