@@ -157,19 +157,76 @@ function FeeEngine() {
           <div className="space-y-4">
             <div>
               <label className="text-[11px] uppercase tracking-wider text-zinc-400">Student</label>
-              <div className="mt-1.5 flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2.5">
-                <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-cyan-400 to-teal-400 text-xs font-semibold text-zinc-950">
-                  AS
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="truncate text-sm font-medium text-zinc-100">Aarav Sharma · 10-B</div>
-                  <div className="text-[11px] text-zinc-500">Annual bundled fee</div>
-                </div>
-                <div className="text-right text-sm font-semibold tabular-nums text-zinc-100">
-                  ₹{total.toLocaleString("en-IN")}
-                </div>
-              </div>
+              <Popover open={studentOpen} onOpenChange={setStudentOpen}>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    className="mt-1.5 flex w-full items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2.5 text-left transition hover:border-zinc-700"
+                  >
+                    <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-cyan-400 to-teal-400 text-xs font-semibold text-zinc-950">
+                      {selectedStudent.initials}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-sm font-medium text-zinc-100">
+                        {selectedStudent.name} · {selectedStudent.grade}
+                      </div>
+                      <div className="text-[11px] text-zinc-500">Annual bundled fee</div>
+                    </div>
+                    <div className="text-right text-sm font-semibold tabular-nums text-zinc-100">
+                      ₹{selectedStudent.totalFee.toLocaleString("en-IN")}
+                    </div>
+                    <ChevronDown className="h-4 w-4 shrink-0 text-zinc-500" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="start"
+                  className="w-[var(--radix-popover-trigger-width)] border-zinc-800 bg-zinc-950 p-0 text-zinc-100"
+                >
+                  <Command className="bg-zinc-950 text-zinc-100 [&_[cmdk-input-wrapper]]:border-zinc-800">
+                    <CommandInput
+                      placeholder="Search students by name or roll..."
+                      className="text-zinc-100 placeholder:text-zinc-500"
+                    />
+                    <CommandList>
+                      <CommandEmpty className="py-6 text-center text-sm text-zinc-500">
+                        No students found.
+                      </CommandEmpty>
+                      <CommandGroup>
+                        {students.map((s) => (
+                          <CommandItem
+                            key={s.id}
+                            value={`${s.name} ${s.grade} ${s.id}`}
+                            onSelect={() => {
+                              setSelectedStudent(s);
+                              setSplit(false);
+                              setStudentOpen(false);
+                            }}
+                            className="flex items-center gap-3 rounded-lg px-2 py-2 text-zinc-200 data-[selected=true]:bg-zinc-800 data-[selected=true]:text-zinc-50 hover:bg-zinc-800"
+                          >
+                            <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-cyan-400 to-teal-400 text-xs font-semibold text-zinc-950">
+                              {s.initials}
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <div className="truncate text-sm font-medium">{s.name}</div>
+                              <div className="text-[11px] text-zinc-500">
+                                {s.grade} · {s.id}
+                              </div>
+                            </div>
+                            <div className="text-right text-xs font-semibold tabular-nums text-zinc-300">
+                              ₹{s.totalFee.toLocaleString("en-IN")}
+                            </div>
+                            {s.id === selectedStudent.id && (
+                              <Check className="h-4 w-4 shrink-0 text-cyan-400" />
+                            )}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
+
 
             <div>
               <div className="flex items-center justify-between">
