@@ -256,7 +256,7 @@ function ControllerLanding() {
               whileInView="show"
               viewport={{ once: true, amount: 0.25 }}
               variants={fadeUp}
-              className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16"
+              className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16"
             >
               <div className={`min-w-0 ${i % 2 === 1 ? "lg:order-2" : ""}`}>
                 <h3 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
