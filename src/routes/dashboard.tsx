@@ -21,9 +21,9 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Dashboard · Smart School FinTech" },
+      { title: "Dashboard · FYNORA" },
       { name: "description", content: "Revenue, dues, defaulters and smart insights at a glance." },
-      { property: "og:title", content: "Smart School FinTech · Dashboard" },
+      { property: "og:title", content: "FYNORA · Dashboard" },
       { property: "og:description", content: "Realtime fee analytics for school administrators." },
     ],
   }),

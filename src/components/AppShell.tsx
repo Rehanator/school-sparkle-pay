@@ -40,7 +40,7 @@ function SidebarBrand() {
         }}
         className="min-w-0"
       >
-        <div className="truncate text-sm font-semibold tracking-tight">Smart School</div>
+        <div className="truncate text-sm font-semibold tracking-tight">FYNORA</div>
         <div className="truncate text-[11px] text-muted-foreground">FinTech Console</div>
       </motion.div>
     </div>

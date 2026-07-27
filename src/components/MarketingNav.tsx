@@ -19,7 +19,7 @@ export function MarketingNav() {
             <GraduationCap className="h-4.5 w-4.5" strokeWidth={2.4} />
           </div>
           <div className="min-w-0">
-            <div className="text-sm font-semibold tracking-tight">Smart School</div>
+            <div className="text-sm font-semibold tracking-tight">FYNORA</div>
             <div className="-mt-0.5 text-[10px] text-muted-foreground">FinTech Console</div>
           </div>
         </Link>
