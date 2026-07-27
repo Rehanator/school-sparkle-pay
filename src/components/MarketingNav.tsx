@@ -21,10 +21,7 @@ export function MarketingNav() {
             alt="FYNORA logo"
             className="h-9 w-auto object-contain"
           />
-          <div className="min-w-0 leading-tight">
-            <div className="text-sm font-bold uppercase tracking-wide">FYNORA</div>
-            <div className="text-[10px] tracking-wide text-muted-foreground">FinTech Console</div>
-          </div>
+          <span className="text-lg font-bold uppercase tracking-widest">FYNORA</span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
