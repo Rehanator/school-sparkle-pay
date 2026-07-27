@@ -33,7 +33,7 @@ export function AppDock() {
     >
       {items.map((item) => (
         <DockItem key={item.href} className={itemClass}>
-          <DockLabel className="-top-7">{item.title}</DockLabel>
+          <DockLabel>{item.title}</DockLabel>
           <DockIcon>
             <Link to={item.href} aria-label={item.title} className="block h-full w-full p-0.5">
               {item.icon}
