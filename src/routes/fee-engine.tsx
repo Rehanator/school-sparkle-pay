@@ -6,12 +6,6 @@ import { feeIconMap, type FeeIconKey } from "@/components/fee/AnimatedFeeIcon";
 import { LivingBackdrop } from "@/components/fee/LivingBackdrop";
 import {
   Plus,
-  Bus,
-  BookOpen,
-  Trophy,
-  FlaskConical,
-  Utensils,
-  Palette,
   Split,
   Sparkles,
   Shield,
