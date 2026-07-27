@@ -12,7 +12,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
-import fynoraLogo from "@/assets/fynora-logo.jpg.asset.json";
+import fynoraLogo from "@/assets/fynora-logo.png.asset.json";
 import { toast } from "sonner";
 import { Sidebar, SidebarBody, SidebarLink, useSidebar } from "./ui/sidebar-aceternity";
 import { motion } from "framer-motion";
