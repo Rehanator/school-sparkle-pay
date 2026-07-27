@@ -13,8 +13,6 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppShell } from "../components/AppShell";
-import { MarketingBackdrop } from "../components/MarketingBackdrop";
-import { MarketingNav } from "../components/MarketingNav";
 import { Toaster } from "../components/ui/sonner";
 
 
@@ -123,8 +121,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isMarketing = pathname === "/";
-  const isStandalone = pathname.startsWith("/controller");
+  const isStandalone = pathname === "/";
 
   if (isStandalone) {
     return (
@@ -137,17 +134,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {isMarketing ? (
-        <>
-          <MarketingBackdrop />
-          <MarketingNav />
-          <Outlet />
-        </>
-      ) : (
-        <AppShell>
-          <Outlet />
-        </AppShell>
-      )}
+      <AppShell>
+        <Outlet />
+      </AppShell>
       <Toaster position="bottom-right" richColors closeButton />
     </QueryClientProvider>
 
