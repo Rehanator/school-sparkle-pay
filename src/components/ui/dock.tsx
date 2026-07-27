@@ -79,7 +79,7 @@ function Dock({
   return (
     <motion.div
       style={{ height: height, scrollbarWidth: 'none' }}
-      className={cn('mx-2 flex max-w-full items-end overflow-visible', containerClassName)}
+      className={cn('mx-2 flex max-w-full items-end overflow-x-auto', containerClassName)}
     >
       <motion.div
         onMouseMove={({ pageX }) => {
