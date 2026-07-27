@@ -62,6 +62,8 @@ const feeHeads: Array<{
   { name: "Arts & Music", category: "CLASS VI - VIII", icon: "palette", amount: 2900, cycle: "Annually", students: 310, status: "Annual", color: "rose" },
 ];
 
+type EditingFee = { name: string; amount: number; cycle: string };
+
 function TiltCard({
   children,
   dimmed,
@@ -147,7 +149,10 @@ function FeeEngine() {
         description="Design fee heads, split large payments into micro-EMIs, and automate waivers."
         actions={
           <button
-            onClick={() => setModal(true)}
+            onClick={() => {
+              setEditingFee(null);
+              setIsModalOpen(true);
+            }}
             className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:brightness-110"
           >
             <Plus className="h-4 w-4" /> Create New Fee
@@ -193,12 +198,10 @@ function FeeEngine() {
                 <div className="mt-auto flex items-center justify-between pt-3 text-[11px] text-zinc-500">
                   <span>{f.students} students · {f.cycle}</span>
                   <button
-                    onClick={() =>
-                      toast(`${f.name} · ${f.status}`, {
-                        description: `₹${f.amount.toLocaleString("en-IN")} ${f.cycle.toLowerCase()} · ${f.students} students assigned.`,
-                        action: { label: "Edit", onClick: () => setModal(true) },
-                      })
-                    }
+                    onClick={() => {
+                      setEditingFee({ name: f.name, amount: f.amount, cycle: f.cycle });
+                      setIsModalOpen(true);
+                    }}
                     className="rounded-lg px-2 py-1 text-xs font-medium text-zinc-500 transition-colors hover:text-cyan-400"
                   >
                     Manage →
@@ -455,7 +458,7 @@ function FeeEngine() {
         </div>
       </div>
 
-      {modal && <CreateFeeModal onClose={() => setModal(false)} />}
+      {isModalOpen && <FeeModal editingFee={editingFee} onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 }
