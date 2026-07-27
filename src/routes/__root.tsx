@@ -123,8 +123,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isMarketing = pathname === "/";
-  const isStandalone = pathname.startsWith("/controller");
+  const isStandalone = pathname === "/";
 
   if (isStandalone) {
     return (
@@ -137,17 +136,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {isMarketing ? (
-        <>
-          <MarketingBackdrop />
-          <MarketingNav />
-          <Outlet />
-        </>
-      ) : (
-        <AppShell>
-          <Outlet />
-        </AppShell>
-      )}
+      <AppShell>
+        <Outlet />
+      </AppShell>
       <Toaster position="bottom-right" richColors closeButton />
     </QueryClientProvider>
 
