@@ -35,7 +35,7 @@ type ProfileField = {
 
 const initialFields: ProfileField[] = [
   { key: "schoolName", label: "School Name", value: "Sunrise International School" },
-  { key: "academicYear", label:green", label: "Academic Year", value: "2026 - 2027" },
+  { key: "academicYear", label: "Academic Year", value: "2026 - 2027" },
   { key: "registrationId", label: "Registration ID", value: "CBSE/2004/1128" },
   { key: "board", label: "Board / Affiliation", value: "CBSE · Class I–XII" },
   { key: "gstin", label: "GSTIN", value: "29AAACD0842R1Z8" },
