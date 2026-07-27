@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+
 import fynoraLogo from "@/assets/fynora-logo.png.asset.json";
 import { ThemeToggle } from "./ThemeToggle";
 
