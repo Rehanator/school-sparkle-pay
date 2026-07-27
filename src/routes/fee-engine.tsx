@@ -94,21 +94,24 @@ function FeeEngine() {
         <div className="mb-3 text-sm font-semibold">Active Fee Heads</div>
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {feeHeads.map((f) => {
-            const Icon = f.icon;
+            const AnimIcon = feeIconMap[f.icon];
+            const tone = toneStyles[f.color];
             const statusStyle =
               f.status === "Active"
                 ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-400"
                 : "border-zinc-500/20 bg-zinc-500/10 text-zinc-400";
+            const isHovered = hoveredCard === f.name;
+            const isDimmed = hoveredCard !== null && !isHovered;
             return (
-              <div
+              <TiltCard
                 key={f.name}
-                className="glass group flex flex-col rounded-2xl border border-zinc-800/50 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-zinc-700 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+                dimmed={isDimmed}
+                active={isHovered}
+                onHoverChange={(v) => setHoveredCard(v ? f.name : null)}
               >
                 <div className="flex items-start justify-between">
-                  <div
-                    className={`grid h-10 w-10 place-items-center rounded-xl bg-${f.color}-500/10 text-${f.color}-400`}
-                  >
-                    <Icon className="h-5 w-5" strokeWidth={2.4} />
+                  <div className={`grid h-10 w-10 place-items-center rounded-xl ${tone}`}>
+                    <AnimIcon hovered={isHovered} className="h-5 w-5" />
                   </div>
                   <span className={`rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${statusStyle}`}>
                     {f.status}
@@ -135,11 +138,12 @@ function FeeEngine() {
                     Manage →
                   </button>
                 </div>
-              </div>
+              </TiltCard>
             );
           })}
         </div>
       </div>
+
 
       {/* Edu-EMI Smart Split */}
       <div className="relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 p-6 shadow-2xl shadow-black/40">
