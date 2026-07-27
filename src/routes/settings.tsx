@@ -29,8 +29,6 @@ type ProfileField = {
   key: string;
   label: string;
   value: string;
-  multiline?: boolean;
-  span?: "full";
 };
 
 const initialFields: ProfileField[] = [
