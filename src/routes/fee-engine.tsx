@@ -53,11 +53,25 @@ const feeHeads = [
   { name: "Arts & Music", category: "CLASS VI - VIII", icon: Palette, amount: 2900, cycle: "Annually", students: 310, status: "Annual", tint: "from-[oklch(0.75_0.14_320)] to-[oklch(0.82_0.12_300)]" },
 ];
 
+type Student = { id: string; name: string; grade: string; initials: string; totalFee: number };
+
+const students: Student[] = [
+  { id: "STU-1042", name: "Aarav Sharma", grade: "10-B", initials: "AS", totalFee: 60000 },
+  { id: "STU-1088", name: "Diya Nair", grade: "9-A", initials: "DN", totalFee: 85000 },
+  { id: "STU-1130", name: "Kabir Mehta", grade: "8-C", initials: "KM", totalFee: 45000 },
+  { id: "STU-1176", name: "Ishita Rao", grade: "12-A", initials: "IR", totalFee: 92000 },
+  { id: "STU-1204", name: "Vivaan Gupta", grade: "7-B", initials: "VG", totalFee: 52000 },
+  { id: "STU-1259", name: "Anaya Krishnan", grade: "11-C", initials: "AK", totalFee: 78000 },
+];
+
 function FeeEngine() {
   const [modal, setModal] = useState(false);
   const [split, setSplit] = useState(false);
   const [installments, setInstallments] = useState(4);
-  const total = 60000;
+  const [selectedStudent, setSelectedStudent] = useState<Student>(students[0]);
+  const [studentOpen, setStudentOpen] = useState(false);
+  const total = selectedStudent.totalFee;
+
 
   return (
     <div className="space-y-6">
