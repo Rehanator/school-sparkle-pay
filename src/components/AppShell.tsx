@@ -30,7 +30,7 @@ function SidebarBrand() {
   const { open, animate } = useSidebar();
   return (
     <div className="flex items-center gap-3 px-1 pt-1 pb-5">
-      <img src={fynoraLogo.url} alt="FYNORA logo" className="h-10 w-auto shrink-0 object-contain" />
+      <img src={fynoraLogo.url} alt="FYNORA logo" className="h-8 w-auto shrink-0 object-contain" />
       <motion.div
         animate={{
           display: animate ? (open ? "block" : "none") : "block",
@@ -38,8 +38,7 @@ function SidebarBrand() {
         }}
         className="min-w-0"
       >
-        <div className="truncate text-sm font-bold uppercase tracking-wide">FYNORA</div>
-        <div className="truncate text-[11px] tracking-wide text-muted-foreground">FinTech Console</div>
+        <div className="truncate text-lg font-bold uppercase tracking-widest text-white">FYNORA</div>
       </motion.div>
     </div>
   );
