@@ -45,12 +45,12 @@ export const Route = createFileRoute("/fee-engine")({
 });
 
 const feeHeads = [
-  { name: "Tuition Fee", category: "ALL GRADES", icon: BookOpen, amount: 45000, cycle: "Quarterly", students: 1240, status: "Active", tint: "from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)]" },
-  { name: "Transport", category: "ALL GRADES", icon: Bus, amount: 12000, cycle: "Quarterly", students: 860, status: "Active", tint: "from-[oklch(0.82_0.13_220)] to-[oklch(0.82_0.12_300)]" },
-  { name: "Sports & Clubs", category: "CLASS X", icon: Trophy, amount: 4500, cycle: "Annually", students: 620, status: "Annual", tint: "from-[oklch(0.82_0.16_70)] to-[oklch(0.75_0.2_35)]" },
-  { name: "Lab & Materials", category: "CLASS IX - X", icon: FlaskConical, amount: 3800, cycle: "Annually", students: 980, status: "Active", tint: "from-[oklch(0.82_0.12_300)] to-[oklch(0.85_0.12_180)]" },
-  { name: "Meal Plan", category: "ALL GRADES", icon: Utensils, amount: 8600, cycle: "Monthly", students: 540, status: "Draft", tint: "from-[oklch(0.85_0.12_180)] to-[oklch(0.88_0.14_165)]" },
-  { name: "Arts & Music", category: "CLASS VI - VIII", icon: Palette, amount: 2900, cycle: "Annually", students: 310, status: "Annual", tint: "from-[oklch(0.75_0.14_320)] to-[oklch(0.82_0.12_300)]" },
+  { name: "Tuition Fee", category: "ALL GRADES", icon: BookOpen, amount: 45000, cycle: "Quarterly", students: 1240, status: "Active", color: "teal" },
+  { name: "Transport", category: "ALL GRADES", icon: Bus, amount: 12000, cycle: "Quarterly", students: 860, status: "Active", color: "blue" },
+  { name: "Sports & Clubs", category: "CLASS X", icon: Trophy, amount: 4500, cycle: "Annually", students: 620, status: "Annual", color: "orange" },
+  { name: "Lab & Materials", category: "CLASS IX - X", icon: FlaskConical, amount: 3800, cycle: "Annually", students: 980, status: "Active", color: "purple" },
+  { name: "Meal Plan", category: "ALL GRADES", icon: Utensils, amount: 8600, cycle: "Monthly", students: 540, status: "Draft", color: "emerald" },
+  { name: "Arts & Music", category: "CLASS VI - VIII", icon: Palette, amount: 2900, cycle: "Annually", students: 310, status: "Annual", color: "rose" },
 ];
 
 type Student = { id: string; name: string; grade: string; initials: string; totalFee: number };
