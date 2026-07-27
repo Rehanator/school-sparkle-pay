@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { GraduationCap, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import fynoraLogo from "@/assets/fynora-logo.jpg.asset.json";
 import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
@@ -15,12 +16,14 @@ export function MarketingNav() {
     <header className="sticky top-4 z-40 mx-auto mt-4 w-[min(1200px,calc(100%-1.5rem))]">
       <div className="glass flex items-center justify-between gap-4 rounded-2xl px-4 py-2.5 sm:px-6">
         <Link to="/" className="flex items-center gap-2.5">
-          <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)] shadow-md">
-            <GraduationCap className="h-4.5 w-4.5" strokeWidth={2.4} />
-          </div>
-          <div className="min-w-0">
-            <div className="text-sm font-semibold tracking-tight">Smart School</div>
-            <div className="-mt-0.5 text-[10px] text-muted-foreground">FinTech Console</div>
+          <img
+            src={fynoraLogo.url}
+            alt="FYNORA logo"
+            className="h-9 w-auto object-contain"
+          />
+          <div className="min-w-0 leading-tight">
+            <div className="text-sm font-bold uppercase tracking-wide">FYNORA</div>
+            <div className="text-[10px] tracking-wide text-muted-foreground">FinTech Console</div>
           </div>
         </Link>
 

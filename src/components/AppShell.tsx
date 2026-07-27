@@ -9,10 +9,10 @@ import {
   Settings,
   Search,
   Bell,
-  GraduationCap,
   MessageCircle,
 } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import fynoraLogo from "@/assets/fynora-logo.jpg.asset.json";
 import { toast } from "sonner";
 import { Sidebar, SidebarBody, SidebarLink, useSidebar } from "./ui/sidebar-aceternity";
 import { motion } from "framer-motion";
@@ -30,9 +30,7 @@ function SidebarBrand() {
   const { open, animate } = useSidebar();
   return (
     <div className="flex items-center gap-3 px-1 pt-1 pb-5">
-      <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[oklch(0.88_0.14_165)] to-[oklch(0.82_0.13_220)] text-[oklch(0.2_0.03_260)] shadow-lg">
-        <GraduationCap className="h-5 w-5" strokeWidth={2.4} />
-      </div>
+      <img src={fynoraLogo.url} alt="FYNORA logo" className="h-10 w-auto shrink-0 object-contain" />
       <motion.div
         animate={{
           display: animate ? (open ? "block" : "none") : "block",
@@ -40,8 +38,8 @@ function SidebarBrand() {
         }}
         className="min-w-0"
       >
-        <div className="truncate text-sm font-semibold tracking-tight">Smart School</div>
-        <div className="truncate text-[11px] text-muted-foreground">FinTech Console</div>
+        <div className="truncate text-sm font-bold uppercase tracking-wide">FYNORA</div>
+        <div className="truncate text-[11px] tracking-wide text-muted-foreground">FinTech Console</div>
       </motion.div>
     </div>
   );
