@@ -14,7 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppShell } from "../components/AppShell";
 import { MarketingBackdrop } from "../components/MarketingBackdrop";
-import { MarketingNav } from "../components/MarketingNav";
+import { AppDock } from "../components/AppDock";
 import { Toaster } from "../components/ui/sonner";
 
 
@@ -129,7 +129,6 @@ function RootComponent() {
       {isMarketing ? (
         <>
           <MarketingBackdrop />
-          <MarketingNav />
           <Outlet />
         </>
       ) : (
@@ -137,8 +136,10 @@ function RootComponent() {
           <Outlet />
         </AppShell>
       )}
+      <AppDock />
       <Toaster position="bottom-right" richColors closeButton />
     </QueryClientProvider>
+
 
   );
 }
