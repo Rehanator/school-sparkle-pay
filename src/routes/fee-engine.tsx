@@ -20,6 +20,7 @@ import {
   Zap,
 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
+import { Slider } from "@/components/ui/slider";
 
 export const Route = createFileRoute("/fee-engine")({
   head: () => ({
