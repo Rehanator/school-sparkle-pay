@@ -18,9 +18,19 @@ import {
   Star,
   Users,
   Zap,
+  ChevronDown,
 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Slider } from "@/components/ui/slider";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 
 export const Route = createFileRoute("/fee-engine")({
   head: () => ({
