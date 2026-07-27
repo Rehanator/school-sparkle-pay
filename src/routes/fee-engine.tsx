@@ -18,9 +18,19 @@ import {
   Star,
   Users,
   Zap,
+  ChevronDown,
 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Slider } from "@/components/ui/slider";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 
 export const Route = createFileRoute("/fee-engine")({
   head: () => ({
@@ -43,11 +53,25 @@ const feeHeads = [
   { name: "Arts & Music", category: "CLASS VI - VIII", icon: Palette, amount: 2900, cycle: "Annually", students: 310, status: "Annual", tint: "from-[oklch(0.75_0.14_320)] to-[oklch(0.82_0.12_300)]" },
 ];
 
+type Student = { id: string; name: string; grade: string; initials: string; totalFee: number };
+
+const students: Student[] = [
+  { id: "STU-1042", name: "Aarav Sharma", grade: "10-B", initials: "AS", totalFee: 60000 },
+  { id: "STU-1088", name: "Diya Nair", grade: "9-A", initials: "DN", totalFee: 85000 },
+  { id: "STU-1130", name: "Kabir Mehta", grade: "8-C", initials: "KM", totalFee: 45000 },
+  { id: "STU-1176", name: "Ishita Rao", grade: "12-A", initials: "IR", totalFee: 92000 },
+  { id: "STU-1204", name: "Vivaan Gupta", grade: "7-B", initials: "VG", totalFee: 52000 },
+  { id: "STU-1259", name: "Anaya Krishnan", grade: "11-C", initials: "AK", totalFee: 78000 },
+];
+
 function FeeEngine() {
   const [modal, setModal] = useState(false);
   const [split, setSplit] = useState(false);
   const [installments, setInstallments] = useState(4);
-  const total = 60000;
+  const [selectedStudent, setSelectedStudent] = useState<Student>(students[0]);
+  const [studentOpen, setStudentOpen] = useState(false);
+  const total = selectedStudent.totalFee;
+
 
   return (
     <div className="space-y-6">
@@ -133,19 +157,76 @@ function FeeEngine() {
           <div className="space-y-4">
             <div>
               <label className="text-[11px] uppercase tracking-wider text-zinc-400">Student</label>
-              <div className="mt-1.5 flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2.5">
-                <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-cyan-400 to-teal-400 text-xs font-semibold text-zinc-950">
-                  AS
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="truncate text-sm font-medium text-zinc-100">Aarav Sharma · 10-B</div>
-                  <div className="text-[11px] text-zinc-500">Annual bundled fee</div>
-                </div>
-                <div className="text-right text-sm font-semibold tabular-nums text-zinc-100">
-                  ₹{total.toLocaleString("en-IN")}
-                </div>
-              </div>
+              <Popover open={studentOpen} onOpenChange={setStudentOpen}>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    className="mt-1.5 flex w-full items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2.5 text-left transition hover:border-zinc-700"
+                  >
+                    <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-cyan-400 to-teal-400 text-xs font-semibold text-zinc-950">
+                      {selectedStudent.initials}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-sm font-medium text-zinc-100">
+                        {selectedStudent.name} · {selectedStudent.grade}
+                      </div>
+                      <div className="text-[11px] text-zinc-500">Annual bundled fee</div>
+                    </div>
+                    <div className="text-right text-sm font-semibold tabular-nums text-zinc-100">
+                      ₹{selectedStudent.totalFee.toLocaleString("en-IN")}
+                    </div>
+                    <ChevronDown className="h-4 w-4 shrink-0 text-zinc-500" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="start"
+                  className="w-[var(--radix-popover-trigger-width)] border-zinc-800 bg-zinc-950 p-0 text-zinc-100"
+                >
+                  <Command className="bg-zinc-950 text-zinc-100 [&_[cmdk-input-wrapper]]:border-zinc-800">
+                    <CommandInput
+                      placeholder="Search students by name or roll..."
+                      className="text-zinc-100 placeholder:text-zinc-500"
+                    />
+                    <CommandList>
+                      <CommandEmpty className="py-6 text-center text-sm text-zinc-500">
+                        No students found.
+                      </CommandEmpty>
+                      <CommandGroup>
+                        {students.map((s) => (
+                          <CommandItem
+                            key={s.id}
+                            value={`${s.name} ${s.grade} ${s.id}`}
+                            onSelect={() => {
+                              setSelectedStudent(s);
+                              setSplit(false);
+                              setStudentOpen(false);
+                            }}
+                            className="flex items-center gap-3 rounded-lg px-2 py-2 text-zinc-200 data-[selected=true]:bg-zinc-800 data-[selected=true]:text-zinc-50 hover:bg-zinc-800"
+                          >
+                            <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-cyan-400 to-teal-400 text-xs font-semibold text-zinc-950">
+                              {s.initials}
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <div className="truncate text-sm font-medium">{s.name}</div>
+                              <div className="text-[11px] text-zinc-500">
+                                {s.grade} · {s.id}
+                              </div>
+                            </div>
+                            <div className="text-right text-xs font-semibold tabular-nums text-zinc-300">
+                              ₹{s.totalFee.toLocaleString("en-IN")}
+                            </div>
+                            {s.id === selectedStudent.id && (
+                              <Check className="h-4 w-4 shrink-0 text-cyan-400" />
+                            )}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
+
 
             <div>
               <div className="flex items-center justify-between">
