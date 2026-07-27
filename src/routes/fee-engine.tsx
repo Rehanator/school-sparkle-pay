@@ -97,26 +97,31 @@ function FeeEngine() {
             const Icon = f.icon;
             const statusStyle =
               f.status === "Active"
-                ? "border-[oklch(0.55_0.16_155_/_0.35)] bg-[oklch(0.55_0.16_155_/_0.10)] text-[oklch(0.45_0.15_155)]"
-                : f.status === "Draft"
-                ? "border-black/[0.08] bg-black/[0.05] text-muted-foreground"
-                : "border-[oklch(0.62_0.14_200_/_0.35)] bg-[oklch(0.62_0.14_200_/_0.10)] text-[oklch(0.5_0.13_200)]";
+                ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-400"
+                : "border-zinc-500/20 bg-zinc-500/10 text-zinc-400";
             return (
-              <div key={f.name} className="glass group flex flex-col rounded-2xl p-4 transition hover:-translate-y-0.5">
+              <div
+                key={f.name}
+                className="glass group flex flex-col rounded-2xl border border-zinc-800/50 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-zinc-700 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+              >
                 <div className="flex items-start justify-between">
-                  <div className={`grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br ${f.tint} text-[oklch(0.2_0.03_260)]`}>
+                  <div
+                    className={`grid h-10 w-10 place-items-center rounded-xl bg-${f.color}-500/10 text-${f.color}-400`}
+                  >
                     <Icon className="h-5 w-5" strokeWidth={2.4} />
                   </div>
-                  <span className={`rounded-full border px-2.5 py-1 text-[10px] font-medium ${statusStyle}`}>
+                  <span className={`rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${statusStyle}`}>
                     {f.status}
                   </span>
                 </div>
                 <div className="mt-3">
-                  <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{f.category}</div>
-                  <div className="mt-0.5 text-sm font-medium text-foreground">{f.name}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">{f.category}</div>
+                  <div className="mt-0.5 text-sm font-medium text-zinc-100">{f.name}</div>
                 </div>
-                <div className="mt-1 text-2xl font-semibold">₹{f.amount.toLocaleString("en-IN")}</div>
-                <div className="mt-auto flex items-center justify-between pt-3 text-[11px] text-muted-foreground">
+                <div className="mt-1 text-2xl font-semibold tracking-tight text-zinc-50">
+                  ₹{f.amount.toLocaleString("en-IN")}
+                </div>
+                <div className="mt-auto flex items-center justify-between pt-3 text-[11px] text-zinc-500">
                   <span>{f.students} students · {f.cycle}</span>
                   <button
                     onClick={() =>
@@ -125,7 +130,7 @@ function FeeEngine() {
                         action: { label: "Edit", onClick: () => setModal(true) },
                       })
                     }
-                    className="rounded-lg px-2 py-1 text-xs font-medium text-primary transition hover:bg-primary/10"
+                    className="rounded-lg px-2 py-1 text-xs font-medium text-zinc-500 transition-colors hover:text-cyan-400"
                   >
                     Manage →
                   </button>
