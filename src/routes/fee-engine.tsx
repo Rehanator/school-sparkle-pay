@@ -112,46 +112,43 @@ function FeeEngine() {
       </div>
 
       {/* Edu-EMI Smart Split */}
-      <div className="glass relative overflow-hidden rounded-2xl p-6">
-        <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[oklch(0.88_0.14_165)] opacity-15 blur-3xl" />
-        <div className="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-[oklch(0.82_0.12_300)] opacity-10 blur-3xl" />
+      <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-950 p-6 shadow-2xl shadow-black/40">
+        <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-cyan-500 opacity-10 blur-3xl" />
+        <div className="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-teal-400 opacity-10 blur-3xl" />
         <div className="relative flex items-start justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-black/[0.07] bg-black/[0.04] px-3 py-1 text-[11px] text-muted-foreground">
-              <Sparkles className="h-3 w-3" /> Innovation · Edu-EMI
-            </div>
-            <h2 className="mt-3 text-xl font-semibold">Smart Split — turn big fees into micro-EMIs</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <h2 className="text-xl font-semibold text-slate-50">Smart Split — turn big fees into micro-EMIs</h2>
+            <p className="mt-2 max-w-xl text-sm text-slate-400">
               Pick a student, choose the number of installments, and instantly break down heavy annual
               fees into interest-free monthly slices.
             </p>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.85_0.12_180_/_0.4)] bg-[oklch(0.85_0.12_180_/_0.12)] px-3 py-1 text-[11px] font-medium text-[oklch(0.45_0.12_180)]">
-            <Sparkles className="h-3 w-3" /> AI-Assisted / Innovation Feature
+          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-teal-400/40 bg-teal-400/10 px-3 py-1 text-[11px] font-medium text-teal-300 shadow-[0_0_20px_-4px] shadow-teal-400/40">
+            <Sparkles className="h-3 w-3" /> AI-Powered Split
           </span>
         </div>
 
         <div className="relative mt-6 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div>
-              <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Student</label>
-              <div className="mt-1 flex items-center gap-3 rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2.5">
-                <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-[oklch(0.82_0.12_300)] to-[oklch(0.82_0.13_220)] text-xs font-semibold text-[oklch(0.2_0.03_260)]">
+              <label className="text-[11px] uppercase tracking-wider text-slate-400">Student</label>
+              <div className="mt-1.5 flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5">
+                <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-cyan-400 to-teal-400 text-xs font-semibold text-slate-950">
                   AS
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="truncate text-sm font-medium">Aarav Sharma · 10-B</div>
-                  <div className="text-[11px] text-muted-foreground">Annual bundled fee</div>
+                  <div className="truncate text-sm font-medium text-slate-100">Aarav Sharma · 10-B</div>
+                  <div className="text-[11px] text-slate-500">Annual bundled fee</div>
                 </div>
-                <div className="text-right">
-                  <div className="text-sm font-semibold">₹{total.toLocaleString("en-IN")}</div>
+                <div className="text-right text-sm font-semibold tabular-nums text-slate-100">
+                  ₹{total.toLocaleString("en-IN")}
                 </div>
               </div>
             </div>
 
             <div>
               <div className="flex items-center justify-between">
-                <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Installments</label>
+                <label className="text-[11px] uppercase tracking-wider text-slate-400">Installments</label>
                 <button
                   onClick={() => {
                     setInstallments(6);
@@ -160,25 +157,23 @@ function FeeEngine() {
                       description: "Based on this family's past payment behaviour and income cycle.",
                     });
                   }}
-                  className="text-[11px] font-medium text-primary hover:underline"
+                  className="text-[11px] font-medium text-cyan-400 hover:underline"
                 >
                   ✨ AI Auto-Suggest
                 </button>
               </div>
-              <div className="mt-3">
-                <input
-                  type="range"
+              <div className="mt-4 rounded-xl border border-slate-800 bg-slate-900 px-4 py-4">
+                <Slider
                   min={2}
                   max={12}
                   step={1}
-                  value={installments}
-                  onChange={(e) => setInstallments(Number(e.target.value))}
-                  className="w-full accent-[oklch(0.62_0.14_200)]"
-                  style={{ accentColor: "oklch(0.62 0.14 200)" }}
+                  value={[installments]}
+                  onValueChange={(v) => setInstallments(v[0])}
+                  className="[&_[data-orientation=horizontal]]:bg-slate-800 [&_span[data-orientation=horizontal]>span]:bg-cyan-500 [&_[role=slider]]:border-cyan-400 [&_[role=slider]]:bg-slate-950"
                 />
-                <div className="mt-2 flex justify-between text-[11px] text-muted-foreground">
+                <div className="mt-3 flex justify-between text-[11px] text-slate-500">
                   <span>2 months</span>
-                  <span className="font-medium text-foreground">{installments} months</span>
+                  <span className="font-medium text-cyan-400">{installments} months</span>
                   <span>12 months</span>
                 </div>
               </div>
@@ -191,7 +186,7 @@ function FeeEngine() {
                   description: "Payment plan sent to the parent on WhatsApp.",
                 });
               }}
-              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:brightness-105"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-500 to-teal-500 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:shadow-[0_0_28px_-4px] hover:shadow-cyan-400/60 hover:brightness-105"
             >
               <Split className="h-4 w-4" /> Generate Plan & Notify Parent →
             </button>
@@ -201,22 +196,22 @@ function FeeEngine() {
                 setInstallments(4);
                 toast("Split reset to default");
               }}
-              className="w-full text-center text-xs text-muted-foreground hover:text-foreground"
+              className="w-full text-center text-xs text-slate-500 transition hover:text-slate-300"
             >
               Reset Split
             </button>
           </div>
 
           {/* Result panel */}
-          <div className="rounded-2xl border border-black/[0.07] bg-[oklch(0.98_0.005_250_/_0.7)] p-5">
-            <div className="flex items-center justify-between">
-              <div className="text-sm font-semibold">Payment Plan Preview</div>
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 backdrop-blur-xl">
+            <div className="flex items-center justify-between gap-3">
+              <div className="text-sm font-semibold text-slate-100">Payment Plan Preview</div>
               {split ? (
-                <span className="inline-flex items-center gap-1 rounded-full border border-[oklch(0.55_0.16_155_/_0.35)] bg-[oklch(0.55_0.16_155_/_0.12)] px-2 py-0.5 text-[10px] font-medium text-[oklch(0.45_0.15_155)]">
+                <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400">
                   <Check className="h-3 w-3" /> Ready to notify parent via WhatsApp
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1 rounded-full border border-black/[0.08] bg-black/[0.04] px-2 py-0.5 text-[10px] text-muted-foreground">
+                <span className="inline-flex items-center gap-1 rounded-full border border-slate-800 bg-slate-800/50 px-2 py-0.5 text-[10px] text-slate-400">
                   Awaiting generation
                 </span>
               )}
@@ -232,27 +227,28 @@ function FeeEngine() {
                 return (
                   <div
                     key={i}
-                    className="glass flex flex-col items-center justify-center rounded-2xl p-4 text-center"
+                    className="flex flex-col items-center justify-center rounded-xl border border-slate-800 bg-slate-950/80 p-4 text-center"
                     style={{
                       opacity: split ? 1 : 0.35,
                       transform: split ? "translateY(0)" : "translateY(4px)",
                       transition: `all 300ms ${i * 60}ms`,
                     }}
                   >
-                    <div className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">EMI {i + 1}</div>
-                    <div className="mt-1 text-lg font-semibold text-foreground">₹{amount.toLocaleString("en-IN")}</div>
-                    <div className="mt-1 text-[11px] text-muted-foreground">Due {months[i]} 5</div>
+                    <div className="text-[11px] font-medium uppercase tracking-wider text-slate-500">EMI {i + 1}</div>
+                    <div className="mt-1 text-xl font-bold tabular-nums text-slate-50">₹{amount.toLocaleString("en-IN")}</div>
+                    <div className="mt-1 text-[11px] text-slate-500">Due {months[i]} 5</div>
                   </div>
                 );
               })}
             </div>
-            <div className="mt-4 flex items-center justify-between rounded-xl border border-[oklch(0.85_0.12_180_/_0.3)] bg-[oklch(0.85_0.12_180_/_0.08)] px-4 py-3 text-sm">
+            <div className="mt-4 flex items-center justify-between rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-400">
               <span>0% Interest · Zero hidden charges</span>
-              <span className="font-semibold">Total ₹{total.toLocaleString("en-IN")}</span>
+              <span className="font-semibold tabular-nums">Total ₹{total.toLocaleString("en-IN")}</span>
             </div>
           </div>
         </div>
       </div>
+
 
       {/* Waiver Rules */}
       <div className="glass rounded-2xl p-6">
