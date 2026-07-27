@@ -62,6 +62,8 @@ const feeHeads: Array<{
   { name: "Arts & Music", category: "CLASS VI - VIII", icon: "palette", amount: 2900, cycle: "Annually", students: 310, status: "Annual", color: "rose" },
 ];
 
+type EditingFee = { name: string; amount: number; cycle: string };
+
 function TiltCard({
   children,
   dimmed,
@@ -128,7 +130,8 @@ const students: Student[] = [
 ];
 
 function FeeEngine() {
-  const [modal, setModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingFee, setEditingFee] = useState<EditingFee | null>(null);
   const [split, setSplit] = useState(false);
   const [installments, setInstallments] = useState(4);
   const [selectedStudent, setSelectedStudent] = useState<Student>(students[0]);
@@ -146,7 +149,10 @@ function FeeEngine() {
         description="Design fee heads, split large payments into micro-EMIs, and automate waivers."
         actions={
           <button
-            onClick={() => setModal(true)}
+            onClick={() => {
+              setEditingFee(null);
+              setIsModalOpen(true);
+            }}
             className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:brightness-110"
           >
             <Plus className="h-4 w-4" /> Create New Fee
@@ -192,12 +198,10 @@ function FeeEngine() {
                 <div className="mt-auto flex items-center justify-between pt-3 text-[11px] text-zinc-500">
                   <span>{f.students} students · {f.cycle}</span>
                   <button
-                    onClick={() =>
-                      toast(`${f.name} · ${f.status}`, {
-                        description: `₹${f.amount.toLocaleString("en-IN")} ${f.cycle.toLowerCase()} · ${f.students} students assigned.`,
-                        action: { label: "Edit", onClick: () => setModal(true) },
-                      })
-                    }
+                    onClick={() => {
+                      setEditingFee({ name: f.name, amount: f.amount, cycle: f.cycle });
+                      setIsModalOpen(true);
+                    }}
                     className="rounded-lg px-2 py-1 text-xs font-medium text-zinc-500 transition-colors hover:text-cyan-400"
                   >
                     Manage →
@@ -454,7 +458,7 @@ function FeeEngine() {
         </div>
       </div>
 
-      {modal && <CreateFeeModal onClose={() => setModal(false)} />}
+      {isModalOpen && <FeeModal editingFee={editingFee} onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 }
@@ -512,23 +516,28 @@ function RuleToggle({
   );
 }
 
-function CreateFeeModal({ onClose }: { onClose: () => void }) {
-  const [cycle, setCycle] = useState("Monthly");
+function FeeModal({ editingFee, onClose }: { editingFee: EditingFee | null; onClose: () => void }) {
+  const isEditing = editingFee !== null;
+  const [name, setName] = useState(editingFee?.name ?? "");
+  const [amount, setAmount] = useState(editingFee ? String(editingFee.amount) : "");
+  const [cycle, setCycle] = useState(editingFee?.cycle ?? "Monthly");
   return (
     <div className="fixed inset-0 z-50 grid place-items-center bg-black/50 p-4 backdrop-blur-sm">
       <div className="glass-strong w-full max-w-lg rounded-2xl p-6">
         <div className="flex items-start justify-between">
           <div>
-            <div className="text-sm font-semibold">Create New Fee</div>
-            <div className="text-xs text-muted-foreground">Define a new fee head for your school.</div>
+            <div className="text-sm font-semibold">{isEditing ? "Edit Fee Head" : "Create New Fee"}</div>
+            <div className="text-xs text-muted-foreground">
+              {isEditing ? "Update the details of this fee head." : "Define a new fee head for your school."}
+            </div>
           </div>
           <button onClick={onClose} className="rounded-lg p-1 hover:bg-black/[0.07]">
             <X className="h-4 w-4" />
           </button>
         </div>
         <div className="mt-5 space-y-3">
-          <Field label="Fee Name" placeholder="e.g. Robotics Club" />
-          <Field label="Amount (₹)" placeholder="e.g. 3500" />
+          <Field label="Fee Name" placeholder="e.g. Robotics Club" value={name} onChange={setName} />
+          <Field label="Amount (₹)" placeholder="e.g. 3500" value={amount} onChange={setAmount} />
           <div>
             <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Cycle</label>
             <div className="mt-1 grid grid-cols-3 gap-2">
@@ -555,11 +564,15 @@ function CreateFeeModal({ onClose }: { onClose: () => void }) {
           <button
             onClick={() => {
               onClose();
-              toast.success("Fee head created", { description: `New ${cycle.toLowerCase()} fee added to your structure.` });
+              if (isEditing) {
+                toast.success("Fee head updated", { description: `${name || editingFee.name} saved successfully.` });
+              } else {
+                toast.success("Fee head created", { description: `New ${cycle.toLowerCase()} fee added to your structure.` });
+              }
             }}
             className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
           >
-            Create Fee
+            {isEditing ? "Save Changes" : "Create Fee"}
           </button>
         </div>
       </div>
@@ -567,12 +580,24 @@ function CreateFeeModal({ onClose }: { onClose: () => void }) {
   );
 }
 
-function Field({ label, placeholder }: { label: string; placeholder: string }) {
+function Field({
+  label,
+  placeholder,
+  value,
+  onChange,
+}: {
+  label: string;
+  placeholder: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
   return (
     <div>
       <label className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</label>
       <input
         placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         className="mt-1 w-full rounded-xl border border-black/[0.07] bg-black/[0.04] px-3 py-2.5 text-sm placeholder:text-muted-foreground focus:border-[oklch(0.85_0.12_180_/_0.5)] focus:outline-none"
       />
     </div>
