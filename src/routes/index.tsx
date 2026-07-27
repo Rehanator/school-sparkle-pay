@@ -54,7 +54,7 @@ function LoopVideo({ src, label }: { src: string; label: string }) {
       muted
       playsInline
       aria-label={label}
-      className="mix-blend-multiply w-full h-auto rounded-[24px] object-cover"
+      className="mix-blend-multiply w-full h-auto object-contain scale-110 lg:scale-125 origin-center"
     />
   );
 }
