@@ -30,6 +30,8 @@ type DockProps = {
   className?: string;
   distance?: number;
   panelHeight?: number;
+  maxHeight?: number;
+  containerClassName?: string;
   magnification?: number;
   spring?: SpringOptions;
 };
@@ -63,19 +65,21 @@ function Dock({
   magnification = DEFAULT_MAGNIFICATION,
   distance = DEFAULT_DISTANCE,
   panelHeight = DEFAULT_PANEL_HEIGHT,
+  maxHeight: maxHeightProp,
+  containerClassName,
 }: DockProps) {
   const mouseX = useMotionValue(Infinity);
   const isHovered = useMotionValue(0);
   const maxHeight = useMemo(() => {
-    return Math.max(DOCK_HEIGHT, magnification + magnification / 2 + 4);
-  }, [magnification]);
+    return maxHeightProp ?? Math.max(DOCK_HEIGHT, magnification + magnification / 2 + 4);
+  }, [magnification, maxHeightProp]);
   const heightRow = useTransform(isHovered, [0, 1], [panelHeight, maxHeight]);
   const height = useSpring(heightRow, spring);
 
   return (
     <motion.div
       style={{ height: height, scrollbarWidth: 'none' }}
-      className="mx-2 flex max-w-full items-end overflow-x-auto"
+      className={cn('mx-2 flex max-w-full items-end overflow-x-auto', containerClassName)}
     >
       <motion.div
         onMouseMove={({ pageX }) => {
