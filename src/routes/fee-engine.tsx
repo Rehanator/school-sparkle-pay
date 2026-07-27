@@ -184,9 +184,9 @@ function FeeEngine() {
                 </div>
                 <div className="mt-3">
                   <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">{f.category}</div>
-                  <div className="mt-0.5 text-sm font-medium text-zinc-100">{f.name}</div>
+                  <div className="mt-0.5 text-sm font-medium text-foreground">{f.name}</div>
                 </div>
-                <div className="mt-1 text-2xl font-semibold tracking-tight text-zinc-50">
+                <div className="mt-1 text-2xl font-semibold tracking-tight text-foreground">
                   ₹{f.amount.toLocaleString("en-IN")}
                 </div>
                 <div className="mt-auto flex items-center justify-between pt-3 text-[11px] text-zinc-500">
@@ -241,7 +241,7 @@ function FeeEngine() {
                       {selectedStudent.initials}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="truncate text-sm font-medium text-zinc-100">
+                      <div className="truncate text-sm font-medium text-foreground">
                         {selectedStudent.name} · {selectedStudent.grade}
                       </div>
                       <div className="text-[11px] text-zinc-500">Annual bundled fee</div>
