@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { feeIconMap, type FeeIconKey } from "@/components/fee/AnimatedFeeIcon";
+import { LivingBackdrop } from "@/components/fee/LivingBackdrop";
 import {
   Plus,
   Bus,
@@ -44,14 +47,80 @@ export const Route = createFileRoute("/fee-engine")({
   component: FeeEngine,
 });
 
-const feeHeads = [
-  { name: "Tuition Fee", category: "ALL GRADES", icon: BookOpen, amount: 45000, cycle: "Quarterly", students: 1240, status: "Active", color: "teal" },
-  { name: "Transport", category: "ALL GRADES", icon: Bus, amount: 12000, cycle: "Quarterly", students: 860, status: "Active", color: "blue" },
-  { name: "Sports & Clubs", category: "CLASS X", icon: Trophy, amount: 4500, cycle: "Annually", students: 620, status: "Annual", color: "orange" },
-  { name: "Lab & Materials", category: "CLASS IX - X", icon: FlaskConical, amount: 3800, cycle: "Annually", students: 980, status: "Active", color: "purple" },
-  { name: "Meal Plan", category: "ALL GRADES", icon: Utensils, amount: 8600, cycle: "Monthly", students: 540, status: "Draft", color: "emerald" },
-  { name: "Arts & Music", category: "CLASS VI - VIII", icon: Palette, amount: 2900, cycle: "Annually", students: 310, status: "Annual", color: "rose" },
+const toneStyles: Record<string, string> = {
+  teal: "bg-teal-500/10 text-teal-400",
+  blue: "bg-blue-500/10 text-blue-400",
+  orange: "bg-orange-500/10 text-orange-400",
+  purple: "bg-purple-500/10 text-purple-400",
+  emerald: "bg-emerald-500/10 text-emerald-400",
+  rose: "bg-rose-500/10 text-rose-400",
+};
+
+const feeHeads: Array<{
+  name: string; category: string; icon: FeeIconKey; amount: number;
+  cycle: string; students: number; status: string; color: string;
+}> = [
+  { name: "Tuition Fee", category: "ALL GRADES", icon: "book", amount: 45000, cycle: "Quarterly", students: 1240, status: "Active", color: "teal" },
+  { name: "Transport", category: "ALL GRADES", icon: "bus", amount: 12000, cycle: "Quarterly", students: 860, status: "Active", color: "blue" },
+  { name: "Sports & Clubs", category: "CLASS X", icon: "trophy", amount: 4500, cycle: "Annually", students: 620, status: "Annual", color: "orange" },
+  { name: "Lab & Materials", category: "CLASS IX - X", icon: "beaker", amount: 3800, cycle: "Annually", students: 980, status: "Active", color: "purple" },
+  { name: "Meal Plan", category: "ALL GRADES", icon: "utensils", amount: 8600, cycle: "Monthly", students: 540, status: "Draft", color: "emerald" },
+  { name: "Arts & Music", category: "CLASS VI - VIII", icon: "palette", amount: 2900, cycle: "Annually", students: 310, status: "Annual", color: "rose" },
 ];
+
+function TiltCard({
+  children,
+  dimmed,
+  active,
+  onHoverChange,
+}: {
+  children: React.ReactNode;
+  dimmed: boolean;
+  active: boolean;
+  onHoverChange: (hovered: boolean) => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const rotateX = useSpring(useTransform(my, [-0.5, 0.5], [8, -8]), { stiffness: 220, damping: 18 });
+  const rotateY = useSpring(useTransform(mx, [-0.5, 0.5], [-10, 10]), { stiffness: 220, damping: 18 });
+
+  return (
+    <motion.div
+      ref={ref}
+      onPointerMove={(e) => {
+        const r = ref.current?.getBoundingClientRect();
+        if (!r) return;
+        mx.set((e.clientX - r.left) / r.width - 0.5);
+        my.set((e.clientY - r.top) / r.height - 0.5);
+      }}
+      onPointerEnter={() => onHoverChange(true)}
+      onPointerLeave={() => {
+        onHoverChange(false);
+        mx.set(0);
+        my.set(0);
+      }}
+      animate={{
+        opacity: dimmed ? 0.4 : 1,
+        y: active ? -6 : 0,
+        scale: active ? 1.02 : 1,
+      }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+      style={{ rotateX, rotateY, transformPerspective: 900 }}
+      className={`glass group relative flex flex-col rounded-2xl border p-4 will-change-transform ${
+        active ? "border-zinc-700 shadow-[0_18px_50px_-12px_rgba(0,0,0,0.65)]" : "border-zinc-800/50"
+      }`}
+    >
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_50%_0%,rgba(45,212,191,0.16),transparent_70%)]"
+        animate={{ opacity: active ? 1 : 0 }}
+        transition={{ duration: 0.35 }}
+      />
+      <div className="relative flex flex-1 flex-col">{children}</div>
+    </motion.div>
+  );
+}
 
 type Student = { id: string; name: string; grade: string; initials: string; totalFee: number };
 
@@ -70,11 +139,13 @@ function FeeEngine() {
   const [installments, setInstallments] = useState(4);
   const [selectedStudent, setSelectedStudent] = useState<Student>(students[0]);
   const [studentOpen, setStudentOpen] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const total = selectedStudent.totalFee;
 
 
   return (
     <div className="space-y-6">
+      <LivingBackdrop dimmed={hoveredCard !== null} />
       <PageHeader
         eyebrow="Rules & Structures"
         title="Fee Engine"
