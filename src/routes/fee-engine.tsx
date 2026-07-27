@@ -128,7 +128,8 @@ const students: Student[] = [
 ];
 
 function FeeEngine() {
-  const [modal, setModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingFee, setEditingFee] = useState<EditingFee | null>(null);
   const [split, setSplit] = useState(false);
   const [installments, setInstallments] = useState(4);
   const [selectedStudent, setSelectedStudent] = useState<Student>(students[0]);
