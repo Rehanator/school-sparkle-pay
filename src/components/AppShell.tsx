@@ -9,7 +9,6 @@ import {
   Settings,
   Search,
   Bell,
-  GraduationCap,
   MessageCircle,
 } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
