@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Building2, Bell, Key, Palette, Pencil, Building } from "lucide-react";
+import { Bell, Key, Palette, Pencil, Building, Check } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -24,18 +25,43 @@ const sections = [
   { icon: Palette, title: "Branding", desc: "Logo, receipt colours and parent-portal theming." },
 ];
 
-const profileFields = [
-  { label: "School Name", value: "Sunrise International School" },
-  { label: "Academic Year", value: "2026 - 2027" },
-  { label: "Registration ID", value: "CBSE/2004/1128" },
-  { label: "GSTIN", value: "29AAACD0842R1Z8" },
-  { label: "UPI VPA", value: "payments@sunrise.edu" },
-  { label: "Finance Email", value: "finance@sunrise.edu" },
-  { label: "Base Currency", value: "INR ₹" },
-  { label: "Timezone", value: "Asia / Kolkata" },
+type ProfileField = {
+  key: string;
+  label: string;
+  value: string;
+  multiline?: boolean;
+  span?: "full";
+};
+
+const initialFields: ProfileField[] = [
+  { key: "schoolName", label: "School Name", value: "Sunrise International School" },
+  { key: "academicYear", label: "Academic Year", value: "2026 - 2027" },
+  { key: "registrationId", label: "Registration ID", value: "CBSE/2004/1128" },
+  { key: "board", label: "Board / Affiliation", value: "CBSE · Class I–XII" },
+  { key: "gstin", label: "GSTIN", value: "29AAACD0842R1Z8" },
+  { key: "upiVpa", label: "UPI VPA", value: "payments@sunrise.edu" },
+  { key: "financeEmail", label: "Finance Email", value: "finance@sunrise.edu" },
+  { key: "contactPhone", label: "Contact Phone", value: "+91 11 2345 6789" },
+  { key: "baseCurrency", label: "Base Currency", value: "INR ₹" },
+  { key: "timezone", label: "Timezone", value: "Asia / Kolkata" },
+  { key: "registeredAddress", label: "Registered Address", value: "42 Learning Ave, Bengaluru 560001, Maharashtra, India", multiline: true, span: "full" },
 ];
 
 function InstitutionProfileCard() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [fields, setFields] = useState<ProfileField[]>(initialFields);
+
+  const updateValue = (key: string, next: string) => {
+    setFields((prev) => prev.map((f) => (f.key === key ? { ...f, value: next } : f)));
+  };
+
+  const handleEditToggle = () => {
+    if (isEditing) {
+      toast.success("Profile saved", { description: "Institution details updated successfully." });
+    }
+    setIsEditing((prev) => !prev);
+  };
+
   return (
     <Card className="relative overflow-hidden rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-900 to-slate-950 text-slate-100 shadow-2xl shadow-slate-950/40">
       <CardHeader className="flex flex-row items-start justify-between gap-4 pb-4">
@@ -55,11 +81,15 @@ function InstitutionProfileCard() {
         <Button
           variant="outline"
           size="sm"
-          onClick={() => toast("Edit mode", { description: "Institution profile editor coming soon." })}
+          onClick={handleEditToggle}
           className="border-slate-700/60 bg-slate-800/50 text-slate-200 hover:border-cyan-500/40 hover:bg-slate-800 hover:text-cyan-100"
         >
-          <Pencil className="h-3.5 w-3.5" />
-          <span className="hidden sm:inline">Edit</span>
+          {isEditing ? (
+            <Check className="h-3.5 w-3.5" />
+          ) : (
+            <Pencil className="h-3.5 w-3.5" />
+          )}
+          <span className="hidden sm:inline">{isEditing ? "Save" : "Edit"}</span>
         </Button>
       </CardHeader>
 
@@ -67,14 +97,39 @@ function InstitutionProfileCard() {
 
       <CardContent className="p-6">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-2">
-          {profileFields.map((field) => (
-            <div key={field.label} className="min-w-0">
-              <div className="mb-2 text-xs font-medium uppercase tracking-wide text-slate-400">
+          {fields.map((field) => (
+            <div
+              key={field.key}
+              className={field.span === "full" ? "min-w-0 col-span-1 md:col-span-2" : "min-w-0"}
+            >
+              <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
                 {field.label}
               </div>
-              <div className="truncate rounded-full border border-slate-700/50 bg-slate-800/50 px-4 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:border-slate-600/60 hover:bg-slate-800/70">
-                {field.value}
-              </div>
+              {isEditing ? (
+                field.multiline ? (
+                  <textarea
+                    value={field.value}
+                    onChange={(e) => updateValue(field.key, e.target.value)}
+                    rows={3}
+                    className="w-full resize-none rounded-2xl border border-slate-700/50 bg-slate-800/50 px-4 py-2.5 text-sm font-medium text-slate-200 placeholder:text-slate-500 focus:border-cyan-500/50 focus:outline-none focus:ring-1 focus:ring-cyan-500/30"
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    value={field.value}
+                    onChange={(e) => updateValue(field.key, e.target.value)}
+                    className="w-full rounded-full border border-slate-700/50 bg-slate-800/50 px-4 py-2.5 text-sm font-medium text-slate-200 placeholder:text-slate-500 focus:border-cyan-500/50 focus:outline-none focus:ring-1 focus:ring-cyan-500/30"
+                  />
+                )
+              ) : (
+                <div
+                  className={`truncate rounded-full border border-slate-700/50 bg-slate-800/50 px-4 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:border-slate-600/60 hover:bg-slate-800/70 ${
+                    field.multiline ? "whitespace-normal break-words rounded-2xl" : ""
+                  }`}
+                >
+                  {field.value}
+                </div>
+              )}
             </div>
           ))}
         </div>
