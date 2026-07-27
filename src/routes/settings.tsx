@@ -42,9 +42,8 @@ const initialFields: ProfileField[] = [
   { key: "upiVpa", label: "UPI VPA", value: "payments@sunrise.edu" },
   { key: "financeEmail", label: "Finance Email", value: "finance@sunrise.edu" },
   { key: "contactPhone", label: "Contact Phone", value: "+91 11 2345 6789" },
-  { key: "baseCurrency", label: "Base Currency", value: "INR ₹" },
   { key: "timezone", label: "Timezone", value: "Asia / Kolkata" },
-  { key: "registeredAddress", label: "Registered Address", value: "42 Learning Ave, Bengaluru 560001, Maharashtra, India", multiline: true, span: "full" },
+  { key: "registeredAddress", label: "Registered Address", value: "42 Learning Ave, Bengaluru 560001, Maharashtra, India" },
 ];
 
 function InstitutionProfileCard() {
@@ -98,35 +97,19 @@ function InstitutionProfileCard() {
       <CardContent className="p-6">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-2">
           {fields.map((field) => (
-            <div
-              key={field.key}
-              className={field.span === "full" ? "min-w-0 col-span-1 md:col-span-2" : "min-w-0"}
-            >
+            <div key={field.key} className="min-w-0">
               <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
                 {field.label}
               </div>
               {isEditing ? (
-                field.multiline ? (
-                  <textarea
-                    value={field.value}
-                    onChange={(e) => updateValue(field.key, e.target.value)}
-                    rows={3}
-                    className="w-full resize-none rounded-2xl border border-slate-700/50 bg-slate-800/50 px-4 py-2.5 text-sm font-medium text-slate-200 placeholder:text-slate-500 focus:border-cyan-500/50 focus:outline-none focus:ring-1 focus:ring-cyan-500/30"
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    value={field.value}
-                    onChange={(e) => updateValue(field.key, e.target.value)}
-                    className="w-full rounded-full border border-slate-700/50 bg-slate-800/50 px-4 py-2.5 text-sm font-medium text-slate-200 placeholder:text-slate-500 focus:border-cyan-500/50 focus:outline-none focus:ring-1 focus:ring-cyan-500/30"
-                  />
-                )
+                <input
+                  type="text"
+                  value={field.value}
+                  onChange={(e) => updateValue(field.key, e.target.value)}
+                  className="w-full rounded-full border border-slate-700/50 bg-slate-800/50 px-4 py-2.5 text-sm font-medium text-slate-200 placeholder:text-slate-500 focus:border-cyan-500/50 focus:outline-none focus:ring-1 focus:ring-cyan-500/30"
+                />
               ) : (
-                <div
-                  className={`truncate rounded-full border border-slate-700/50 bg-slate-800/50 px-4 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:border-slate-600/60 hover:bg-slate-800/70 ${
-                    field.multiline ? "whitespace-normal break-words rounded-2xl" : ""
-                  }`}
-                >
+                <div className="truncate rounded-full border border-slate-700/50 bg-slate-800/50 px-4 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:border-slate-600/60 hover:bg-slate-800/70">
                   {field.value}
                 </div>
               )}
