@@ -129,7 +129,6 @@ function RootComponent() {
       {isMarketing ? (
         <>
           <MarketingBackdrop />
-          <MarketingNav />
           <Outlet />
         </>
       ) : (
@@ -137,8 +136,10 @@ function RootComponent() {
           <Outlet />
         </AppShell>
       )}
+      <AppDock />
       <Toaster position="bottom-right" richColors closeButton />
     </QueryClientProvider>
+
 
   );
 }
